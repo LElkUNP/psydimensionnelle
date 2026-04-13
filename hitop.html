@@ -38,8 +38,14 @@
     .tree-node.spectrum-ext { border-left: 3px solid var(--red); }
     .tree-node.spectrum-det { border-left: 3px solid var(--navy); }
     .tree-node.spectrum-som { border-left: 3px solid var(--gold); }
+    .tree-node.spectrum-psych {
+      border-left: 3px solid #6C3483;
+      background: rgba(108,52,131,0.06);
+    }
+    .tree-node.spectrum-psych:hover { background: rgba(108,52,131,0.12); }
 
     .tag-purple { background: rgba(142,68,173,0.15); color: #8E44AD; }
+    .tag-purple-dark { background: rgba(108,52,131,0.15); color: #6C3483; }
 
     /* PID-5 mapping section */
     .pid5-section { margin-top: 2rem; }
@@ -288,6 +294,19 @@
                       <li><span class="tree-node leaf"><span class="label">Int&eacute;roception pauvre</span></span></li>
                     </ul>
                   </li>
+                  <!-- Sexual Problems -->
+                  <li>
+                    <span class="tree-node" data-node="sexual-problems">
+                      <span class="toggle">+</span>
+                      <span class="label">Sexual Problems subfactor</span>
+                      <span class="tag tag-green">Kotov 2017</span>
+                    </span>
+                    <ul class="children">
+                      <li><span class="tree-node leaf"><span class="label">D&eacute;sir sexuel hypoactif</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Difficult&eacute;s d'excitation</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Dysfonction orgasmique</span></span></li>
+                    </ul>
+                  </li>
                 </ul>
               </li>
 
@@ -327,101 +346,126 @@
             </ul>
           </li>
 
-          <!-- ===== THOUGHT DISORDER ===== -->
+          <!-- ===== PSYCHOBEHAVIORAL DYSFUNCTION SUPERSPECTRUM ===== -->
           <li>
-            <span class="tree-node spectrum-td" data-node="thought-disorder">
+            <span class="tree-node spectrum-psych" data-node="psychobehavioral-dysfunction">
               <span class="toggle">+</span>
-              <span class="label">Thought Disorder Spectrum</span>
-              <span class="tag tag-purple">Kotov 2017</span>
+              <span class="label">Psychobehavioral Dysfunction Superspectrum</span>
+              <span class="tag tag-purple-dark">Krueger 2021</span>
             </span>
             <ul class="children">
-              <!-- Psychoticism -->
-              <li>
-                <span class="tree-node" data-node="psychoticism">
-                  <span class="toggle">+</span>
-                  <span class="label">Psychoticism subfactor</span>
-                </span>
-                <ul class="children">
-                  <li><span class="tree-node leaf"><span class="label">Hallucinations</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Id&eacute;es d&eacute;lirantes</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Pens&eacute;e d&eacute;sorganis&eacute;e</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Exp&eacute;riences perceptuelles inhabituelles</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Excentricit&eacute;</span></span></li>
-                </ul>
-              </li>
-              <!-- Mania -->
-              <li>
-                <span class="tree-node" data-node="mania">
-                  <span class="toggle">+</span>
-                  <span class="label">Mania subfactor</span>
-                </span>
-                <ul class="children">
-                  <li><span class="tree-node leaf"><span class="label">Humeur &eacute;lev&eacute;e / euphorique</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Grandiosity</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">R&eacute;duction du besoin de sommeil</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Fuite des id&eacute;es / pens&eacute;e acc&eacute;l&eacute;r&eacute;e</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Augmentation de l'activit&eacute; dirig&eacute;e vers un but</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Impulsivit&eacute; / prise de risque</span></span></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
 
-          <!-- ===== EXTERNALIZING ===== -->
-          <li>
-            <span class="tree-node spectrum-ext" data-node="externalizing">
-              <span class="toggle">+</span>
-              <span class="label">Externalizing Spectrum</span>
-              <span class="tag tag-red">Kotov 2017</span>
-            </span>
-            <ul class="children">
-              <!-- Disinhibited -->
+              <!-- ===== THOUGHT DISORDER ===== -->
               <li>
-                <span class="tree-node" data-node="disinhibited">
+                <span class="tree-node spectrum-td" data-node="thought-disorder">
                   <span class="toggle">+</span>
-                  <span class="label">Disinhibited Externalizing</span>
+                  <span class="label">Thought Disorder Spectrum</span>
+                  <span class="tag tag-purple">Kotov 2017</span>
                 </span>
                 <ul class="children">
-                  <li><span class="tree-node leaf"><span class="label">Troubles li&eacute;s &agrave; l'usage de substances (TUS)</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">TDAH</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Trouble des conduites</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Impulsivit&eacute;</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Irresponsabilit&eacute;</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Distractibilit&eacute;</span></span></li>
+                  <!-- Psychoticism -->
+                  <li>
+                    <span class="tree-node" data-node="psychoticism">
+                      <span class="toggle">+</span>
+                      <span class="label">Psychoticism subfactor</span>
+                    </span>
+                    <ul class="children">
+                      <li><span class="tree-node leaf"><span class="label">Hallucinations</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Id&eacute;es d&eacute;lirantes</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Pens&eacute;e d&eacute;sorganis&eacute;e</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Exp&eacute;riences perceptuelles inhabituelles</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Excentricit&eacute;</span></span></li>
+                    </ul>
+                  </li>
+                  <!-- Mania -->
+                  <li>
+                    <span class="tree-node" data-node="mania">
+                      <span class="toggle">+</span>
+                      <span class="label">Mania subfactor</span>
+                    </span>
+                    <ul class="children">
+                      <li><span class="tree-node leaf"><span class="label">Humeur &eacute;lev&eacute;e / euphorique</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Grandiosity</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">R&eacute;duction du besoin de sommeil</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Fuite des id&eacute;es / pens&eacute;e acc&eacute;l&eacute;r&eacute;e</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Augmentation de l'activit&eacute; dirig&eacute;e vers un but</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Impulsivit&eacute; / prise de risque</span></span></li>
+                    </ul>
+                  </li>
+                  <!-- Dissociation -->
+                  <li>
+                    <span class="tree-node" data-node="dissociation">
+                      <span class="toggle">+</span>
+                      <span class="label">Dissociation</span>
+                      <span class="tag tag-gold">provisoire</span>
+                    </span>
+                    <ul class="children">
+                      <li><span class="tree-node leaf"><span class="label">D&eacute;personnalisation</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">D&eacute;r&eacute;alisation</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Amn&eacute;sie dissociative</span></span></li>
+                    </ul>
+                  </li>
                 </ul>
               </li>
-              <!-- Antagonistic -->
-              <li>
-                <span class="tree-node" data-node="antagonistic">
-                  <span class="toggle">+</span>
-                  <span class="label">Antagonistic Externalizing</span>
-                </span>
-                <ul class="children">
-                  <li><span class="tree-node leaf"><span class="label">Personnalit&eacute; antisociale</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Traits narcissiques</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Agression</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Manipulation / tromperie</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Hostilit&eacute;</span></span></li>
-                  <li><span class="tree-node leaf"><span class="label">Grandiosit&eacute;</span></span></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
 
-          <!-- ===== DETACHMENT ===== -->
-          <li>
-            <span class="tree-node spectrum-det" data-node="detachment">
-              <span class="toggle">+</span>
-              <span class="label">Detachment Spectrum</span>
-              <span class="tag tag-navy">Kotov 2017</span>
-            </span>
-            <ul class="children">
-              <li><span class="tree-node leaf"><span class="label">Retrait social</span></span></li>
-              <li><span class="tree-node leaf"><span class="label">Anh&eacute;donie</span></span></li>
-              <li><span class="tree-node leaf"><span class="label">&Eacute;vitement de l'intimit&eacute;</span></span></li>
-              <li><span class="tree-node leaf"><span class="label">Affectivit&eacute; restreinte</span></span></li>
-              <li><span class="tree-node leaf"><span class="label">Suspicion</span></span></li>
-              <li><span class="tree-node leaf"><span class="label">D&eacute;pressivit&eacute;</span></span></li>
+              <!-- ===== EXTERNALIZING ===== -->
+              <li>
+                <span class="tree-node spectrum-ext" data-node="externalizing">
+                  <span class="toggle">+</span>
+                  <span class="label">Externalizing Spectrum</span>
+                  <span class="tag tag-red">Kotov 2017</span>
+                </span>
+                <ul class="children">
+                  <!-- Disinhibited -->
+                  <li>
+                    <span class="tree-node" data-node="disinhibited">
+                      <span class="toggle">+</span>
+                      <span class="label">Disinhibited Externalizing</span>
+                    </span>
+                    <ul class="children">
+                      <li><span class="tree-node leaf"><span class="label">Troubles li&eacute;s &agrave; l'usage de substances (TUS)</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">TDAH</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Trouble des conduites</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Impulsivit&eacute;</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Irresponsabilit&eacute;</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Distractibilit&eacute;</span></span></li>
+                    </ul>
+                  </li>
+                  <!-- Antagonistic -->
+                  <li>
+                    <span class="tree-node" data-node="antagonistic">
+                      <span class="toggle">+</span>
+                      <span class="label">Antagonistic Externalizing</span>
+                    </span>
+                    <ul class="children">
+                      <li><span class="tree-node leaf"><span class="label">Personnalit&eacute; antisociale</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Traits narcissiques</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Agression</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Manipulation / tromperie</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Hostilit&eacute;</span></span></li>
+                      <li><span class="tree-node leaf"><span class="label">Grandiosit&eacute;</span></span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- ===== DETACHMENT ===== -->
+              <li>
+                <span class="tree-node spectrum-det" data-node="detachment">
+                  <span class="toggle">+</span>
+                  <span class="label">Detachment Spectrum</span>
+                  <span class="tag tag-navy">Kotov 2017</span>
+                </span>
+                <ul class="children">
+                  <li><span class="tree-node leaf"><span class="label">Retrait social</span></span></li>
+                  <li><span class="tree-node leaf"><span class="label">Anh&eacute;donie</span></span></li>
+                  <li><span class="tree-node leaf"><span class="label">&Eacute;vitement de l'intimit&eacute;</span></span></li>
+                  <li><span class="tree-node leaf"><span class="label">Affectivit&eacute; restreinte</span></span></li>
+                  <li><span class="tree-node leaf"><span class="label">Suspicion</span></span></li>
+                  <li><span class="tree-node leaf"><span class="label">D&eacute;pressivit&eacute;</span></span></li>
+                </ul>
+              </li>
+
             </ul>
           </li>
 
@@ -463,8 +507,121 @@
     </div>
   </div>
 
+  <!-- ===== DSM → HiTOP QUICK REFERENCE ===== -->
+  <div style="margin-top: 3rem;">
+    <h2>Correspondances DSM-5 &rarr; HiTOP</h2>
+    <p style="font-size:0.82rem;color:var(--mid);margin-bottom:1rem;">Table de r&eacute;f&eacute;rence rapide : comment les diagnostics cat&eacute;goriels du DSM-5 se projettent dans la hi&eacute;rarchie dimensionnelle HiTOP.</p>
+    <table class="data-table" style="margin-bottom:2rem;">
+      <thead>
+        <tr>
+          <th>Diagnostic DSM-5</th>
+          <th>Spectre HiTOP</th>
+          <th>Sous-facteur</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Trouble d&eacute;pressif majeur (TDM)</td>
+          <td>Internalizing</td>
+          <td>Distress</td>
+          <td>NA&uarr; + PA&darr;</td>
+        </tr>
+        <tr>
+          <td>Trouble d'anxi&eacute;t&eacute; g&eacute;n&eacute;ralis&eacute;e (TAG)</td>
+          <td>Internalizing</td>
+          <td>Distress</td>
+          <td>NA&uarr; pur</td>
+        </tr>
+        <tr>
+          <td>Trouble panique</td>
+          <td>Internalizing</td>
+          <td>Fear</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Phobie sociale</td>
+          <td>Internalizing</td>
+          <td>Fear</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Trouble de stress post-traumatique (TSPT)</td>
+          <td>Internalizing</td>
+          <td>Distress</td>
+          <td>+ Fear si hypervigilance</td>
+        </tr>
+        <tr>
+          <td>Trouble obsessionnel-compulsif (TOC)</td>
+          <td>Internalizing</td>
+          <td>OCD</td>
+          <td>Adjacent &mdash; circuit CSTC distinct</td>
+        </tr>
+        <tr>
+          <td>Anorexie / Boulimie</td>
+          <td>Internalizing</td>
+          <td>Eating Pathology</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Schizophr&eacute;nie</td>
+          <td>Thought Disorder</td>
+          <td>Psychoticism</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Trouble bipolaire (manie)</td>
+          <td>Thought Disorder</td>
+          <td>Mania</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>TDAH</td>
+          <td>Externalizing</td>
+          <td>Disinhibited</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>TUS (alcool, substances)</td>
+          <td>Externalizing</td>
+          <td>Disinhibited</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Trouble de personnalit&eacute; antisociale (TPAS)</td>
+          <td>Externalizing</td>
+          <td>Antagonistic</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Trouble de personnalit&eacute; limite (TPL)</td>
+          <td style="font-weight:600;">Cross-spectral</td>
+          <td style="font-weight:600;">Distress + Disinhibited + Antagonistic</td>
+          <td style="font-weight:600;">Le TPL charge sur 3 spectres &mdash; illustre la n&eacute;cessit&eacute; d'un mod&egrave;le dimensionnel</td>
+        </tr>
+        <tr>
+          <td>Trouble schizo&iuml;de</td>
+          <td>Detachment</td>
+          <td>&mdash;</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Trouble somatoforme</td>
+          <td>Somatoform</td>
+          <td>&mdash;</td>
+          <td>&mdash;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== SEPARATOR ===== -->
+  <hr style="border: none; border-top: 2px solid var(--light-gray); margin: 3rem 0;">
+  <h2>Personnalit&eacute; et psychopathologie</h2>
+  <p style="font-size:0.88rem;color:var(--mid);margin-bottom:2rem;max-width:48rem;">Le mod&egrave;le HiTOP int&egrave;gre la personnalit&eacute; normale (Big Five) et pathologique (PID-5) dans un cadre unifi&eacute;. Les spectres HiTOP correspondent aux p&ocirc;les maladaptatifs des dimensions de personnalit&eacute;. Cette section d&eacute;taille les correspondances domaine par domaine, du normal au pathologique.</p>
+
   <!-- ===== BIG FIVE → HiTOP SECTION ===== -->
-  <div class="ffm-section">
+  <div class="ffm-section" style="margin-top:0;">
     <h2>Big Five &rarr; HiTOP Mapping</h2>
     <p style="font-size:0.82rem;color:var(--mid);margin-bottom:1rem;">Mapping : Widiger et al. (2019), <em>Clinical Psychological Science</em>. Effect sizes (Cohen's d) : Kotov et al. (2010), <em>Psychological Bulletin</em>, 175 &eacute;tudes, 851 effect sizes.</p>
 
@@ -971,6 +1128,39 @@
       instruments: 'PID-5 D\u00e9tachement, SHAPS (anh\u00e9donie), LSAS (composante \u00e9vitement), SIS (Schizoid Introversion Scale)',
       stability: '\u00c9lev\u00e9e \u2014 traits de d\u00e9tachement stables et r\u00e9sistants au changement',
       treatment: 'Difficult\u00e9 th\u00e9rapeutique : faible motivation au traitement. Activation comportementale (cibler anh\u00e9donie), th\u00e9rapie d\u2019exposition sociale graduelle, parfois bupropion ou pramipexole pour anh\u00e9donie s\u00e9v\u00e8re.'
+    },
+    'psychobehavioral-dysfunction': {
+      title: 'Psychobehavioral Dysfunction Superspectrum',
+      level: 'Superspectrum',
+      def: 'Supraspectre regroupant les spectres Thought Disorder, Externalizing et Detachment. Refl\u00e8te une vuln\u00e9rabilit\u00e9 commune \u00e0 la d\u00e9r\u00e9gulation comportementale, la d\u00e9sinhibition et les perturbations de la pens\u00e9e. Contrepartie du supraspectre Emotional Dysfunction (Krueger et al., 2021).',
+      dsm: 'Troubles du spectre psychotique, Trouble bipolaire, TUS, TDAH, Troubles de personnalit\u00e9 antisociale/narcissique, Personnalit\u00e9 schizoide',
+      rdoc: 'Positive Valence Systems (reward), Cognitive Systems (control, perception), Social Processes',
+      circuits: 'D\u00e9ficits pr\u00e9frontaux (contr\u00f4le top-down), dysconnectivit\u00e9 thalamo-corticale, d\u00e9r\u00e9gulation dopaminergique (m\u00e9solimbique et m\u00e9socorticale)',
+      instruments: 'PID-5 (D\u00e9sinhibition + Antagonisme + Psychoticisme + D\u00e9tachement), ESI (Externalizing Spectrum Inventory)',
+      stability: '\u00c9lev\u00e9e au niveau superspectral \u2014 vuln\u00e9rabilit\u00e9 commune stable d\u00e8s l\u2019adolescence',
+      treatment: 'Approches diff\u00e9renci\u00e9es selon le spectre dominant : antipsychotiques (Thought Disorder), stabilisateurs (manie), stimulants (TDAH), interventions motivationnelles (TUS).'
+    },
+    'sexual-problems': {
+      title: 'Sexual Problems',
+      level: 'Subfactor',
+      def: 'Sous-facteur de l\u2019internalisation refl\u00e9tant les dysfonctions sexuelles li\u00e9es \u00e0 la d\u00e9tresse \u00e9motionnelle. Inclut le d\u00e9sir hypoactif, les difficult\u00e9s d\u2019excitation et la dysfonction orgasmique. La covariance avec l\u2019affect n\u00e9gatif et la d\u00e9pression justifie le placement sous Internalizing (Kotov et al., 2017).',
+      dsm: 'Trouble du d\u00e9sir sexuel hypoactif, Trouble de l\u2019excitation sexuelle, Trouble de l\u2019orgasme, Dyspareunie',
+      rdoc: 'Positive Valence (reward, wanting), Arousal/Regulatory Systems',
+      circuits: 'D\u00e9ficit du circuit de r\u00e9compense (VTA\u2192NAcc), d\u00e9r\u00e9gulation hypothalamique, interaction s\u00e9rotoninergique (effet lat\u00e9ral ISRS)',
+      instruments: 'FSFI (Female Sexual Function Index), IIEF (International Index of Erectile Function), ASEX',
+      stability: 'Mod\u00e9r\u00e9e \u2014 sensible aux \u00e9pisodes d\u00e9pressifs et aux traitements psychotropes',
+      treatment: 'Traiter la d\u00e9pression/anxi\u00e9t\u00e9 sous-jacente, ajuster les ISRS si iatrog\u00e8ne (switch bupropion, ajout buspirone), th\u00e9rapie sexuelle (Masters & Johnson), PDE5i si composante vasculaire.'
+    },
+    'dissociation': {
+      title: 'Dissociation',
+      level: 'Subfactor (provisoire)',
+      def: 'Placement provisoire sous Thought Disorder dans HiTOP. Refl\u00e8te les perturbations de l\u2019int\u00e9gration de la conscience, de la m\u00e9moire, de l\u2019identit\u00e9 et de la perception. Partage des composantes avec le psychoticisme (exp\u00e9riences perceptuelles inhabituelles) et l\u2019internalisation (d\u00e9tresse).',
+      dsm: 'Trouble dissociatif de l\u2019identit\u00e9, D\u00e9personnalisation/D\u00e9r\u00e9alisation, Amn\u00e9sie dissociative, Trouble de conversion (composante dissociative)',
+      rdoc: 'Self-representation, Perception, Cognitive Systems',
+      circuits: 'D\u00e9connexion cortico-limbique (mPFC hyperactif \u2192 suppression amygdalienne), alt\u00e9ration de l\u2019insula (int\u00e9roception perturb\u00e9e), dysconnectivit\u00e9 temporale m\u00e9diane',
+      instruments: 'DES (Dissociative Experiences Scale), SDQ-20, MID (Multidimensional Inventory of Dissociation)',
+      stability: 'Variable \u2014 les \u00e9pisodes dissociatifs fluctuent mais le trait dissociatif est mod\u00e9r\u00e9ment stable, surtout post-trauma',
+      treatment: 'Stabilisation d\u2019abord (ancrage, r\u00e9gulation \u00e9motionnelle), puis traitement du trauma (EMDR, exposition prolong\u00e9e adapt\u00e9e). \u00c9viter la d\u00e9stabilisation iatrog\u00e8ne.'
     },
     'somatoform': {
       title: 'Somatoform Spectrum',
