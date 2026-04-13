@@ -15,14 +15,8 @@
 
     /* ===== TREE LAYOUT ===== */
     .hitop-layout {
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 1.5rem;
-      align-items: start;
+      position: relative;
       margin-bottom: 2rem;
-    }
-    @media (max-width: 1050px) {
-      .hitop-layout { grid-template-columns: 1fr; }
     }
 
     .tree-wrap {
@@ -235,20 +229,49 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== DETAIL PANEL ===== */
+    /* ===== DETAIL PANEL (floating overlay) ===== */
     .detail-panel {
+      display: none;
+      position: fixed;
+      top: 50%;
+      right: 2rem;
+      transform: translateY(-50%);
+      width: 370px;
+      max-height: 80vh;
+      overflow-y: auto;
       background: var(--card-bg);
       border: 1px solid var(--light-gray);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.5rem;
-      position: sticky;
-      top: 70px;
-      transition: opacity 0.3s ease;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+      padding: 1.3rem 1.3rem 1rem;
+      z-index: 100;
+      animation: panelIn 0.2s ease;
     }
-    .detail-panel.empty { opacity: 0.5; }
+    .detail-panel.visible { display: block; }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(-50%) translateX(12px); }
+      to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+    }
+    .detail-panel .dp-close {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.7rem;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: var(--mid);
+      line-height: 1;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    .detail-panel .dp-close:hover {
+      background: rgba(0,0,0,0.06);
+      color: var(--navy);
+    }
     .detail-panel h3 {
-      margin: 0 0 0.25rem;
+      margin: 0 1.5rem 0.25rem 0;
       font-size: 1.05rem;
       color: var(--navy);
       line-height: 1.3;
@@ -294,19 +317,20 @@
       font-size: 0.7rem;
       color: var(--mid);
     }
-    .detail-panel .dp-placeholder {
-      text-align: center;
-      padding: 2rem 1rem;
-      color: var(--mid);
-      font-size: 0.85rem;
-    }
-    .detail-panel .dp-placeholder .dp-ph-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      opacity: 0.4;
-    }
-    @media (max-width: 1050px) {
-      .detail-panel { position: static; }
+    @media (max-width: 768px) {
+      .detail-panel {
+        right: 0.5rem;
+        left: 0.5rem;
+        width: auto;
+        max-height: 60vh;
+        top: auto;
+        bottom: 0.5rem;
+        transform: none;
+      }
+      @keyframes panelIn {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
       .detail-panel .dp-grid { grid-template-columns: 1fr; }
     }
 
@@ -576,47 +600,43 @@
       <div class="mobile-tree" id="mobile-tree" style="display:none;"></div>
     </div>
 
-    <!-- DETAIL PANEL -->
-    <div class="detail-panel empty" id="detail-panel">
-      <div class="dp-placeholder" id="dp-placeholder">
-        <div class="dp-ph-icon">&#9673;</div>
-        Cliquez sur un &eacute;l&eacute;ment pour afficher ses d&eacute;tails
+  </div>
+
+  <!-- DETAIL PANEL (floating overlay) -->
+  <div class="detail-panel" id="detail-panel">
+    <button class="dp-close" id="dp-close" title="Fermer">&times;</button>
+    <h3 id="dp-title"></h3>
+    <span class="dp-level-tag" id="dp-level"></span>
+    <div class="dp-grid">
+      <div class="dp-field full">
+        <div class="dp-label">D&eacute;finition</div>
+        <div class="dp-value" id="dp-def"></div>
       </div>
-      <div id="dp-content" style="display:none;">
-        <h3 id="dp-title"></h3>
-        <span class="dp-level-tag" id="dp-level"></span>
-        <div class="dp-grid">
-          <div class="dp-field full">
-            <div class="dp-label">D&eacute;finition</div>
-            <div class="dp-value" id="dp-def"></div>
-          </div>
-          <div class="dp-field">
-            <div class="dp-label">Correspondances DSM-5</div>
-            <div class="dp-value" id="dp-dsm"></div>
-          </div>
-          <div class="dp-field">
-            <div class="dp-label">Circuit(s)</div>
-            <div class="dp-value" id="dp-circuits"></div>
-          </div>
-          <div class="dp-field">
-            <div class="dp-label">RDoC Mapping</div>
-            <div class="dp-value" id="dp-rdoc"></div>
-          </div>
-          <div class="dp-field">
-            <div class="dp-label">Instruments</div>
-            <div class="dp-value" id="dp-instruments"></div>
-          </div>
-          <div class="dp-field">
-            <div class="dp-label">Stabilit&eacute;</div>
-            <div class="dp-value" id="dp-stability"></div>
-          </div>
-          <div class="dp-field">
-            <div class="dp-label">Implications th&eacute;rapeutiques</div>
-            <div class="dp-value" id="dp-treatment"></div>
-          </div>
-          <div class="dp-ref" id="dp-ref"></div>
-        </div>
+      <div class="dp-field">
+        <div class="dp-label">Correspondances DSM-5</div>
+        <div class="dp-value" id="dp-dsm"></div>
       </div>
+      <div class="dp-field">
+        <div class="dp-label">Circuit(s)</div>
+        <div class="dp-value" id="dp-circuits"></div>
+      </div>
+      <div class="dp-field">
+        <div class="dp-label">RDoC Mapping</div>
+        <div class="dp-value" id="dp-rdoc"></div>
+      </div>
+      <div class="dp-field">
+        <div class="dp-label">Instruments</div>
+        <div class="dp-value" id="dp-instruments"></div>
+      </div>
+      <div class="dp-field">
+        <div class="dp-label">Stabilit&eacute;</div>
+        <div class="dp-value" id="dp-stability"></div>
+      </div>
+      <div class="dp-field">
+        <div class="dp-label">Implications th&eacute;rapeutiques</div>
+        <div class="dp-value" id="dp-treatment"></div>
+      </div>
+      <div class="dp-ref" id="dp-ref"></div>
     </div>
   </div>
 
@@ -1066,21 +1086,29 @@
   // ======= DETAIL PANEL =======
   var detailPanel = document.getElementById('detail-panel');
 
-  function updateDetailPanel() {
-    var placeholder = document.getElementById('dp-placeholder');
-    var content = document.getElementById('dp-content');
+  function closeDetailPanel() {
+    detailPanel.classList.remove('visible');
+    selectedNodeId = null;
+    highlightNode(null);
+  }
 
+  document.getElementById('dp-close').addEventListener('click', closeDetailPanel);
+
+  // Escape key closes panel
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && detailPanel.classList.contains('visible')) {
+      closeDetailPanel();
+    }
+  });
+
+  function updateDetailPanel() {
     if (!selectedNodeId || !data[selectedNodeId]) {
-      placeholder.style.display = '';
-      content.style.display = 'none';
-      detailPanel.classList.add('empty');
+      detailPanel.classList.remove('visible');
       return;
     }
 
     var d = data[selectedNodeId];
-    placeholder.style.display = 'none';
-    content.style.display = '';
-    detailPanel.classList.remove('empty');
+    detailPanel.classList.add('visible');
 
     document.getElementById('dp-title').textContent = d.title;
     document.getElementById('dp-level').textContent = d.level;
