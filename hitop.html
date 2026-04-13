@@ -17,6 +17,106 @@
     .node-detail h3 .tag { margin-left: 0.5rem; vertical-align: middle; }
     .ffm-section { margin-top: 3rem; }
 
+    /* ===== VISUAL HIERARCHY DIAGRAM ===== */
+    .hitop-diagram {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem 1rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+    }
+    .h-level { margin-bottom: 0.2rem; }
+    .h-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+      text-align: center;
+    }
+    .h-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .h-row-dense { gap: 0.3rem; }
+    .h-card {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      color: white;
+      position: relative;
+      min-width: 120px;
+    }
+    .h-card .h-ref {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 400;
+      opacity: 0.7;
+      font-family: 'DM Mono', monospace;
+    }
+    .h-card .h-sub {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 400;
+      opacity: 0.8;
+      font-family: 'DM Mono', monospace;
+    }
+    .h-pfactor { background: var(--gold); min-width: 200px; font-size: 1rem; }
+    .h-emo { background: var(--sky); }
+    .h-psych { background: #6C3483; }
+    .h-int { background: var(--sky); }
+    .h-som { background: #D4A556; color: var(--dark); }
+    .h-td { background: #8E44AD; }
+    .h-ext { background: var(--red); }
+    .h-det { background: var(--navy); }
+    .h-chip {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: white;
+    }
+    .h-c-int { background: rgba(65,143,222,0.8); }
+    .h-c-som { background: rgba(212,165,86,0.85); color: var(--dark); }
+    .h-c-td { background: rgba(142,68,173,0.8); }
+    .h-c-ext { background: rgba(192,57,43,0.8); }
+    .h-c-det { background: rgba(0,64,113,0.8); }
+    .h-connector {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--light-gray);
+      line-height: 1;
+      margin: 0.2rem 0;
+    }
+    .h-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--mid);
+      font-style: italic;
+    }
+    .h-brackets {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.2rem;
+    }
+    @media (max-width: 768px) {
+      .h-card { min-width: 90px; font-size: 0.72rem; padding: 0.4rem 0.6rem; }
+      .h-chip { font-size: 0.65rem; padding: 0.2rem 0.4rem; }
+      .hitop-diagram { padding: 1rem 0.5rem; }
+    }
+    @media (max-width: 480px) {
+      .h-card { min-width: 70px; font-size: 0.65rem; }
+      .h-row { gap: 0.3rem; }
+    }
+
     /* p-factor root node */
     .tree-node.pfactor-node {
       background: rgba(185,151,91,0.12);
@@ -129,7 +229,85 @@
     <div class="subtitle">Hi&eacute;rarchie interactive &mdash; du facteur p aux composantes</div>
   </div>
 
+  <!-- ===== VISUAL HIERARCHY CARD ===== -->
+  <div class="hitop-diagram">
+    <!-- Level 0: p-factor -->
+    <div class="h-level">
+      <div class="h-label">Facteur g&eacute;n&eacute;ral</div>
+      <div class="h-row">
+        <div class="h-card h-pfactor">p-factor</div>
+      </div>
+    </div>
+
+    <!-- Level 1: Superspectra -->
+    <div class="h-connector">&darr;</div>
+    <div class="h-level">
+      <div class="h-label">Superspectra</div>
+      <div class="h-row">
+        <div class="h-card h-emo">Emotional Dysfunction<span class="h-ref">Watson 2022</span></div>
+        <div class="h-card h-psych">Psychobehavioral Dysfunction<span class="h-ref">Krueger 2021</span></div>
+      </div>
+    </div>
+
+    <!-- Level 2: Spectra -->
+    <div class="h-connector">&darr;</div>
+    <div class="h-level">
+      <div class="h-label">Spectra (6)</div>
+      <div class="h-row">
+        <div class="h-card h-int">Internalizing<span class="h-sub">NA&uarr;</span></div>
+        <div class="h-card h-som">Somatoform</div>
+        <div class="h-card h-td">Thought Disorder</div>
+        <div class="h-card h-ext">Externalizing</div>
+        <div class="h-card h-det">Detachment</div>
+      </div>
+      <!-- Bracket indicators -->
+      <div class="h-brackets">
+        <span class="h-bracket h-bracket-emo" title="Emotional Dysfunction"></span>
+        <span class="h-bracket h-bracket-psych" title="Psychobehavioral Dysfunction"></span>
+      </div>
+    </div>
+
+    <!-- Level 3: Subfactors -->
+    <div class="h-connector">&darr;</div>
+    <div class="h-level">
+      <div class="h-label">Subfactors</div>
+      <div class="h-row h-row-dense">
+        <div class="h-chip h-c-int">Distress</div>
+        <div class="h-chip h-c-int">Fear</div>
+        <div class="h-chip h-c-int">OCD</div>
+        <div class="h-chip h-c-int">Eating</div>
+        <div class="h-chip h-c-int">Sexual</div>
+        <div class="h-chip h-c-som">Somatique</div>
+        <div class="h-chip h-c-som">Fonctionnel</div>
+        <div class="h-chip h-c-td">Psychoticism</div>
+        <div class="h-chip h-c-td">Mania</div>
+        <div class="h-chip h-c-td">Dissociation</div>
+        <div class="h-chip h-c-ext">D&eacute;sinhib&eacute;</div>
+        <div class="h-chip h-c-ext">Antagoniste</div>
+        <div class="h-chip h-c-det">Retrait</div>
+        <div class="h-chip h-c-det">Anh&eacute;donie</div>
+      </div>
+    </div>
+
+    <!-- Level 4 -->
+    <div class="h-connector">&darr;</div>
+    <div class="h-level">
+      <div class="h-label">Syndromes / Composantes</div>
+      <div class="h-note">TDM, TAG, Panique, Phobie sociale, TSPT, TOC, Schizophr&eacute;nie, TB, TDAH, TUS, TPAS&hellip;</div>
+    </div>
+
+    <!-- Level 5 -->
+    <div class="h-connector">&darr;</div>
+    <div class="h-level">
+      <div class="h-label">Sympt&ocirc;mes / Signes</div>
+      <div class="h-note">Rumination, &eacute;vitement, hallucinations, impulsivit&eacute;, anh&eacute;donie, insomnie&hellip;</div>
+    </div>
+  </div>
+
+  <p style="font-size:0.78rem;color:var(--mid);text-align:center;margin:0.5rem 0 2rem;">Kotov et al. (2017), <em>J Abnormal Psychology</em> &mdash; Cliquez sur l'arbre ci-dessous pour explorer chaque niveau</p>
+
   <!-- Interactive tree -->
+  <h2>Arbre interactif</h2>
   <div class="tree" id="hitop-tree">
     <ul>
       <!-- p-factor (root) -->

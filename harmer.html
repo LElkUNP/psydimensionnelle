@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modèle CNP de Harmer — R3 Psychiatrie dimensionnelle</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Page-specific — stage cards */
+    .stage {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.8rem;
+      border-left: 4px solid var(--sky);
+    }
+    .stage.s1 { border-left-color: var(--gold); }
+    .stage.s2 { border-left-color: var(--sky); }
+    .stage.s3 { border-left-color: var(--green); }
+    .stage-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem; color: var(--gold);
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .stage-title { font-weight: 600; color: var(--navy); font-size: 1rem; margin-bottom: 0.3rem; }
+
+    /* Evidence cards */
+    .evidence {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+    .evidence .ref {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem; color: var(--sky);
+      margin-bottom: 0.3rem;
+    }
+    .evidence .finding { font-size: 0.88rem; }
+
+    /* Key box */
+    .key {
+      background: var(--navy);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      font-size: 0.88rem;
+      box-shadow: var(--shadow);
+    }
+    .key strong { color: var(--gold); }
+
+    /* Split cards */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .split-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem 1.2rem;
+      border-top: 3px solid var(--sky);
+    }
+    .split-card.nri { border-top-color: var(--green); }
+    .split-card h4 { font-size: 0.9rem; color: var(--navy); margin-bottom: 0.3rem; }
+    .split-card p { font-size: 0.85rem; }
+
+    /* Warn box */
+    .warn {
+      background: rgba(185,151,91,0.12);
+      border-left: 4px solid var(--gold);
+      padding: 0.8rem 1.2rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.88rem;
+      margin: 1rem 0;
+    }
+
+    /* Content typography overrides */
+    .harmer-content p, .harmer-content li { font-size: 0.88rem; margin-bottom: 0.4rem; }
+    .harmer-content ul { padding-left: 1.2rem; margin-bottom: 0.6rem; }
+    .harmer-content li { margin-bottom: 0.3rem; }
+
+    @media (max-width: 768px) {
+      .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo"><a href="index.html">R3 — Psychiatrie dimensionnelle</a></div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="c1/index.html">C1</a>
+    <a href="c2/index.html">C2</a>
+    <a href="hitop.html">HiTOP</a>
+    <a href="circuits.html">Circuits</a>
+    <a href="pharma.html">Pharma</a>
+    <a href="cases.html">Cas</a>
+    <a href="readings.html">Lectures</a>
+    <a href="glossary.html">Glossaire</a>
+    <a href="tools.html">Outils</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Modèle neuropsychologique cognitif (CNP) de Harmer</h1>
+    <div class="subtitle">Comment les antidépresseurs agissent vraiment — biais émotionnel, J1-7, réapprentissage social</div>
+    <div class="meta">Godlewska &amp; Harmer 2021, Psychopharmacology 238, 1265-1278</div>
+  </div>
+
+  <div class="harmer-content">
+
+    <h2>La question centrale</h2>
+    <p>« Pourquoi les antidépresseurs prennent-ils 4 à 6 semaines pour agir alors que le recaptage de la sérotonine est bloqué en quelques heures? »</p>
+    <p>Ancienne réponse : « la neuroplasticité prend du temps ». Vague. Non testable.<br>
+    <strong>Réponse de Harmer : le médicament agit vite. C'est le patient qui réapprend lentement.</strong></p>
+
+    <h2>La batterie expérimentale — Comment Harmer mesure le biais</h2>
+    <p>Le groupe de Harmer a développé une batterie de tâches comportementales qui détectent les changements dans le traitement émotionnel AVANT tout changement d'humeur. Ce sont les instruments qui rendent le modèle CNP testable :</p>
+
+    <div class="evidence">
+      <div class="ref">FERT — Facial Expression Recognition Task</div>
+      <div class="finding">La tâche phare. Les participants voient des visages exprimant l'une des 6 émotions de base (joie, tristesse, peur, colère, dégoût, surprise) à des intensités variables — morphées de neutre (0%) à expression complète (100%) par paliers de 10%. Chaque visage est montré pendant 500 ms. Le participant doit identifier l'émotion. <strong>Ce que ça mesure :</strong> le seuil à partir duquel on détecte chaque émotion. Les patients déprimés ont besoin de MOINS d'intensité pour détecter la tristesse/peur (seuil abaissé = hypersensibilité au négatif) et de PLUS d'intensité pour détecter la joie (seuil élevé = cécité au positif). Les ISRS modifient ces seuils : le seuil de peur MONTE, le seuil de joie DESCEND — mesurable au jour 7, avant tout changement d'humeur.</div>
+    </div>
+
+    <div class="evidence">
+      <div class="ref">ECAT — Emotional Categorization Task</div>
+      <div class="finding">Les participants catégorisent le plus rapidement possible des mots de personnalité auto-référentiels positifs et négatifs (ex. « joyeux », « hostile », « digne », « coupable »). <strong>Ce que ça mesure :</strong> la vitesse de traitement de l'information positive vs négative auto-référentielle. Les patients déprimés catégorisent plus vite les mots négatifs et plus lentement les positifs. Les AD inversent cette tendance.</div>
+    </div>
+
+    <div class="evidence">
+      <div class="ref">EREC — Emotional Recall Task</div>
+      <div class="finding">Test surprise de rappel libre administré APRÈS le ECAT — les participants rappellent autant de mots que possible de la tâche de catégorisation, sans avertissement. <strong>Ce que ça mesure :</strong> le biais mnésique. Les patients déprimés rappellent plus de mots négatifs. Les AD augmentent le rappel des mots positifs par rapport aux négatifs. Cela capte comment l'information émotionnelle s'encode en mémoire — la base de la construction (ou de l'érosion) des schémas négatifs.</div>
+    </div>
+
+    <div class="evidence">
+      <div class="ref">Stroop émotionnel</div>
+      <div class="finding">Les participants nomment la couleur de l'encre de mots à valence émotionnelle. L'interférence (dénomination plus lente) pour les mots négatifs indique une capture attentionnelle par le contenu négatif. <strong>Ce que ça mesure :</strong> le biais attentionnel vers l'information négative. Les patients déprimés montrent plus d'interférence pour les mots négatifs.</div>
+    </div>
+
+    <div class="evidence">
+      <div class="ref">Go/No-Go émotionnel</div>
+      <div class="finding">Les participants répondent à une valence émotionnelle (ex. visages joyeux = go) et inhibent leur réponse pour une autre (ex. visages tristes = no-go), puis on inverse. <strong>Ce que ça mesure :</strong> l'interaction entre traitement émotionnel et contrôle inhibiteur. Les patients déprimés ont plus de difficulté à inhiber les réponses aux stimuli négatifs et sont plus lents à répondre aux cibles positives.</div>
+    </div>
+
+    <div class="key">
+      <strong>Pourquoi cette batterie est importante pédagogiquement :</strong> Ce ne sont pas des questionnaires d'humeur subjectifs — ce sont des mesures objectives, basées sur les temps de réaction, pré-conscientes. Le patient ne peut pas les simuler. Le changement de biais est détectable dans le CERVEAU (IRMf : amygdale, pgACC, insula) et dans le COMPORTEMENT (FERT, ECAT, EREC) avant que le patient ne rapporte se sentir mieux. C'est ce qui rend le modèle CNP falsifiable et cliniquement prédictif.
+    </div>
+
+    <div class="evidence">
+      <div class="ref">IRMf — Corrélat neuronal du changement de biais</div>
+      <div class="finding">Pendant que les participants effectuent le FERT dans le scanner, le groupe de Harmer mesure le signal BOLD dans les régions de traitement émotionnel. Résultat clé : après 7 jours d'ISRS, la réactivité amygdalienne aux visages de peur diminue; l'activité du pgACC augmente. Ces changements neuronaux différencient les futurs répondeurs des non-répondeurs (Godlewska 2016) à un moment où les scores d'humeur sont encore identiques entre les groupes. Régions impliquées : amygdale, insula, cingulaire antérieur + postérieur, gyri supramarginaux bilatéraux, thalamus, mPFC, dlPFC. La méta-analyse (Ma 2015) a confirmé que les changements surviennent au niveau du <strong>réseau</strong>, pas d'une structure isolée.</div>
+    </div>
+
+    <h2>Le mécanisme en trois étapes</h2>
+
+    <div class="stage s1">
+      <span class="stage-num">Étape 1 — Heures</span>
+      <div class="stage-title">Effet moléculaire</div>
+      <p>L'ISRS bloque le SERT. La 5-HT augmente dans la synapse. Immédiat. Rien de nouveau.</p>
+    </div>
+
+    <div class="stage s2">
+      <span class="stage-num">Étape 2 — Jours 1-7</span>
+      <div class="stage-title">Changement du biais émotionnel (AVANT tout changement d'humeur)</div>
+      <ul>
+        <li><strong>Les visages de peur deviennent moins saillants.</strong> Au FERT, les patients sous ISRS deviennent plus lents à reconnaître la peur et plus rapides à reconnaître la joie. Le seuil de détection de tristesse/peur MONTE; celui de la joie DESCEND.</li>
+        <li><strong>L'amygdale se calme.</strong> IRMf : la réactivité amygdalienne aux visages de peur diminue après 7 jours d'escitalopram vs placebo (Godlewska 2012). Le groupe traité ressemble aux contrôles sains.</li>
+        <li><strong>Le patient ne se sent pas encore mieux.</strong> Les scores HAMD au jour 7 ne diffèrent pas entre médicament et placebo.</li>
+      </ul>
+      <p><strong>Insight clé :</strong> Le médicament change le filtre perceptuel AVANT de changer l'humeur.</p>
+    </div>
+
+    <div class="stage s3">
+      <span class="stage-num">Étape 3 — Semaines 2-6</span>
+      <div class="stage-title">Réapprentissage social</div>
+      <p>Le nouveau filtre, moins biaisé négativement, doit être <strong>activé à travers de vraies interactions sociales</strong>. Le patient retourne au travail, parle à ses amis — et traite désormais ces interactions avec moins de distorsion négative. Au fil des semaines, de nouvelles associations positives se forment, les anciens schémas négatifs s'affaiblissent. C'EST le délai de 4-6 semaines. C'est un <strong>processus d'apprentissage</strong>, pas un délai pharmacocinétique.</p>
+    </div>
+
+    <h2>Les données probantes</h2>
+
+    <div class="evidence">
+      <div class="ref">Godlewska et al. 2012 — Preuve de l'effet médicamenteux (pas placebo)</div>
+      <div class="finding">Patients déprimés, 7 jours escitalopram vs placebo, IRMf. Réponse amygdalienne aux visages de peur vs joie <strong>significativement plus élevée dans le groupe placebo</strong>. Groupe escitalopram = normalisé (= contrôles sains). Aucune différence d'humeur au jour 7. Le changement est un effet MÉDICAMENTEUX, pas placebo.</div>
+    </div>
+
+    <div class="evidence">
+      <div class="ref">Godlewska et al. 2016 — Prédiction de la réponse au traitement</div>
+      <div class="finding">IRMf au jour 7, issue clinique à 6 semaines. Les futurs répondeurs montraient un effet <strong>significativement plus important</strong> sur la réponse neurale aux visages de peur vs joie comparés aux non-répondeurs. Structures : amygdale gauche, insula, cingulaire antérieur + postérieur, gyri supramarginaux bilatéraux, thalamus bilatéral. <strong>Répondeurs et non-répondeurs ne différaient PAS au HAMD au jour 7.</strong> L'analyse de médiation a exclu le changement d'humeur comme explication. Le changement PRÉCÈDE et PRÉDIT la réponse.</div>
+    </div>
+
+    <div class="evidence">
+      <div class="ref">Browning et al. 2019 — Prédiction comportementale (pratique)</div>
+      <div class="finding">N=74 entraînement, N=239 validation. FERT + symptômes subjectifs combinés → <strong>77% d'exactitude</strong> (entraînement), <strong>60%</strong> (validation indépendante). Pas encore de qualité clinique, mais démontre le concept.</div>
+    </div>
+
+    <div class="evidence">
+      <div class="ref">Shiroma et al. 2014 — Le soutien social est REQUIS</div>
+      <div class="finding">N=27 adultes âgés déprimés, citalopram. L'amélioration de la reconnaissance des visages légèrement joyeux au jour 7 prédisait la rémission au jour 56 — <strong>MAIS SEULEMENT en tenant compte du soutien social perçu</strong> (échelle ISEL). Sans interaction sociale, le changement de biais seul ne se traduit pas en amélioration de l'humeur.<br>
+      <strong>« Un ISRS sans exposition sociale = médicament sans rééducation »</strong></div>
+    </div>
+
+    <div class="evidence">
+      <div class="ref">Komulainen et al. 2018 — Exclut l'artéfact de test</div>
+      <div class="finding">1 semaine escitalopram vs placebo : diminution de la réponse fronto-pariétale médiale aux mots émotionnels auto-référentiels, augmentation de la réponse mPFC et ACC aux mots positifs vs négatifs. Aucune différence d'humeur. Confirme l'effet médicamenteux au-delà du placebo ET du test répété.</div>
+    </div>
+
+    <h2>ISRS vs IRN — La spécificité pharmacologique</h2>
+
+    <div class="split">
+      <div class="split-card">
+        <h4>ISRS (5-HT)</h4>
+        <p>Réduisent principalement le traitement des stimuli <strong>négatifs</strong>. Moins de reconnaissance de la peur. L'amygdale se calme.</p>
+        <p><strong>Cible AN↑</strong> — le noyau partagé du spectre internalisant.</p>
+      </div>
+      <div class="split-card nri">
+        <h4>IRN / agents DA (réboxétine, bupropion)</h4>
+        <p>Augmentent principalement le traitement des stimuli <strong>positifs/gratifiants</strong>. Plus de reconnaissance des visages joyeux.</p>
+        <p><strong>Cible AP↓</strong> — anhédonie, amotivation.</p>
+      </div>
+    </div>
+
+    <div class="key">
+      <strong>Pont clinique :</strong> Cela correspond DIRECTEMENT au palier 1 vs palier 2a. L'ISRS couvre l'AN↑ (correction du biais). Si l'AP↓ persiste → il faut du DA/NE parce que l'ISRS ne répare pas le circuit de récompense — il répare le filtre de menace.
+      <br><br>
+      <strong>Source :</strong> Pringle &amp; Harmer 2015 — dysfonction 5-HT = production d'affect négatif; dysfonction NA/DA = perte d'affect positif.
+    </div>
+
+    <h2>Paradoxe de la dose unique — Anxiogenèse précoce</h2>
+    <div class="warn">
+      Une dose unique d'ISRS peut paradoxalement <strong>augmenter</strong> la reconnaissance de la peur (Harmer et al. 2003, 2004). Cela pourrait expliquer pourquoi les patients se sentent PLUS anxieux dans les premiers jours. Se résout au jour 7. Implication clinique : prévenir le patient, ne pas abandonner le traitement au jour 3.
+    </div>
+
+    <h2>Portée transdiagnostique</h2>
+    <p>Dépression, TAG, panique, anxiété sociale, TSPT, TOC — tous partagent un <strong>biais de traitement émotionnel négatif</strong> comme caractéristique centrale. Les ISRS corrigent ce biais au niveau perceptuel → le MÊME mécanisme produit une amélioration à travers tous ces troubles « différents ». C'est l'explication au niveau de Harmer de POURQUOI le palier 1 (ISRS pour le supraspectre) fonctionne.</p>
+
+    <h2>Kétamine — Le défi de l'action rapide</h2>
+    <div class="evidence">
+      <div class="ref">Stuart et al. 2015 (rongeur) · Scheidegger 2016 (IRMf) · Downey 2016 (pgACC)</div>
+      <div class="finding">La kétamine agit en heures — trop rapide pour le réapprentissage social. Hypothèse de Harmer : la kétamine ne crée pas de nouvelles associations positives — elle <strong>efface les traces mnésiques négatives existantes</strong>. Cela explique : l'apparition rapide + l'effet transitoire (l'effacement ne construit pas de schémas durables comme le réapprentissage). IRMf : la kétamine réduit la réactivité amygdalo-hippocampique; la kétamine et la lanicémine augmentent la <strong>réactivité du pgACC</strong> chez les répondeurs.</div>
+    </div>
+
+    <h2>Validation inverse — Rimonabant</h2>
+    <p>Le rimonabant (agoniste inverse CB1, anti-obésité) a produit l'<strong>OPPOSÉ</strong> de l'effet antidépresseur : réduction du biais positif, diminution du rappel de mots positifs. Retiré du marché → les patients développaient dépression et suicidalité. Preuve inverse du modèle CNP.</p>
+
+    <h2>pgACC — Biomarqueur universel</h2>
+    <p>Le cortex cingulaire antérieur prégénual = prédicteur le plus fiable de la réponse au traitement à travers TOUTES les modalités — ISRS, IRSN, kétamine, psychothérapie, ECT (Pizzagalli 2011, Fu 2013, Godlewska 2016). L'augmentation de l'activité du pgACC = bon pronostic. Pourrait être le noeud qui « bascule en mode de réponse au traitement ».</p>
+
+    <h2>La non-réponse comme signal précoce</h2>
+    <p>Szegedi 2009 : l'absence d'amélioration précoce de l'AN dans les 1-2 premières semaines prédit une mauvaise réponse éventuelle. Dans le cadre CNP : si le biais n'a pas changé au jour 7-14, le médicament ne fait pas son travail de base → <strong>reconsidérer plutôt que d'attendre 6-8 semaines</strong>.</p>
+
+    <p class="mono" style="font-size:0.75rem; color:var(--mid); margin-top:2rem;">TA · Séminaire R3 C2 · Modèle CNP de Harmer</p>
+
+  </div><!-- /harmer-content -->
+
+</div><!-- /page -->
+
+</body>
+</html>
