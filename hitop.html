@@ -6,212 +6,252 @@
   <title>HiTOP Explorer — R3 Psychiatrie dimensionnelle</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ===== INTERACTIVE DRILL-DOWN ===== */
-    .hitop-explorer {
-      background: var(--card-bg);
+    /* ===== P-FACTOR BANNER ===== */
+    .pfactor-banner {
+      background: linear-gradient(135deg, #2a1a00 0%, #3d2800 50%, #1a1000 100%);
+      border: 2px solid var(--gold);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 2rem 1.5rem;
-      margin-bottom: 2rem;
-      min-height: 300px;
-    }
-
-    /* Breadcrumb */
-    .hitop-breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+      padding: 1.2rem 1.8rem;
       margin-bottom: 1.5rem;
-      font-size: 0.82rem;
-      font-family: 'DM Mono', monospace;
-      color: var(--mid);
-      flex-wrap: wrap;
-      min-height: 1.6rem;
-    }
-    .hitop-breadcrumb .bc-item {
       cursor: pointer;
-      color: var(--sky);
-      transition: color 0.15s;
-    }
-    .hitop-breadcrumb .bc-item:hover {
-      color: var(--navy);
-      text-decoration: underline;
-    }
-    .hitop-breadcrumb .bc-sep {
-      color: var(--light-gray);
-      font-size: 0.7rem;
-      user-select: none;
-    }
-    .hitop-breadcrumb .bc-current {
-      color: var(--dark);
-      font-weight: 600;
-    }
-
-    /* Level rows */
-    .hitop-level {
+      transition: all 0.25s ease;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    .hitop-level-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--mid);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-    }
-    .hitop-cards {
-      display: flex;
-      justify-content: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-
-    /* Connector line between levels */
-    .hitop-connector {
-      width: 2px;
-      height: 28px;
-      background: var(--light-gray);
-      margin: 0 auto;
+      gap: 1.2rem;
       position: relative;
+      overflow: hidden;
     }
-    .hitop-connector::after {
+    .pfactor-banner::before {
       content: '';
       position: absolute;
-      bottom: -4px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 8px;
-      height: 8px;
-      border-left: 2px solid var(--light-gray);
-      border-bottom: 2px solid var(--light-gray);
-      transform: translateX(-50%) rotate(-45deg);
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, rgba(185,151,91,0.08) 0%, transparent 50%, rgba(185,151,91,0.08) 100%);
+      pointer-events: none;
+    }
+    .pfactor-banner:hover {
+      border-color: #d4b06a;
+      box-shadow: 0 4px 24px rgba(185,151,91,0.25);
+      transform: translateY(-1px);
+    }
+    .pfactor-banner.selected {
+      border-color: #d4b06a;
+      box-shadow: 0 0 0 3px rgba(185,151,91,0.3), 0 4px 24px rgba(185,151,91,0.2);
+    }
+    .pfactor-icon {
+      font-size: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(185,151,91,0.12);
+      border-radius: 50%;
+      border: 1px solid rgba(185,151,91,0.25);
+    }
+    .pfactor-text h2 {
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin: 0 0 0.15rem;
+      font-weight: 700;
+    }
+    .pfactor-text p {
+      font-size: 0.82rem;
+      color: rgba(185,151,91,0.75);
+      margin: 0;
+      font-family: 'DM Mono', monospace;
     }
 
-    /* Node cards */
-    .hitop-card {
-      padding: 0.7rem 1.3rem;
+    /* ===== GROUP LABEL ===== */
+    .group-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--mid);
+      margin-bottom: 0.5rem;
+      padding-left: 0.2rem;
+    }
+
+    /* ===== SPECTRUM GRID ===== */
+    .spectrum-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    @media (max-width: 900px) {
+      .spectrum-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .spectrum-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===== SPECTRUM CARDS ===== */
+    .spectrum-card {
+      padding: 1rem 1.2rem;
       border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      text-align: center;
       color: white;
       cursor: pointer;
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      min-width: 140px;
-      max-width: 260px;
       user-select: none;
       box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      position: relative;
+      min-height: 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    .hitop-card:hover {
+    .spectrum-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .spectrum-card.selected {
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.7), 0 8px 28px rgba(0,0,0,0.25);
+      transform: translateY(-3px) scale(1.02);
+    }
+    .spectrum-card .sc-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: block;
+      line-height: 1.2;
+    }
+    .spectrum-card .sc-subtitle {
+      font-size: 0.7rem;
+      font-family: 'DM Mono', monospace;
+      opacity: 0.7;
+      margin-top: 0.2rem;
+      display: block;
+    }
+    .spectrum-card .sc-count {
+      font-size: 0.62rem;
+      opacity: 0.55;
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* ===== SUBFACTOR EXPANSION ROW ===== */
+    .subfactor-row {
+      background: #f5f4f1;
+      border-radius: var(--radius);
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease, margin 0.3s ease;
+      margin-bottom: 0;
+    }
+    .subfactor-row.open {
+      max-height: 600px;
+      padding: 1.2rem 1rem;
+      margin-top: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .subfactor-row-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--mid);
+      margin-bottom: 0.6rem;
+    }
+    .subfactor-cards {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    /* ===== SUBFACTOR CARD ===== */
+    .subfactor-card {
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      opacity: 0;
+      animation: sfIn 0.3s ease forwards;
+    }
+    .subfactor-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
     }
-    .hitop-card.active {
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.6), 0 6px 24px rgba(0,0,0,0.22);
+    .subfactor-card.selected {
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.8), 0 4px 16px rgba(0,0,0,0.2);
       transform: translateY(-2px) scale(1.03);
     }
-    .hitop-card .card-ref {
-      display: block;
-      font-size: 0.62rem;
-      font-weight: 400;
-      opacity: 0.75;
-      font-family: 'DM Mono', monospace;
-      margin-top: 0.15rem;
-    }
-    .hitop-card .card-hint {
-      display: block;
-      font-size: 0.6rem;
-      font-weight: 400;
-      opacity: 0.65;
-      margin-top: 0.2rem;
-    }
-
-    /* Leaf chips */
-    .hitop-chip {
-      display: inline-block;
-      padding: 0.35rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: white;
-      margin: 0.2rem;
-      opacity: 0;
-      animation: chipIn 0.3s ease forwards;
-    }
-    @keyframes chipIn {
-      from { opacity: 0; transform: translateY(6px) scale(0.95); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    /* Color palette */
-    .clr-gold     { background: var(--gold); }
-    .clr-sky      { background: var(--sky); }
-    .clr-purple   { background: #6C3483; }
-    .clr-int      { background: var(--sky); }
-    .clr-som      { background: #D4A556; color: var(--dark); }
-    .clr-td       { background: #8E44AD; }
-    .clr-ext      { background: var(--red); }
-    .clr-det      { background: var(--navy); }
-    /* Subfactor lighter variants */
-    .clr-sub-int  { background: rgba(65,143,222,0.82); }
-    .clr-sub-som  { background: rgba(212,165,86,0.85); color: var(--dark); }
-    .clr-sub-td   { background: rgba(142,68,173,0.82); }
-    .clr-sub-ext  { background: rgba(192,57,43,0.82); }
-    .clr-sub-det  { background: rgba(0,64,113,0.82); }
-    /* Chip colors */
-    .chip-int     { background: rgba(65,143,222,0.7); }
-    .chip-som     { background: rgba(212,165,86,0.75); color: var(--dark); }
-    .chip-td      { background: rgba(142,68,173,0.7); }
-    .chip-ext     { background: rgba(192,57,43,0.7); }
-    .chip-det     { background: rgba(0,64,113,0.7); }
-
-    /* Fade-in animation for levels */
-    .hitop-level[data-anim] {
-      opacity: 0;
-      transform: translateY(12px);
-      animation: levelIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    .hitop-connector[data-anim] {
-      opacity: 0;
-      animation: connIn 0.25s ease forwards;
-    }
-    @keyframes levelIn {
-      from { opacity: 0; transform: translateY(12px); }
+    @keyframes sfIn {
+      from { opacity: 0; transform: translateY(8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes connIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+
+    /* ===== COMPONENT PILLS ===== */
+    .component-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.6rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .component-pill {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: white;
+      opacity: 0;
+      animation: pillIn 0.25s ease forwards;
+    }
+    @keyframes pillIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to   { opacity: 1; transform: scale(1); }
     }
 
-    /* Detail panel */
-    .hitop-detail {
+    /* ===== MAIN LAYOUT: EXPLORER + DETAIL PANEL ===== */
+    .hitop-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 1.5rem;
+      align-items: start;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 1000px) {
+      .hitop-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hitop-main {
+      min-width: 0;
+    }
+
+    /* ===== DETAIL PANEL ===== */
+    .detail-panel {
       background: var(--card-bg);
       border: 1px solid var(--light-gray);
       border-radius: var(--radius);
+      box-shadow: var(--shadow);
       padding: 1.5rem;
-      margin-top: 1.5rem;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      display: none;
+      position: sticky;
+      top: 70px;
+      transition: opacity 0.3s ease;
     }
-    .hitop-detail.visible {
-      display: block;
-      animation: levelIn 0.35s ease;
+    .detail-panel.empty {
+      opacity: 0.5;
     }
-    .hitop-detail h3 {
-      margin: 0 0 0.3rem 0;
-      font-size: 1.15rem;
+    .detail-panel h3 {
+      margin: 0 0 0.25rem;
+      font-size: 1.1rem;
       color: var(--navy);
+      line-height: 1.3;
     }
-    .hitop-detail .detail-level-tag {
+    .detail-panel .dp-level-tag {
       display: inline-block;
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 500;
       padding: 2px 10px;
       border-radius: 4px;
@@ -219,78 +259,69 @@
       color: var(--sky);
       margin-bottom: 1rem;
     }
-    .hitop-detail .detail-grid {
+    .detail-panel .dp-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      gap: 0.9rem;
     }
-    .hitop-detail .detail-field {
+    .detail-panel .dp-field {
       margin-bottom: 0;
     }
-    .hitop-detail .detail-field.full {
+    .detail-panel .dp-field.full {
       grid-column: 1 / -1;
     }
-    .hitop-detail .detail-label {
+    .detail-panel .dp-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--mid);
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.15rem;
     }
-    .hitop-detail .detail-value {
-      font-size: 0.86rem;
+    .detail-panel .dp-value {
+      font-size: 0.84rem;
       color: var(--dark);
       line-height: 1.5;
     }
-    .hitop-detail .detail-ref {
+    .detail-panel .dp-ref {
       grid-column: 1 / -1;
       margin-top: 0.5rem;
-      padding-top: 0.8rem;
+      padding-top: 0.6rem;
       border-top: 1px solid var(--light-gray);
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--mid);
     }
-
-    /* Reset button */
-    .hitop-reset {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+    .detail-panel .dp-placeholder {
+      text-align: center;
+      padding: 2rem 1rem;
       color: var(--mid);
-      border: 1px solid var(--light-gray);
-      background: transparent;
-      border-radius: 6px;
-      padding: 0.3rem 0.7rem;
-      cursor: pointer;
-      transition: all 0.15s;
-      margin-bottom: 1rem;
+      font-size: 0.85rem;
     }
-    .hitop-reset:hover {
-      border-color: var(--sky);
-      color: var(--sky);
-      background: rgba(65,143,222,0.05);
+    .detail-panel .dp-placeholder .dp-ph-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.4;
     }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hitop-explorer { padding: 1.2rem 0.8rem; }
-      .hitop-card { min-width: 110px; font-size: 0.78rem; padding: 0.5rem 0.8rem; }
-      .hitop-chip { font-size: 0.7rem; padding: 0.25rem 0.6rem; }
-      .hitop-detail .detail-grid { grid-template-columns: 1fr; }
-      .hitop-detail { padding: 1rem; }
-    }
-    @media (max-width: 480px) {
-      .hitop-card { min-width: 90px; max-width: 100%; font-size: 0.72rem; }
-      .hitop-cards { gap: 0.4rem; }
-      .hitop-breadcrumb { font-size: 0.72rem; }
+    @media (max-width: 1000px) {
+      .detail-panel {
+        position: static;
+      }
+      .detail-panel .dp-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
-    /* Existing sections styling */
+    /* ===== REFERENCE LINE ===== */
+    .ref-line {
+      font-size: 0.78rem;
+      color: var(--mid);
+      text-align: center;
+      margin: 0 0 2.5rem;
+    }
+
+    /* ===== EXISTING SECTIONS ===== */
     .ffm-section { margin-top: 3rem; }
     .pid5-section { margin-top: 2rem; }
     .continuum-bars { margin-top: 2rem; }
@@ -356,48 +387,75 @@
     <div class="subtitle">Hi&eacute;rarchie interactive &mdash; du facteur p aux composantes</div>
   </div>
 
-  <!-- ===== INTERACTIVE DRILL-DOWN ===== -->
-  <div class="hitop-explorer" id="hitop-explorer">
-    <div class="hitop-breadcrumb" id="breadcrumb"></div>
-    <div id="tree-container"></div>
-    <div class="hitop-detail" id="detail-panel">
-      <h3 id="dp-title"></h3>
-      <span class="detail-level-tag" id="dp-level"></span>
-      <div class="detail-grid">
-        <div class="detail-field full">
-          <div class="detail-label">D&eacute;finition</div>
-          <div class="detail-value" id="dp-def"></div>
+  <!-- ===== HITOP EXPLORER ===== -->
+  <div class="hitop-layout">
+    <div class="hitop-main">
+
+      <!-- P-FACTOR BANNER -->
+      <div class="pfactor-banner" id="pfactor-banner" onclick="selectNode('pfactor')">
+        <div class="pfactor-icon">p</div>
+        <div class="pfactor-text">
+          <h2>p-factor</h2>
+          <p>Facteur g&eacute;n&eacute;ral de psychopathologie &mdash; Caspi et al. 2014</p>
         </div>
-        <div class="detail-field">
-          <div class="detail-label">Correspondances DSM-5</div>
-          <div class="detail-value" id="dp-dsm"></div>
+      </div>
+
+      <!-- EMOTIONAL DYSFUNCTION GROUP -->
+      <div class="group-label">Emotional Dysfunction</div>
+      <div class="spectrum-grid" id="spectrum-grid-emotional"></div>
+      <div class="subfactor-row" id="subfactor-row-emotional"></div>
+
+      <!-- REMAINING SPECTRA -->
+      <div class="spectrum-grid" id="spectrum-grid-other"></div>
+      <div class="subfactor-row" id="subfactor-row-other"></div>
+
+    </div>
+
+    <!-- DETAIL PANEL -->
+    <div class="detail-panel empty" id="detail-panel">
+      <div class="dp-placeholder" id="dp-placeholder">
+        <div class="dp-ph-icon">&#9673;</div>
+        Cliquez sur un &eacute;l&eacute;ment pour afficher ses d&eacute;tails
+      </div>
+      <div id="dp-content" style="display:none;">
+        <h3 id="dp-title"></h3>
+        <span class="dp-level-tag" id="dp-level"></span>
+        <div class="dp-grid">
+          <div class="dp-field full">
+            <div class="dp-label">D&eacute;finition</div>
+            <div class="dp-value" id="dp-def"></div>
+          </div>
+          <div class="dp-field">
+            <div class="dp-label">Correspondances DSM-5</div>
+            <div class="dp-value" id="dp-dsm"></div>
+          </div>
+          <div class="dp-field">
+            <div class="dp-label">Circuit(s)</div>
+            <div class="dp-value" id="dp-circuits"></div>
+          </div>
+          <div class="dp-field">
+            <div class="dp-label">RDoC Mapping</div>
+            <div class="dp-value" id="dp-rdoc"></div>
+          </div>
+          <div class="dp-field">
+            <div class="dp-label">Instruments</div>
+            <div class="dp-value" id="dp-instruments"></div>
+          </div>
+          <div class="dp-field">
+            <div class="dp-label">Stabilit&eacute;</div>
+            <div class="dp-value" id="dp-stability"></div>
+          </div>
+          <div class="dp-field">
+            <div class="dp-label">Implications th&eacute;rapeutiques</div>
+            <div class="dp-value" id="dp-treatment"></div>
+          </div>
+          <div class="dp-ref" id="dp-ref"></div>
         </div>
-        <div class="detail-field">
-          <div class="detail-label">Circuit(s)</div>
-          <div class="detail-value" id="dp-circuits"></div>
-        </div>
-        <div class="detail-field">
-          <div class="detail-label">RDoC Mapping</div>
-          <div class="detail-value" id="dp-rdoc"></div>
-        </div>
-        <div class="detail-field">
-          <div class="detail-label">Instruments</div>
-          <div class="detail-value" id="dp-instruments"></div>
-        </div>
-        <div class="detail-field">
-          <div class="detail-label">Stabilit&eacute;</div>
-          <div class="detail-value" id="dp-stability"></div>
-        </div>
-        <div class="detail-field">
-          <div class="detail-label">Implications th&eacute;rapeutiques</div>
-          <div class="detail-value" id="dp-treatment"></div>
-        </div>
-        <div class="detail-ref" id="dp-ref"></div>
       </div>
     </div>
   </div>
 
-  <p style="font-size:0.78rem;color:var(--mid);text-align:center;margin:0.5rem 0 2rem;">Kotov et al. (2017), <em>J Abnormal Psychology</em> &mdash; Cliquez pour explorer chaque niveau de la hi&eacute;rarchie</p>
+  <p class="ref-line">Kotov et al. (2017), <em>J Abnormal Psychology</em> &mdash; Cliquez pour explorer chaque niveau de la hi&eacute;rarchie</p>
 
   <!-- ===== DSM -> HiTOP QUICK REFERENCE ===== -->
   <div style="margin-top: 3rem;">
@@ -860,6 +918,7 @@
 
 <script>
 (function () {
+
   // ======= NODE DETAIL DATA (preserved from original) =======
   var data = {
     'pfactor': {
@@ -1018,7 +1077,7 @@
       treatment: 'Traiter la d\u00e9pression/anxi\u00e9t\u00e9 sous-jacente, ajuster les ISRS si iatrog\u00e8ne (switch bupropion, ajout buspirone), th\u00e9rapie sexuelle (Masters & Johnson), PDE5i si composante vasculaire.',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
-    'somatoform-disorders': {
+    'somatic-disorders': {
       title: 'Troubles somatoformes',
       level: 'Subfactor',
       def: 'Sous-facteur regroupant le trouble \u00e0 symptomatologie somatique (TSS), le trouble de conversion et la crainte excessive d\u2019avoir une maladie. Caract\u00e9ris\u00e9 par une pr\u00e9occupation disproportionn\u00e9e pour les sympt\u00f4mes physiques.',
@@ -1030,7 +1089,7 @@
       treatment: 'ISRS, TCC (r\u00e9attribution), \u00e9ducation biopsychosociale',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
-    'somatoform-functional': {
+    'functional-syndromes': {
       title: 'Syndromes somatiques fonctionnels',
       level: 'Subfactor',
       def: 'Sous-facteur regroupant les syndromes fonctionnels chroniques : fibromyalgie, syndrome du c\u00f4lon irritable et syndrome de fatigue chronique. Caract\u00e9ris\u00e9 par une sensibilisation centrale et une amplification somatosensorielle.',
@@ -1101,495 +1160,288 @@
       stability: '\u00c9lev\u00e9e \u2014 traits psychopathiques stables d\u00e8s l\u2019adolescence ; pronostic r\u00e9serv\u00e9',
       treatment: 'Peu de pharmacoth\u00e9rapie sp\u00e9cifique. TCC forensique, th\u00e9rapie des sch\u00e9mas (Young), mentalisation. La grandiosit\u00e9 narcissique r\u00e9pond partiellement \u00e0 la th\u00e9rapie psychodynamique.',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
+    },
+    'detachment-components': {
+      title: 'Composantes du Detachment',
+      level: 'Subfactor',
+      def: 'Spectre caract\u00e9ris\u00e9 par le retrait social, l\u2019anh\u00e9donie, l\u2019\u00e9vitement de l\u2019intimit\u00e9 et l\u2019affectivit\u00e9 restreinte. Correspond au PID-5 D\u00e9tachement et \u00e0 l\u2019Extraversion basse (Big Five).',
+      dsm: 'Personnalit\u00e9 schizoide, Personnalit\u00e9 \u00e9vitante, formes s\u00e9v\u00e8res de dysthymie (anh\u00e9donie dominante), sympt\u00f4mes n\u00e9gatifs de la schizophr\u00e9nie',
+      rdoc: 'Positive Valence (reward, affiliation), Social Processes (affiliation, attachment)',
+      circuits: 'D\u00e9ficit du circuit de r\u00e9compense sociale (VTA\u2192NAcc\u2192mPFC), d\u00e9ficit oxytocinergique, hypoactivation du striatum ventral',
+      instruments: 'PID-5 D\u00e9tachement, SHAPS (anh\u00e9donie), LSAS (composante \u00e9vitement), SIS (Schizoid Introversion Scale)',
+      stability: '\u00c9lev\u00e9e \u2014 traits de d\u00e9tachement stables et r\u00e9sistants au changement',
+      treatment: 'Difficult\u00e9 th\u00e9rapeutique : faible motivation au traitement. Activation comportementale (cibler anh\u00e9donie), th\u00e9rapie d\u2019exposition sociale graduelle, parfois bupropion ou pramipexole pour anh\u00e9donie s\u00e9v\u00e8re.',
+      ref: 'Kotov et al. (2017), J Abnormal Psychology'
     }
   };
 
-  // ======= HIERARCHY TREE STRUCTURE =======
-  var tree = {
-    id: 'pfactor',
-    label: 'p-factor',
-    shortLabel: 'p-factor',
-    colorClass: 'clr-gold',
-    chipClass: '',
-    ref: 'Caspi 2014',
-    levelName: 'Facteur g\u00e9n\u00e9ral',
-    children: [
-      {
-        id: 'emotional-dysfunction',
-        label: 'Emotional Dysfunction',
-        shortLabel: 'Emot. Dysf.',
-        colorClass: 'clr-sky',
-        ref: 'Watson 2022',
-        levelName: 'Superspectra',
-        children: [
-          {
-            id: 'internalizing',
-            label: 'Internalizing',
-            shortLabel: 'Int.',
-            colorClass: 'clr-int',
-            ref: 'NA\u2191',
-            levelName: 'Spectra',
-            children: [
-              {
-                id: 'distress',
-                label: 'Distress',
-                shortLabel: 'Distress',
-                colorClass: 'clr-sub-int',
-                levelName: 'Subfactors',
-                leaves: ['Dysphorie', 'Rumination', 'Irritabilit\u00e9', 'Suicidalit\u00e9', 'Anh\u00e9donie', 'Lassitude', 'Insomnie'],
-                leafClass: 'chip-int'
-              },
-              {
-                id: 'fear',
-                label: 'Fear',
-                shortLabel: 'Fear',
-                colorClass: 'clr-sub-int',
-                levelName: 'Subfactors',
-                leaves: ['Sensibilit\u00e9 menace', '\u00c9vitement', 'Anxi\u00e9t\u00e9 sociale', 'Panique', 'Phobie sp\u00e9cifique'],
-                leafClass: 'chip-int'
-              },
-              {
-                id: 'ocd',
-                label: 'OCD',
-                shortLabel: 'OCD',
-                colorClass: 'clr-sub-int',
-                levelName: 'Subfactors',
-                leaves: ['Obsessions', 'Compulsions', 'Perfectionnisme pathologique', 'Rigidit\u00e9 cognitive'],
-                leafClass: 'chip-int'
-              },
-              {
-                id: 'eating',
-                label: 'Eating',
-                shortLabel: 'Eating',
-                colorClass: 'clr-sub-int',
-                levelName: 'Subfactors',
-                leaves: ['Perfectionnisme', 'Insatisfaction corporelle', 'Contr\u00f4le excessif'],
-                leafClass: 'chip-int'
-              },
-              {
-                id: 'sexual-problems',
-                label: 'Sexual Problems',
-                shortLabel: 'Sexual',
-                colorClass: 'clr-sub-int',
-                levelName: 'Subfactors',
-                leaves: ['D\u00e9sir hypoactif', 'Difficult\u00e9s excitation', 'Dysfonction orgasmique'],
-                leafClass: 'chip-int'
-              }
-            ]
-          },
-          {
-            id: 'somatoform',
-            label: 'Somatoform',
-            shortLabel: 'Somat.',
-            colorClass: 'clr-som',
-            ref: '',
-            levelName: 'Spectra',
-            children: [
-              {
-                id: 'somatoform-disorders',
-                label: 'Troubles somatoformes',
-                shortLabel: 'T. somatof.',
-                colorClass: 'clr-sub-som',
-                levelName: 'Subfactors',
-                leaves: ['TSS', 'Conversion', 'Crainte maladie'],
-                leafClass: 'chip-som'
-              },
-              {
-                id: 'somatoform-functional',
-                label: 'Syndromes fonctionnels',
-                shortLabel: 'S. fonct.',
-                colorClass: 'clr-sub-som',
-                levelName: 'Subfactors',
-                leaves: ['Fibromyalgie', 'SCI', 'Fatigue chronique'],
-                leafClass: 'chip-som'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: 'psychobehavioral-dysfunction',
-        label: 'Psychobehavioral Dysfunction',
-        shortLabel: 'Psychobeh. Dysf.',
-        colorClass: 'clr-purple',
-        ref: 'Krueger 2021',
-        levelName: 'Superspectra',
-        children: [
-          {
-            id: 'thought-disorder',
-            label: 'Thought Disorder',
-            shortLabel: 'Th. Dis.',
-            colorClass: 'clr-td',
-            ref: '',
-            levelName: 'Spectra',
-            children: [
-              {
-                id: 'psychoticism',
-                label: 'Psychoticism',
-                shortLabel: 'Psychot.',
-                colorClass: 'clr-sub-td',
-                levelName: 'Subfactors',
-                leaves: ['Hallucinations', 'D\u00e9lires', 'Pens\u00e9e d\u00e9sorganis\u00e9e', 'Exp\u00e9riences perceptuelles', 'Excentricit\u00e9'],
-                leafClass: 'chip-td'
-              },
-              {
-                id: 'mania',
-                label: 'Mania',
-                shortLabel: 'Mania',
-                colorClass: 'clr-sub-td',
-                levelName: 'Subfactors',
-                leaves: ['Humeur \u00e9lev\u00e9e', 'Grandiosit\u00e9', 'Sommeil r\u00e9duit', 'Fuite des id\u00e9es', 'Activit\u00e9 dirig\u00e9e', 'Impulsivit\u00e9'],
-                leafClass: 'chip-td'
-              },
-              {
-                id: 'dissociation',
-                label: 'Dissociation',
-                shortLabel: 'Dissoc.',
-                colorClass: 'clr-sub-td',
-                levelName: 'Subfactors',
-                leaves: ['D\u00e9personnalisation', 'D\u00e9r\u00e9alisation', 'Amn\u00e9sie dissociative'],
-                leafClass: 'chip-td'
-              }
-            ]
-          },
-          {
-            id: 'externalizing',
-            label: 'Externalizing',
-            shortLabel: 'Ext.',
-            colorClass: 'clr-ext',
-            ref: '',
-            levelName: 'Spectra',
-            children: [
-              {
-                id: 'disinhibited',
-                label: 'D\u00e9sinhib\u00e9',
-                shortLabel: 'D\u00e9sinh.',
-                colorClass: 'clr-sub-ext',
-                levelName: 'Subfactors',
-                leaves: ['TUS', 'TDAH', 'Trouble conduites', 'Impulsivit\u00e9', 'Irresponsabilit\u00e9', 'Distractibilit\u00e9'],
-                leafClass: 'chip-ext'
-              },
-              {
-                id: 'antagonistic',
-                label: 'Antagoniste',
-                shortLabel: 'Antag.',
-                colorClass: 'clr-sub-ext',
-                levelName: 'Subfactors',
-                leaves: ['Personnalit\u00e9 antisociale', 'Narcissisme', 'Agression', 'Manipulation', 'Hostilit\u00e9', 'Grandiosit\u00e9'],
-                leafClass: 'chip-ext'
-              }
-            ]
-          },
-          {
-            id: 'detachment',
-            label: 'Detachment',
-            shortLabel: 'Det.',
-            colorClass: 'clr-det',
-            ref: '',
-            levelName: 'Spectra',
-            // Detachment has no subfactors — goes straight to components
-            leaves: ['Retrait social', 'Anh\u00e9donie', '\u00c9vitement intimit\u00e9', 'Affectivit\u00e9 restreinte', 'Suspicion', 'D\u00e9pressivit\u00e9'],
-            leafClass: 'chip-det'
-          }
-        ]
-      }
-    ]
-  };
+  // ======= SPECTRA HIERARCHY =======
+  var spectra = [
+    {
+      id: 'internalizing', name: 'Internalizing', subtitle: 'NA\u2191', color: '#418FDE', group: 'emotional',
+      subfactors: [
+        { id: 'distress', name: 'Distress', components: ['Dysphorie','Rumination','Irritabilit\u00e9','Suicidalit\u00e9','Anh\u00e9donie','Lassitude','Insomnie','Dysfonction cognitive'] },
+        { id: 'fear', name: 'Fear', components: ['Anxi\u00e9t\u00e9 sociale','Panique','Agoraphobie','Phobie sp\u00e9cifique','Sensibilit\u00e9 \u00e0 la menace','\u00c9vitement','Inhibition comportementale'] },
+        { id: 'ocd', name: 'OCD', components: ['Obsessions','Compulsions','Perfectionnisme pathologique','Rigidit\u00e9 cognitive','Intol\u00e9rance \u00e0 l\'incompl\u00e9tude'] },
+        { id: 'eating', name: 'Eating Pathology', components: ['Restriction','Binge eating','Purging','Exercice excessif','Insatisfaction corporelle','Int\u00e9roception pauvre'] },
+        { id: 'sexual-problems', name: 'Sexual Problems', components: ['D\u00e9sir hypoactif','Difficult\u00e9s excitation','Dysfonction orgasmique','Dyspareunie'] }
+      ]
+    },
+    {
+      id: 'somatoform', name: 'Somatoform', subtitle: 'Int\u00e9roception', color: '#D4A556', group: 'emotional',
+      subfactors: [
+        { id: 'somatic-disorders', name: 'Troubles somatoformes', components: ['Symptomatologie somatique','Conversion','Crainte excessive de maladie','Conviction de maladie','Pr\u00e9occupation somatique'] },
+        { id: 'functional-syndromes', name: 'Syndromes fonctionnels', components: ['Fibromyalgie','Syndrome du c\u00f4lon irritable','Fatigue chronique'] }
+      ]
+    },
+    {
+      id: 'thought-disorder', name: 'Thought Disorder', subtitle: 'DA m\u00e9solimbique', color: '#8E44AD', group: 'psychobehavioral',
+      subfactors: [
+        { id: 'psychoticism', name: 'Psychoticism', components: ['Hallucinations','Id\u00e9es d\u00e9lirantes','Pens\u00e9e d\u00e9sorganis\u00e9e','Exp\u00e9riences perceptuelles inhabituelles','Excentricit\u00e9','Croyances inhabituelles'] },
+        { id: 'mania', name: 'Mania', components: ['Humeur \u00e9lev\u00e9e','Grandiosit\u00e9','Sommeil r\u00e9duit','Fuite des id\u00e9es','Activit\u00e9 dirig\u00e9e vers un but','Impulsivit\u00e9','Labilit\u00e9 \u00e9motionnelle'] },
+        { id: 'dissociation', name: 'Dissociation', components: ['D\u00e9personnalisation','D\u00e9r\u00e9alisation','Amn\u00e9sie dissociative'] }
+      ]
+    },
+    {
+      id: 'externalizing', name: 'Externalizing', subtitle: 'Contr\u00f4le\u2193', color: '#C0392B', group: 'psychobehavioral',
+      subfactors: [
+        { id: 'disinhibited', name: 'D\u00e9sinhib\u00e9', components: ['TUS','TDAH','Trouble des conduites','Impulsivit\u00e9','Irresponsabilit\u00e9','Distractibilit\u00e9','Prise de risque'] },
+        { id: 'antagonistic', name: 'Antagoniste', components: ['Personnalit\u00e9 antisociale','Narcissisme','Agression','Manipulation','Hostilit\u00e9','Grandiosit\u00e9','Insensibilit\u00e9'] }
+      ]
+    },
+    {
+      id: 'detachment', name: 'Detachment', subtitle: 'Reward\u2193', color: '#004071', group: 'psychobehavioral',
+      subfactors: [
+        { id: 'detachment-components', name: 'Composantes', components: ['Retrait social','Anh\u00e9donie','\u00c9vitement de l\'intimit\u00e9','Affectivit\u00e9 restreinte','Suspicion','D\u00e9pressivit\u00e9','Inexpressivit\u00e9','Avolition','Non-assertivit\u00e9'] }
+      ]
+    }
+  ];
 
   // ======= STATE =======
-  var selectedPath = []; // array of node IDs from root down
-  var activeNodeId = null;
-  var container = document.getElementById('tree-container');
-  var breadcrumb = document.getElementById('breadcrumb');
+  var selectedSpectrumId = null;
+  var selectedSubfactorId = null;
+  var selectedNodeId = null; // for detail panel
+
+  // ======= DOM REFS =======
+  var emotionalGrid = document.getElementById('spectrum-grid-emotional');
+  var otherGrid = document.getElementById('spectrum-grid-other');
+  var emotionalSubRow = document.getElementById('subfactor-row-emotional');
+  var otherSubRow = document.getElementById('subfactor-row-other');
   var detailPanel = document.getElementById('detail-panel');
+  var pfactorBanner = document.getElementById('pfactor-banner');
 
-  // ======= FIND NODE IN TREE =======
-  function findNode(nodeId, node) {
-    if (node.id === nodeId) return node;
-    if (node.children) {
-      for (var i = 0; i < node.children.length; i++) {
-        var found = findNode(nodeId, node.children[i]);
-        if (found) return found;
-      }
-    }
-    return null;
+  // ======= HELPER: lighter color for chips =======
+  function lightenColor(hex, alpha) {
+    var r = parseInt(hex.slice(1,3), 16);
+    var g = parseInt(hex.slice(3,5), 16);
+    var b = parseInt(hex.slice(5,7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
   }
 
-  // Find path to a node
-  function findPath(nodeId, node, path) {
-    path = path || [];
-    path.push(node.id);
-    if (node.id === nodeId) return path.slice();
-    if (node.children) {
-      for (var i = 0; i < node.children.length; i++) {
-        var result = findPath(nodeId, node.children[i], path);
-        if (result) return result;
+  // ======= BUILD SPECTRUM CARDS =======
+  function buildSpectrumCards() {
+    emotionalGrid.innerHTML = '';
+    otherGrid.innerHTML = '';
+
+    for (var i = 0; i < spectra.length; i++) {
+      var sp = spectra[i];
+      var card = document.createElement('div');
+      card.className = 'spectrum-card';
+      if (selectedSpectrumId === sp.id) card.className += ' selected';
+      card.style.backgroundColor = sp.color;
+      // Dark text for somatoform (gold bg)
+      if (sp.id === 'somatoform') card.style.color = '#2a1a00';
+      card.setAttribute('data-spectrum', sp.id);
+
+      var nameEl = document.createElement('span');
+      nameEl.className = 'sc-name';
+      nameEl.textContent = sp.name;
+      card.appendChild(nameEl);
+
+      var subEl = document.createElement('span');
+      subEl.className = 'sc-subtitle';
+      subEl.textContent = sp.subtitle;
+      card.appendChild(subEl);
+
+      var totalComponents = 0;
+      for (var j = 0; j < sp.subfactors.length; j++) {
+        totalComponents += sp.subfactors[j].components.length;
+      }
+      var countEl = document.createElement('span');
+      countEl.className = 'sc-count';
+      countEl.textContent = sp.subfactors.length + ' subfactors \u00b7 ' + totalComponents + ' composantes';
+      card.appendChild(countEl);
+
+      (function(spectrum) {
+        card.addEventListener('click', function() {
+          handleSpectrumClick(spectrum);
+        });
+      })(sp);
+
+      if (sp.group === 'emotional') {
+        emotionalGrid.appendChild(card);
+      } else {
+        otherGrid.appendChild(card);
       }
     }
-    path.pop();
-    return null;
   }
 
-  // ======= RENDER =======
-  function render() {
+  // ======= BUILD SUBFACTOR ROW =======
+  function buildSubfactorRow(spectrum, container) {
     container.innerHTML = '';
-    var animDelay = 0;
 
-    // Always show root level (p-factor)
-    var rootLevel = createLevel('Facteur g\u00e9n\u00e9ral', [tree], 0, animDelay);
-    container.appendChild(rootLevel);
-    animDelay += 50;
+    var label = document.createElement('div');
+    label.className = 'subfactor-row-label';
+    label.textContent = 'Sous-facteurs \u2014 ' + spectrum.name;
+    container.appendChild(label);
 
-    // For each selected node in the path, show its children
-    var currentNode = tree;
-    for (var depth = 0; depth < selectedPath.length; depth++) {
-      var selectedId = selectedPath[depth];
-      if (currentNode.id !== selectedId) {
-        // Find selected among current node's children
-        if (currentNode.children) {
-          var found = null;
-          for (var i = 0; i < currentNode.children.length; i++) {
-            if (currentNode.children[i].id === selectedId) {
-              found = currentNode.children[i];
-              break;
-            }
-          }
-          if (!found) break;
-          currentNode = found;
-        } else {
+    var cardsDiv = document.createElement('div');
+    cardsDiv.className = 'subfactor-cards';
+
+    for (var i = 0; i < spectrum.subfactors.length; i++) {
+      var sf = spectrum.subfactors[i];
+      var card = document.createElement('div');
+      card.className = 'subfactor-card';
+      if (selectedSubfactorId === sf.id) card.className += ' selected';
+      card.style.backgroundColor = lightenColor(spectrum.color, 0.82);
+      if (spectrum.id === 'somatoform') card.style.color = '#2a1a00';
+      card.style.animationDelay = (i * 80) + 'ms';
+      card.textContent = sf.name;
+      card.setAttribute('data-subfactor', sf.id);
+
+      (function(subfactor, spec) {
+        card.addEventListener('click', function(e) {
+          e.stopPropagation();
+          handleSubfactorClick(subfactor, spec);
+        });
+      })(sf, spectrum);
+
+      cardsDiv.appendChild(card);
+    }
+
+    container.appendChild(cardsDiv);
+
+    // If a subfactor is selected, show its components
+    if (selectedSubfactorId) {
+      var activeSf = null;
+      for (var j = 0; j < spectrum.subfactors.length; j++) {
+        if (spectrum.subfactors[j].id === selectedSubfactorId) {
+          activeSf = spectrum.subfactors[j];
           break;
         }
       }
-
-      // Show children of currentNode
-      if (currentNode.children && currentNode.children.length > 0) {
-        // Connector
-        var conn = document.createElement('div');
-        conn.className = 'hitop-connector';
-        conn.setAttribute('data-anim', '');
-        conn.style.animationDelay = animDelay + 'ms';
-        container.appendChild(conn);
-        animDelay += 80;
-
-        var childLevel = createLevel(currentNode.children[0].levelName || '', currentNode.children, depth + 1, animDelay);
-        container.appendChild(childLevel);
-        animDelay += 80;
-      } else if (currentNode.leaves && currentNode.leaves.length > 0) {
-        // Show leaf chips
-        var conn = document.createElement('div');
-        conn.className = 'hitop-connector';
-        conn.setAttribute('data-anim', '');
-        conn.style.animationDelay = animDelay + 'ms';
-        container.appendChild(conn);
-        animDelay += 80;
-
-        var leafLevel = createLeafLevel('Composantes / Sympt\u00f4mes', currentNode.leaves, currentNode.leafClass || '', animDelay);
-        container.appendChild(leafLevel);
-        animDelay += 80;
+      if (activeSf) {
+        var compRow = document.createElement('div');
+        compRow.className = 'component-row';
+        for (var k = 0; k < activeSf.components.length; k++) {
+          var pill = document.createElement('span');
+          pill.className = 'component-pill';
+          pill.style.backgroundColor = lightenColor(spectrum.color, 0.6);
+          if (spectrum.id === 'somatoform') pill.style.color = '#2a1a00';
+          pill.style.animationDelay = (k * 40) + 'ms';
+          pill.textContent = activeSf.components[k];
+          compRow.appendChild(pill);
+        }
+        container.appendChild(compRow);
       }
     }
 
-    // If the last selected node has leaves and it was reached via children path, show them
-    if (selectedPath.length > 0) {
-      var lastId = selectedPath[selectedPath.length - 1];
-      var lastNode = findNode(lastId, tree);
-      if (lastNode && lastNode.leaves && lastNode.leaves.length > 0 && !lastNode.children) {
-        // Already handled above
-      } else if (lastNode && lastNode.leaves && lastNode.leaves.length > 0 && lastNode.children) {
-        // Node has both children and leaves — leaves shown only when clicked directly at leaf level
-      }
-    }
-
-    renderBreadcrumb();
-    showDetailPanel();
+    container.classList.add('open');
   }
 
-  function createLevel(labelText, nodes, depth, baseDelay) {
-    var level = document.createElement('div');
-    level.className = 'hitop-level';
-    if (depth > 0) {
-      level.setAttribute('data-anim', '');
-      level.style.animationDelay = baseDelay + 'ms';
-    }
-
-    if (labelText) {
-      var lbl = document.createElement('div');
-      lbl.className = 'hitop-level-label';
-      lbl.textContent = labelText;
-      level.appendChild(lbl);
-    }
-
-    var row = document.createElement('div');
-    row.className = 'hitop-cards';
-
-    for (var i = 0; i < nodes.length; i++) {
-      var node = nodes[i];
-      var card = document.createElement('div');
-      card.className = 'hitop-card ' + node.colorClass;
-      card.setAttribute('data-id', node.id);
-
-      // Mark active
-      if (selectedPath.indexOf(node.id) !== -1) {
-        card.classList.add('active');
-      }
-
-      var nameSpan = document.createElement('span');
-      nameSpan.textContent = node.label;
-      card.appendChild(nameSpan);
-
-      if (node.ref) {
-        var refSpan = document.createElement('span');
-        refSpan.className = 'card-ref';
-        refSpan.textContent = node.ref;
-        card.appendChild(refSpan);
-      }
-
-      // Hint about children
-      var childCount = 0;
-      if (node.children) childCount = node.children.length;
-      else if (node.leaves) childCount = node.leaves.length;
-      if (childCount > 0 && selectedPath.indexOf(node.id) === -1) {
-        var hint = document.createElement('span');
-        hint.className = 'card-hint';
-        hint.textContent = childCount + (node.leaves && !node.children ? ' composantes' : ' sous-niveaux');
-        card.appendChild(hint);
-      }
-
-      card.addEventListener('click', (function(nodeObj) {
-        return function(e) {
-          e.stopPropagation();
-          handleCardClick(nodeObj);
-        };
-      })(node));
-
-      row.appendChild(card);
-    }
-
-    level.appendChild(row);
-    return level;
-  }
-
-  function createLeafLevel(labelText, leaves, chipClass, baseDelay) {
-    var level = document.createElement('div');
-    level.className = 'hitop-level';
-    level.setAttribute('data-anim', '');
-    level.style.animationDelay = baseDelay + 'ms';
-
-    var lbl = document.createElement('div');
-    lbl.className = 'hitop-level-label';
-    lbl.textContent = labelText;
-    level.appendChild(lbl);
-
-    var row = document.createElement('div');
-    row.className = 'hitop-cards';
-    row.style.maxWidth = '700px';
-
-    for (var i = 0; i < leaves.length; i++) {
-      var chip = document.createElement('span');
-      chip.className = 'hitop-chip ' + chipClass;
-      chip.textContent = leaves[i];
-      chip.style.animationDelay = (baseDelay + i * 60) + 'ms';
-      row.appendChild(chip);
-    }
-
-    level.appendChild(row);
-    return level;
-  }
-
-  // ======= CLICK HANDLING =======
-  function handleCardClick(nodeObj) {
-    var nodeId = nodeObj.id;
-
-    // If already in path, navigate to that level (collapse children below)
-    var pathIndex = selectedPath.indexOf(nodeId);
-    if (pathIndex !== -1) {
-      // If clicking the currently deepest selected — deselect it (collapse)
-      if (pathIndex === selectedPath.length - 1) {
-        selectedPath.pop();
-        activeNodeId = selectedPath.length > 0 ? selectedPath[selectedPath.length - 1] : null;
-      } else {
-        // Navigate to this level
-        selectedPath = selectedPath.slice(0, pathIndex + 1);
-        activeNodeId = nodeId;
-      }
-    } else {
-      // Find what level this node is at
-      var fullPath = findPath(nodeId, tree, []);
-      if (fullPath) {
-        selectedPath = fullPath;
-        activeNodeId = nodeId;
-      }
-    }
-
-    render();
-  }
-
-  // ======= BREADCRUMB =======
-  function renderBreadcrumb() {
-    breadcrumb.innerHTML = '';
-
-    if (selectedPath.length === 0) {
-      var hint = document.createElement('span');
-      hint.style.color = 'var(--mid)';
-      hint.style.fontStyle = 'italic';
-      hint.textContent = 'Cliquez sur le p-factor pour commencer l\u2019exploration';
-      breadcrumb.appendChild(hint);
+  // ======= CLICK HANDLERS =======
+  function handleSpectrumClick(spectrum) {
+    // If clicking already-selected spectrum, deselect
+    if (selectedSpectrumId === spectrum.id) {
+      selectedSpectrumId = null;
+      selectedSubfactorId = null;
+      selectedNodeId = null;
+      closeAllSubRows();
+      buildSpectrumCards();
+      updateDetailPanel();
       return;
     }
 
-    // Reset button
-    var resetBtn = document.createElement('button');
-    resetBtn.className = 'hitop-reset';
-    resetBtn.innerHTML = '\u2190 Reset';
-    resetBtn.addEventListener('click', function() {
-      selectedPath = [];
-      activeNodeId = null;
-      render();
-    });
-    breadcrumb.appendChild(resetBtn);
+    selectedSpectrumId = spectrum.id;
+    selectedSubfactorId = null;
+    selectedNodeId = spectrum.id;
 
-    for (var i = 0; i < selectedPath.length; i++) {
-      var nodeId = selectedPath[i];
-      var node = findNode(nodeId, tree);
-      if (!node) continue;
+    // Close the other group's subfactor row
+    closeAllSubRows();
+    buildSpectrumCards();
 
-      if (i > 0) {
-        var sep = document.createElement('span');
-        sep.className = 'bc-sep';
-        sep.textContent = '\u2192';
-        breadcrumb.appendChild(sep);
-      }
+    // Open correct subfactor row
+    var targetRow = (spectrum.group === 'emotional') ? emotionalSubRow : otherSubRow;
+    buildSubfactorRow(spectrum, targetRow);
 
-      if (i < selectedPath.length - 1) {
-        var item = document.createElement('span');
-        item.className = 'bc-item';
-        item.textContent = node.shortLabel || node.label;
-        item.setAttribute('data-id', nodeId);
-        item.addEventListener('click', (function(idx) {
-          return function() {
-            selectedPath = selectedPath.slice(0, idx + 1);
-            activeNodeId = selectedPath[selectedPath.length - 1];
-            render();
-          };
-        })(i));
-        breadcrumb.appendChild(item);
-      } else {
-        var current = document.createElement('span');
-        current.className = 'bc-current';
-        current.textContent = node.label;
-        breadcrumb.appendChild(current);
-      }
-    }
+    updateDetailPanel();
   }
+
+  function handleSubfactorClick(subfactor, spectrum) {
+    // If clicking already-selected subfactor, deselect it
+    if (selectedSubfactorId === subfactor.id) {
+      selectedSubfactorId = null;
+      selectedNodeId = spectrum.id;
+    } else {
+      selectedSubfactorId = subfactor.id;
+      selectedNodeId = subfactor.id;
+    }
+
+    // Rebuild subfactor row to update selection + components
+    var targetRow = (spectrum.group === 'emotional') ? emotionalSubRow : otherSubRow;
+    buildSubfactorRow(spectrum, targetRow);
+
+    updateDetailPanel();
+  }
+
+  function closeAllSubRows() {
+    emotionalSubRow.classList.remove('open');
+    emotionalSubRow.innerHTML = '';
+    otherSubRow.classList.remove('open');
+    otherSubRow.innerHTML = '';
+  }
+
+  // ======= SELECT NODE (for p-factor banner) =======
+  window.selectNode = function(nodeId) {
+    if (selectedNodeId === nodeId) {
+      selectedNodeId = null;
+      pfactorBanner.classList.remove('selected');
+    } else {
+      selectedNodeId = nodeId;
+      pfactorBanner.classList.add('selected');
+      // Deselect spectrum/subfactor highlight
+      selectedSpectrumId = null;
+      selectedSubfactorId = null;
+      closeAllSubRows();
+      buildSpectrumCards();
+    }
+    updateDetailPanel();
+  };
 
   // ======= DETAIL PANEL =======
-  function showDetailPanel() {
-    if (!activeNodeId || !data[activeNodeId]) {
-      detailPanel.classList.remove('visible');
+  function updateDetailPanel() {
+    var placeholder = document.getElementById('dp-placeholder');
+    var content = document.getElementById('dp-content');
+
+    // Update pfactor banner selection visual
+    if (selectedNodeId === 'pfactor') {
+      pfactorBanner.classList.add('selected');
+    } else {
+      pfactorBanner.classList.remove('selected');
+    }
+
+    if (!selectedNodeId || !data[selectedNodeId]) {
+      placeholder.style.display = '';
+      content.style.display = 'none';
+      detailPanel.classList.add('empty');
       return;
     }
 
-    var d = data[activeNodeId];
+    var d = data[selectedNodeId];
+    placeholder.style.display = 'none';
+    content.style.display = '';
+    detailPanel.classList.remove('empty');
+
     document.getElementById('dp-title').textContent = d.title;
     document.getElementById('dp-level').textContent = d.level;
     document.getElementById('dp-def').textContent = d.def;
@@ -1608,11 +1460,35 @@
       refEl.style.display = 'none';
     }
 
-    detailPanel.classList.add('visible');
+    // Color the level tag based on node type
+    var levelTag = document.getElementById('dp-level');
+    levelTag.style.background = '';
+    levelTag.style.color = '';
+    if (selectedNodeId === 'pfactor') {
+      levelTag.style.background = 'rgba(185,151,91,0.15)';
+      levelTag.style.color = '#8a6d2b';
+    } else {
+      // Find the spectrum color
+      for (var i = 0; i < spectra.length; i++) {
+        if (spectra[i].id === selectedNodeId) {
+          levelTag.style.background = lightenColor(spectra[i].color, 0.12);
+          levelTag.style.color = spectra[i].color;
+          break;
+        }
+        for (var j = 0; j < spectra[i].subfactors.length; j++) {
+          if (spectra[i].subfactors[j].id === selectedNodeId) {
+            levelTag.style.background = lightenColor(spectra[i].color, 0.12);
+            levelTag.style.color = spectra[i].color;
+            break;
+          }
+        }
+      }
+    }
   }
 
   // ======= INITIAL RENDER =======
-  render();
+  buildSpectrumCards();
+  updateDetailPanel();
 
 })();
 </script>
