@@ -355,8 +355,8 @@
       .facet-row td { padding-left: 1rem !important; }
     }
 
-    /* ===== MOBILE TREE ===== */
-    @media (max-width: 700px) {
+    /* ===== TABLET: compact tree ===== */
+    @media (max-width: 900px) {
       :root { --tree-gap: 18px; }
       .hnode { font-size: 0.72rem; padding: 0.35rem 0.7rem; }
       .hnode-root { font-size: 0.85rem; padding: 0.5rem 1.2rem; }
@@ -366,6 +366,125 @@
       .htree li { padding-left: 3px; padding-right: 3px; }
       .hnode-spectrum .node-sub,
       .hnode-root .node-sub { display: none; }
+    }
+
+    /* ===== MOBILE: vertical tree ===== */
+    @media (max-width: 600px) {
+      .tree-wrap { overflow-x: visible; padding: 0; }
+
+      /* Hide horizontal tree */
+      .htree { display: none; }
+
+      /* Show mobile vertical tree */
+      .mobile-tree { display: block !important; }
+
+      .mt-root {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      .mt-root .hnode-root {
+        display: inline-block;
+        font-size: 0.9rem;
+        padding: 0.5rem 1.4rem;
+      }
+      .mt-trunk {
+        width: 2px;
+        height: 16px;
+        background: var(--line-color);
+        margin: 0 auto;
+      }
+      .mt-supra-label {
+        text-align: center;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+        border: 1.5px dashed rgba(185,151,91,0.4);
+        border-radius: 6px;
+        padding: 0.25rem 0.8rem;
+        display: inline-block;
+        margin: 0 auto 0.5rem;
+        cursor: pointer;
+      }
+      .mt-supra-wrap { text-align: center; margin-bottom: 0.5rem; }
+
+      .mt-spectrum {
+        border-radius: 10px;
+        padding: 0.7rem 1rem;
+        margin-bottom: 0.4rem;
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      .mt-spectrum:active { transform: scale(0.98); }
+      .mt-spectrum .mt-name { font-weight: 700; font-size: 0.88rem; }
+      .mt-spectrum .mt-arrow {
+        font-size: 0.7rem;
+        opacity: 0.6;
+        transition: transform 0.2s;
+        font-family: 'DM Mono', monospace;
+      }
+      .mt-spectrum.open .mt-arrow { transform: rotate(90deg); }
+
+      .mt-children {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+        padding-left: 1rem;
+        border-left: 2px solid var(--line-color);
+        margin-left: 1rem;
+        margin-bottom: 0;
+      }
+      .mt-children.open {
+        max-height: 800px;
+        margin-bottom: 0.5rem;
+      }
+      .mt-sf {
+        padding: 0.45rem 0.8rem;
+        border-radius: 8px;
+        margin: 0.3rem 0;
+        color: white;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .mt-sf .mt-arrow {
+        font-size: 0.6rem;
+        opacity: 0.5;
+        transition: transform 0.2s;
+        font-family: 'DM Mono', monospace;
+      }
+      .mt-sf.open .mt-arrow { transform: rotate(90deg); }
+
+      .mt-comps {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        padding-left: 0.8rem;
+        border-left: 2px solid rgba(255,255,255,0.15);
+        margin-left: 0.5rem;
+      }
+      .mt-comps.open { max-height: 400px; margin: 0.2rem 0 0.4rem; }
+      .mt-comp-pill {
+        display: inline-block;
+        padding: 0.15rem 0.5rem;
+        border-radius: 10px;
+        font-size: 0.68rem;
+        font-weight: 500;
+        color: white;
+        margin: 0.15rem 0.15rem;
+        opacity: 0.85;
+      }
     }
   </style>
 </head>
@@ -452,6 +571,9 @@
           </ul>
         </li>
       </ul>
+
+      <!-- MOBILE VERTICAL TREE (hidden on desktop, shown <600px) -->
+      <div class="mobile-tree" id="mobile-tree" style="display:none;"></div>
     </div>
 
     <!-- DETAIL PANEL -->
@@ -1132,6 +1254,149 @@
       }
     }
   });
+
+  // ======= MOBILE VERTICAL TREE =======
+  var colorMap = { int: '#418FDE', som: '#D4A556', td: '#8E44AD', ext: '#C0392B', det: '#004071' };
+  var spectraOrder = [
+    { id: 'internalizing', name: 'Internalizing', group: 'ed' },
+    { id: 'somatoform', name: 'Somatoform', group: 'ed' },
+    { id: 'thought-disorder', name: 'Thought Disorder', group: '' },
+    { id: 'externalizing', name: 'Externalizing', group: '' },
+    { id: 'detachment', name: 'Detachment', group: '' }
+  ];
+
+  function buildMobileTree() {
+    var mt = document.getElementById('mobile-tree');
+    if (!mt) return;
+    mt.innerHTML = '';
+
+    // Root
+    var root = document.createElement('div');
+    root.className = 'mt-root';
+    var rootBtn = document.createElement('div');
+    rootBtn.className = 'hnode hnode-root';
+    rootBtn.setAttribute('data-id', 'pfactor');
+    rootBtn.textContent = 'p-factor';
+    rootBtn.addEventListener('click', function() {
+      selectedNodeId = 'pfactor';
+      highlightNode('pfactor');
+      updateDetailPanel();
+    });
+    root.appendChild(rootBtn);
+    mt.appendChild(root);
+
+    // Trunk
+    var trunk = document.createElement('div');
+    trunk.className = 'mt-trunk';
+    mt.appendChild(trunk);
+
+    // ED label
+    var edWrap = document.createElement('div');
+    edWrap.className = 'mt-supra-wrap';
+    var edLabel = document.createElement('div');
+    edLabel.className = 'mt-supra-label';
+    edLabel.textContent = 'Emotional Dysfunction';
+    edLabel.addEventListener('click', function() {
+      selectedNodeId = 'emotional-dysfunction';
+      highlightNode('emotional-dysfunction');
+      updateDetailPanel();
+    });
+    edWrap.appendChild(edLabel);
+    mt.appendChild(edWrap);
+
+    var inED = true;
+    for (var i = 0; i < spectraOrder.length; i++) {
+      var sp = spectraOrder[i];
+      var spData = spectra[sp.id];
+      var c = colorMap[spData.color];
+
+      // End ED group separator
+      if (inED && sp.group !== 'ed') {
+        inED = false;
+        var sep = document.createElement('div');
+        sep.className = 'mt-trunk';
+        sep.style.margin = '0.3rem auto 0.5rem';
+        mt.appendChild(sep);
+      }
+
+      // Spectrum bar
+      var bar = document.createElement('div');
+      bar.className = 'mt-spectrum';
+      bar.style.backgroundColor = c;
+      if (sp.id === 'somatoform') bar.style.color = '#2a1a00';
+      bar.innerHTML = '<span class="mt-name">' + sp.name + '</span><span class="mt-arrow">▸</span>';
+
+      // Children container
+      var children = document.createElement('div');
+      children.className = 'mt-children';
+
+      // Build subfactors
+      for (var j = 0; j < spData.subfactors.length; j++) {
+        var sf = spData.subfactors[j];
+        var sfBar = document.createElement('div');
+        sfBar.className = 'mt-sf';
+        sfBar.style.backgroundColor = c;
+        sfBar.style.opacity = '0.8';
+        if (sp.id === 'somatoform') sfBar.style.color = '#2a1a00';
+        sfBar.innerHTML = '<span>' + sf.name + '</span><span class="mt-arrow">▸</span>';
+
+        var comps = document.createElement('div');
+        comps.className = 'mt-comps';
+        for (var k = 0; k < sf.components.length; k++) {
+          var pill = document.createElement('span');
+          pill.className = 'mt-comp-pill';
+          pill.style.backgroundColor = c;
+          pill.style.opacity = '0.6';
+          if (sp.id === 'somatoform') pill.style.color = '#2a1a00';
+          pill.textContent = sf.components[k];
+          comps.appendChild(pill);
+        }
+
+        (function(sfId, sfBar, comps) {
+          sfBar.addEventListener('click', function(e) {
+            e.stopPropagation();
+            selectedNodeId = sfId;
+            updateDetailPanel();
+            var isOpen = comps.classList.contains('open');
+            // Close sibling comps
+            var sibComps = sfBar.parentElement.querySelectorAll('.mt-comps.open');
+            for (var x = 0; x < sibComps.length; x++) sibComps[x].classList.remove('open');
+            var sibSfs = sfBar.parentElement.querySelectorAll('.mt-sf.open');
+            for (var x = 0; x < sibSfs.length; x++) sibSfs[x].classList.remove('open');
+            if (!isOpen) {
+              comps.classList.add('open');
+              sfBar.classList.add('open');
+            }
+          });
+        })(sf.id, sfBar, comps);
+
+        children.appendChild(sfBar);
+        children.appendChild(comps);
+      }
+
+      (function(specId, bar, children) {
+        bar.addEventListener('click', function() {
+          selectedNodeId = specId;
+          updateDetailPanel();
+          var isOpen = children.classList.contains('open');
+          // Close other spectra
+          var allChildren = mt.querySelectorAll('.mt-children.open');
+          for (var x = 0; x < allChildren.length; x++) allChildren[x].classList.remove('open');
+          var allBars = mt.querySelectorAll('.mt-spectrum.open');
+          for (var x = 0; x < allBars.length; x++) allBars[x].classList.remove('open');
+          if (!isOpen) {
+            children.classList.add('open');
+            bar.classList.add('open');
+          }
+        });
+      })(sp.id, bar, children);
+
+      mt.appendChild(bar);
+      mt.appendChild(children);
+    }
+  }
+
+  buildMobileTree();
 
   // Initial state
   updateDetailPanel();
