@@ -146,6 +146,12 @@
     @media (max-width: 768px) {
       .sliders-grid { grid-template-columns: 1fr; }
     }
+    @media (max-width: 480px) {
+      .form-row { flex-direction: column; gap: 0.2rem; }
+      .form-label { min-width: auto; }
+      .form-scores th,
+      .form-scores td { padding: 0.3rem 0.4rem; font-size: 0.78rem; }
+    }
   </style>
 </head>
 <body>
@@ -279,37 +285,37 @@
       </div>
       <div class="form-row">
         <span class="form-label">Date</span>
-        <span class="form-field" contenteditable="true"></span>
+        <span class="form-field" id="form-date" contenteditable="true"></span>
       </div>
 
       <h3>Scores par spectre</h3>
-      <table class="form-scores">
+      <table class="form-scores" id="form-scores-table">
         <thead>
           <tr><th>Spectre / Dimension</th><th>T-score</th><th>Interpr&eacute;tation</th></tr>
         </thead>
         <tbody>
-          <tr><td>Affect n&eacute;gatif (NA)</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-          <tr><td>Affect positif invers&eacute; (PA&darr;)</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-          <tr><td>Fear</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-          <tr><td>OCD</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-          <tr><td>Eating Pathology</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-          <tr><td>Externalisant</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-          <tr><td>Thought Disorder</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-          <tr><td>Detachment</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr data-dim="na"><td>Affect n&eacute;gatif (NA)</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr data-dim="pa"><td>Affect positif invers&eacute; (PA&darr;)</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr data-dim="fear"><td>Fear</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr data-dim="ocd"><td>OCD</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr data-dim="eat"><td>Eating Pathology</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr data-dim="ext"><td>Externalisant</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr data-dim="td"><td>Thought Disorder</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr data-dim="det"><td>Detachment</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
         </tbody>
       </table>
 
       <div class="form-row">
         <span class="form-label">Sous-facteurs dominants</span>
-        <span class="form-field" contenteditable="true"></span>
+        <span class="form-field" id="form-sousfacteurs" contenteditable="true"></span>
       </div>
       <div class="form-row">
         <span class="form-label">Trait vs &Eacute;tat</span>
-        <span class="form-field" contenteditable="true"></span>
+        <span class="form-field" id="form-traitvsetat" contenteditable="true"></span>
       </div>
       <div class="form-row">
         <span class="form-label">Hypoth&egrave;se de traitement</span>
-        <span class="form-field" contenteditable="true"></span>
+        <span class="form-field" id="form-hypothese" contenteditable="true"></span>
       </div>
       <div class="form-row">
         <span class="form-label">Plan de monitoring</span>
@@ -623,6 +629,126 @@
     document.getElementById('hypothesis-content').innerHTML = html;
   }
 
+  // ================================================================
+  // FORMULATION TEMPLATE SYNC
+  // Auto-fills the formulation template from slider values.
+  // Each contenteditable field tracks whether the user has manually
+  // edited it — if so, auto-fill stops overwriting that field.
+  // ================================================================
+  var formOverrides = {};  // keyed by element id or data-dim+col, true = user edited
+
+  function markOverride(e) {
+    var el = e.target;
+    var key = el.id || el.getAttribute('data-form-key');
+    if (key) formOverrides[key] = true;
+  }
+
+  // Attach override listeners to all formulation contenteditable fields
+  document.querySelectorAll('#form-scores-table td[contenteditable], #form-date, #form-sousfacteurs, #form-traitvsetat, #form-hypothese').forEach(function(el) {
+    // Assign data-form-key to score table cells that lack ids
+    if (!el.id) {
+      var row = el.closest('tr');
+      var dim = row ? row.getAttribute('data-dim') : '';
+      var colIndex = Array.prototype.indexOf.call(el.parentElement.children, el);
+      var colName = colIndex === 1 ? 'tscore' : 'interp';
+      var key = 'form-score-' + dim + '-' + colName;
+      el.setAttribute('data-form-key', key);
+    }
+    el.addEventListener('input', markOverride);
+  });
+
+  function sevLabel(v) {
+    if (v > 75) return 'S\u00e9v\u00e8re';
+    if (v > 65) return 'Clinique';
+    if (v >= 55) return '\u00c9lev\u00e9';
+    return 'Normal';
+  }
+
+  function setIfNotOverridden(el, text) {
+    var key = el.id || el.getAttribute('data-form-key');
+    if (key && formOverrides[key]) return;
+    el.textContent = text;
+  }
+
+  function syncFormulation(vals) {
+    // 1. Date — auto-fill with today
+    var dateEl = document.getElementById('form-date');
+    if (dateEl) {
+      var now = new Date();
+      var yyyy = now.getFullYear();
+      var mm = String(now.getMonth() + 1).padStart(2, '0');
+      var dd = String(now.getDate()).padStart(2, '0');
+      setIfNotOverridden(dateEl, yyyy + '-' + mm + '-' + dd);
+    }
+
+    // 2. Scores table — T-score and interpretation columns
+    var table = document.getElementById('form-scores-table');
+    if (table) {
+      dims.forEach(function(d) {
+        var row = table.querySelector('tr[data-dim="' + d.id + '"]');
+        if (!row) return;
+        var cells = row.querySelectorAll('td[contenteditable]');
+        if (cells.length >= 2) {
+          setIfNotOverridden(cells[0], String(vals[d.id]));
+          setIfNotOverridden(cells[1], sevLabel(vals[d.id]));
+        }
+      });
+    }
+
+    // 3. Sous-facteurs dominants — elevated dimensions sorted by score
+    var sfEl = document.getElementById('form-sousfacteurs');
+    if (sfEl) {
+      var elevated = dims.map(function(d) { return { id: d.id, label: d.label, val: vals[d.id] }; })
+        .filter(function(e) { return e.val >= 55; })
+        .sort(function(a, b) { return b.val - a.val; });
+      var sfText = elevated.length > 0
+        ? elevated.map(function(e) { return e.label + ' (T\u00a0=\u00a0' + e.val + ')'; }).join(', ')
+        : 'Aucun (\u2264\u00a054)';
+      setIfNotOverridden(sfEl, sfText);
+    }
+
+    // 4. Trait vs État — list mode per dimension
+    var teEl = document.getElementById('form-traitvsetat');
+    if (teEl) {
+      var traitDims = [];
+      var stateDims = [];
+      dims.forEach(function(d) {
+        if (vals[d.id] >= 55) {
+          if (modes[d.id] === 'trait') {
+            traitDims.push(d.label);
+          } else {
+            stateDims.push(d.label);
+          }
+        }
+      });
+      var parts = [];
+      if (traitDims.length > 0) parts.push('Trait\u00a0: ' + traitDims.join(', '));
+      if (stateDims.length > 0) parts.push('\u00c9tat\u00a0: ' + stateDims.join(', '));
+      var teText = parts.length > 0 ? parts.join(' \u2014 ') : 'Aucune dimension \u00e9lev\u00e9e';
+      setIfNotOverridden(teEl, teText);
+    }
+
+    // 5. Hypothèse de traitement — primary target from hypothesis panel
+    var hypEl = document.getElementById('form-hypothese');
+    if (hypEl) {
+      var sorted = dims.map(function(d) { return { id: d.id, label: d.label, val: vals[d.id] }; })
+        .sort(function(a, b) { return b.val - a.val; });
+      var primary = sorted.filter(function(e) { return e.val >= 55; });
+      var hypText;
+      if (primary.length === 0) {
+        hypText = 'Aucune dimension \u00e9lev\u00e9e';
+      } else {
+        var g = guidance[primary[0].id];
+        var gName = g ? g.name : primary[0].label;
+        hypText = 'Cible principale\u00a0: ' + gName + ' (T\u00a0=\u00a0' + primary[0].val + ')';
+        if (primary.length > 1) {
+          hypText += ' + ' + (primary.length - 1) + ' dimension' + (primary.length > 2 ? 's' : '') + ' \u00e9lev\u00e9e' + (primary.length > 2 ? 's' : '');
+        }
+      }
+      setIfNotOverridden(hypEl, hypText);
+    }
+  }
+
   function update() {
     var vals = getValues();
     dims.forEach(function(d) {
@@ -630,6 +756,7 @@
     });
     renderChart(vals);
     renderHypothesis(vals);
+    syncFormulation(vals);
     // Show PA↓/Detachment note only when relevant
     var paDetNote = document.getElementById('pa-det-note');
     if (paDetNote) {

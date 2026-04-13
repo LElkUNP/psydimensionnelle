@@ -78,6 +78,24 @@
     /* Facet sub-rows */
     .facet-row td { font-size: 0.8rem; color: var(--mid); padding-left: 2rem !important; }
     .domain-header td { font-weight: 600; background: rgba(0,64,113,0.03); }
+
+    /* Responsive: make ffm tables scrollable */
+    .ffm-section .data-table,
+    .pid5-section .data-table { min-width: 560px; }
+
+    @media (max-width: 768px) {
+      .node-detail { padding: 1rem; }
+      .continuum-labels { font-size: 0.75rem; }
+      .facet-row td { padding-left: 1rem !important; }
+    }
+    @media (max-width: 480px) {
+      .tree-node { font-size: 0.82rem; padding: 0.3rem 0.5rem; }
+      .tree-node.pfactor-node { padding: 0.4rem 0.7rem; }
+      .tree ul { padding-left: 1rem; }
+      .node-detail { padding: 0.8rem; }
+      .node-detail .detail-label { font-size: 0.68rem; }
+      .continuum-labels { font-size: 0.7rem; }
+    }
   </style>
 </head>
 <body>
