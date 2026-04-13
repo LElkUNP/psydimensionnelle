@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cas cliniques — R3 Psychiatrie dimensionnelle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo"><a href="index.html">R3 — Psychiatrie dimensionnelle</a></div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="c1/index.html">C1</a>
+    <a href="c2/index.html">C2</a>
+    <a href="hitop.html">HiTOP</a>
+    <a href="circuits.html">Circuits</a>
+    <a href="pharma.html">Pharma</a>
+    <a href="cases.html" class="active">Cas</a>
+    <a href="readings.html">Lectures</a>
+    <a href="glossary.html">Glossaire</a>
+    <a href="tools.html">Outils</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Cas cliniques</h1>
+    <div class="subtitle">Vignettes avec formulation DSM vs HiTOP</div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="tous">Tous</button>
+    <button class="filter-btn" data-filter="c1">C1</button>
+    <button class="filter-btn" data-filter="c2">C2</button>
+    <button class="filter-btn" data-filter="mss">MSS</button>
+    <button class="filter-btn" data-filter="fil-rouge">Fil rouge</button>
+    <button class="filter-btn" data-filter="anhedonie">Anh&eacute;donie</button>
+    <button class="filter-btn" data-filter="fear">Fear</button>
+    <button class="filter-btn" data-filter="ocd">OCD</button>
+  </div>
+
+  <!-- Case 0: C1 vignette d'ouverture -->
+  <div class="case-card" data-filter="c1 internalizing depression anxiety">
+    <h3>Femme, 34 ans</h3>
+    <div class="case-meta">Vignette d'ouverture C1 &middot; Psychiatrie dimensionnelle</div>
+
+    <p style="font-size:0.88rem; margin-bottom:0.8rem;">
+      Fatigue &times; 6 semaines, concentration &darr;, insomnie terminale, anh&eacute;donie, rumination constante. Contexte : rupture amoureuse + conflit au travail. PHQ-9 = 18 (s&eacute;v&egrave;re).
+    </p>
+
+    <div class="dx-compare">
+      <div class="dx-col">
+        <h4 style="color:var(--red);">DSM</h4>
+        <ul>
+          <li>&Eacute;pisode d&eacute;pressif majeur</li>
+          <li>Trouble d'adaptation ?</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--mid); margin-top:0.4rem;">O&ugrave; tracer la ligne entre adaptation et d&eacute;pression ?</p>
+      </div>
+      <div class="dx-col">
+        <h4 style="color:var(--green);">HiTOP</h4>
+        <ul>
+          <li>Internalisant : Distress &eacute;lev&eacute; (NA&uarr;)</li>
+          <li>PA&darr; (anh&eacute;donie)</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--mid); margin-top:0.4rem;">Le DSM donne un code. Les circuits donnent un m&eacute;canisme. HiTOP donne un profil.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:0.8rem; padding:0.8rem; background:var(--cream); border-radius:var(--radius); font-size:0.85rem;">
+      <strong style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--navy);">QUESTION CL&Eacute;</strong><br>
+      &laquo; Est-ce qu'elle a un trouble mental &mdash; oui ou non ? Et surtout : comment le savez-vous ? &raquo;
+    </div>
+  </div>
+
+  <!-- Case 1: Maya -->
+  <div class="case-card" data-filter="c2 fil-rouge ocd">
+    <h3>Maya, 24 ans</h3>
+    <div class="case-meta">Fil conducteur C2 &middot; Elkrief et al. (MSS)</div>
+
+    <p style="font-size:0.88rem; margin-bottom:0.8rem;">
+      &Eacute;tudiante aux cycles sup&eacute;rieurs. Anxi&eacute;t&eacute; croissante, humeur basse, pens&eacute;es intrusives de contamination &rarr; rituels de v&eacute;rification/lavage 2h/j. Perfectionnisme et rigidit&eacute; de longue date. Restriction alimentaire + insatisfaction corporelle (sous-seuil DSM pour TCA).
+    </p>
+
+    <div class="dx-compare">
+      <div class="dx-col">
+        <h4 style="color:var(--red);">DSM</h4>
+        <ul>
+          <li>TOC</li>
+          <li>TAG</li>
+          <li>EDM</li>
+          <li>TCA possible</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--mid); margin-top:0.4rem;">= 4 diagnostics</p>
+      </div>
+      <div class="dx-col">
+        <h4 style="color:var(--green);">HiTOP</h4>
+        <ul>
+          <li>Internalisant s&eacute;v&egrave;re</li>
+          <li>OC dominant &gt; Distress &gt; Fear</li>
+          <li>Eating sous-seuil</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--mid); margin-top:0.4rem;">Y-BOCS 22, PHQ-9 14, GAD-7 16, EDE-Q &eacute;lev&eacute;</p>
+      </div>
+    </div>
+
+    <div style="margin-top:0.8rem; padding:0.8rem; background:var(--cream); border-radius:var(--radius); font-size:0.85rem;">
+      <strong style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--navy);">PLAN</strong><br>
+      ISRS haute dose + ERP &rarr; r&eacute;&eacute;valuer Distress &rarr; psychoth&eacute;rapie traits (perfectionnisme, rigidit&eacute;) &rarr; monitoring eating
+    </div>
+  </div>
+
+  <!-- Case 2: Ruggero 2019 -->
+  <div class="case-card" data-filter="c2 fear">
+    <h3>Ruggero 2019</h3>
+    <div class="case-meta">Journal of Consulting and Clinical Psychology, 87(12), 1069-1084</div>
+
+    <p style="font-size:0.88rem; margin-bottom:0.8rem;">
+      Femme, 27 ans. Isolement social progressif. Historique de trauma interpersonnel. Humeur d&eacute;pressive chronique, hypervigilance, &eacute;vitement social, crises de panique, automutilation non-suicidaire, instabilit&eacute; relationnelle.
+    </p>
+
+    <div class="dx-compare">
+      <div class="dx-col">
+        <h4 style="color:var(--red);">DSM</h4>
+        <ul>
+          <li>MDD</li>
+          <li>TSPT</li>
+          <li>Phobie sociale</li>
+          <li>Trouble panique</li>
+          <li>TPL provisoire</li>
+          <li>Personnalit&eacute; &eacute;vitante</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--mid); margin-top:0.4rem;">= 6 diagnostics</p>
+      </div>
+      <div class="dx-col">
+        <h4 style="color:var(--green);">HiTOP</h4>
+        <ul>
+          <li>Internalisant 98e percentile</li>
+          <li>Antagoniste externalisant 92e percentile</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--mid); margin-top:0.4rem;">2 spectres, 1 profil coh&eacute;rent</p>
+      </div>
+    </div>
+
+    <div style="margin-top:0.8rem; padding:0.8rem; background:var(--cream); border-radius:var(--radius); font-size:0.85rem;">
+      <strong style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--navy);">&Eacute;VALUATION</strong><br>
+      PID-5-BF &rarr; IDAS-II &rarr; ESI-BF &rarr; profil
+    </div>
+
+    <div style="margin-top:0.5rem; padding:0.8rem; background:var(--cream); border-radius:var(--radius); font-size:0.85rem;">
+      <strong style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--navy);">PLAN</strong><br>
+      Protocole Unifi&eacute; + techniques interpersonnelles cibl&eacute;es
+    </div>
+  </div>
+
+  <!-- Case 3: Thomas -->
+  <div class="case-card" data-filter="c2 anhedonie">
+    <h3>Thomas, 45 ans</h3>
+    <div class="case-meta">Anh&eacute;donie dominante &middot; C2 Section 6</div>
+
+    <p style="font-size:0.88rem; margin-bottom:0.8rem;">
+      Divorce r&eacute;cent. PHQ-9 = 20. Mot-cl&eacute; : &laquo; rien &raquo;. Ne pleure pas, ne ressent pas de tristesse intense &mdash; juste l'absence. Perte d'int&eacute;r&ecirc;t pour ses enfants, son travail, la nourriture.
+    </p>
+
+    <div class="dx-compare">
+      <div class="dx-col">
+        <h4 style="color:var(--red);">DSM</h4>
+        <ul>
+          <li>MDD s&eacute;v&egrave;re</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--mid); margin-top:0.4rem;">= 1 diagnostic</p>
+      </div>
+      <div class="dx-col">
+        <h4 style="color:var(--green);">HiTOP</h4>
+        <ul>
+          <li>Distress (NA mod&eacute;r&eacute;)</li>
+          <li>PA&darr;&darr; dominant</li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--mid); margin-top:0.4rem;">Le probl&egrave;me principal n'est pas la tristesse mais l'anh&eacute;donie</p>
+      </div>
+    </div>
+
+    <div style="margin-top:0.8rem; padding:0.8rem; background:var(--cream); border-radius:var(--radius); font-size:0.85rem;">
+      <strong style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--navy);">PLAN</strong><br>
+      ISRS &rarr; surveiller PA (SHAPS) &rarr; si PA&darr; persiste : pivot bupropion / venlafaxine NE-dose / k&eacute;tamine
+    </div>
+  </div>
+
+  <!-- Case 4: MSS — MII + corticostéroïdes -->
+  <div class="case-card" data-filter="mss">
+    <h3>Cas MSS &mdash; MII + corticost&eacute;ro&iuml;des</h3>
+    <div class="case-meta">MSS Supplement &middot; Elkrief et al.</div>
+
+    <p style="font-size:0.88rem; margin-bottom:0.8rem;">
+      Homme, 32 ans, maladie inflammatoire intestinale (Crohn) sous prednisone 40mg depuis 3 semaines. Insomnie, agitation, pens&eacute;es de grandeur, irritabilit&eacute;, PHQ-9 = 18 (items somatiques gonfl&eacute;s par la maladie et les corticost&eacute;ro&iuml;des).
+    </p>
+
+    <div style="margin-top:0.8rem; padding:0.8rem; background:rgba(192,57,43,0.06); border-radius:var(--radius); border-left:3px solid var(--red); font-size:0.85rem;">
+      <strong style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--red);">LE&Ccedil;ON</strong><br>
+      PHQ-9 gonfl&eacute; par le somatique. Distinguer trait vs &eacute;tat (corticost&eacute;ro&iuml;des = &eacute;tat). La dimension active n'est pas l'internalisant mais le psychoticisme (pens&eacute;es de grandeur, d&eacute;sorganisation).
+    </div>
+
+    <div style="margin-top:0.5rem; padding:0.8rem; background:var(--cream); border-radius:var(--radius); font-size:0.85rem;">
+      <strong style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--navy);">PLAN</strong><br>
+      R&eacute;duire prednisone, r&eacute;&eacute;valuer &agrave; 2 semaines. Ne pas traiter le PHQ-9 comme une d&eacute;pression.
+    </div>
+  </div>
+
+  <!-- Case 5: MSS — Réfugié -->
+  <div class="case-card" data-filter="mss">
+    <h3>Cas MSS &mdash; R&eacute;fugi&eacute;e</h3>
+    <div class="case-meta">MSS Supplement &middot; Elkrief et al.</div>
+
+    <p style="font-size:0.88rem; margin-bottom:0.8rem;">
+      Femme, 38 ans, r&eacute;fugi&eacute;e syrienne. Cauchemars, hypervigilance, douleurs diffuses, pr&eacute;occupations somatiques multiples. R&eacute;f&eacute;r&eacute;e pour &laquo; d&eacute;pression r&eacute;sistante &raquo; apr&egrave;s 2 essais ISRS sans r&eacute;ponse.
+    </p>
+
+    <div style="margin-top:0.8rem; padding:0.8rem; background:rgba(192,57,43,0.06); border-radius:var(--radius); border-left:3px solid var(--red); font-size:0.85rem;">
+      <strong style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--red);">LE&Ccedil;ON</strong><br>
+      La formulation cat&eacute;gorielle (MDD) a retard&eacute; le traitement. Les ISRS n'ont pas fonctionn&eacute; parce que le probl&egrave;me principal est Fear/Threat (TSPT), pas Distress. L'effet iatrog&egrave;ne des ISRS (activation, insomnie) &eacute;tait invisible en cat&eacute;goriel.
+    </div>
+
+    <div style="margin-top:0.5rem; padding:0.8rem; background:var(--cream); border-radius:var(--radius); font-size:0.85rem;">
+      <strong style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--navy);">PLAN</strong><br>
+      Reformuler en Fear dominant (menace soutenue). Psychoth&eacute;rapie trauma-focused. R&eacute;&eacute;valuer pharmacologie avec profil dimensionnel.
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const btns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.case-card');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.getAttribute('data-filter');
+      cards.forEach(card => {
+        if (f === 'tous') {
+          card.style.display = '';
+        } else {
+          const tags = card.getAttribute('data-filter') || '';
+          card.style.display = tags.split(/\s+/).includes(f) ? '' : 'none';
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

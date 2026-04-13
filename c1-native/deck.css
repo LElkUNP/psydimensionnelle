@@ -1,0 +1,728 @@
+/* ── UNP Native Deck Theme ─────────────────────────────────────── */
+/* Laboratoire UNP · Université de Montréal / CRCHUM              */
+/* Fixed canvas: 1600 × 900 px (16:9) · Scaled by JS              */
+/* ─────────────────────────────────────────────────────────────── */
+/* PPTX: 13.33 × 7.50" @ 120 PPI = 1600 × 900                    */
+/* 1 PPTX pt = 1.67 CSS px                                        */
+/* ─────────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+
+:root {
+  --navy:    #004071;
+  --sky:     #418FDE;
+  --green:   #4A8C1C;
+  --gold:    #B9975B;
+  --cream:   #FAF8F5;
+  --white:   #FFFFFF;
+  --dark:    #222222;
+  --mid-gray:#787878;
+  --light-gray:#C8C8C8;
+
+  --font-title: 'Instrument Serif', serif;
+  --font-body:  'DM Sans', sans-serif;
+  --font-mono:  'DM Mono', monospace;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font-body);
+  background: #111;
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Deck container ────────────────────────────────────────────── */
+.deck {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Slide base ────────────────────────────────────────────────── */
+.slide {
+  position: absolute;
+  width: 1600px;
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease;
+  overflow: hidden;
+  background: var(--cream);
+  transform-origin: center center;
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+.slide.exiting {
+  opacity: 0;
+  visibility: visible;
+  z-index: 1;
+}
+
+/* ── Notes (hidden in slide view) ──────────────────────────────── */
+.slide .notes,
+.slide aside.notes { display: none; }
+
+/* ── Progress bar ──────────────────────────────────────────────── */
+.deck-progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--gold);
+  z-index: 100;
+  transition: width 0.3s ease;
+}
+
+/* ── Slide counter ─────────────────────────────────────────────── */
+.deck-counter {
+  position: fixed;
+  bottom: 8px;
+  right: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--mid-gray);
+  z-index: 100;
+  opacity: 0.6;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SLIDE TYPES
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Title slide ───────────────────────────────────────────────── */
+.slide--title {
+  background: var(--navy);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px;
+}
+.slide--title .logos {
+  position: absolute;
+  top: 45px;
+  right: 80px;
+  display: flex;
+  gap: 16px;
+}
+.slide--title .logos img {
+  height: 72px;
+  object-fit: contain;
+}
+.slide--title h1 {
+  font-family: var(--font-title);
+  color: var(--white);
+  font-size: 60px;      /* ~36pt title slide */
+  font-weight: 400;
+  line-height: 1.15;
+  max-width: 80%;
+}
+.slide--title .gold-bar {
+  width: 176px;
+  height: 4px;
+  background: var(--gold);
+  margin: 14px auto;
+}
+.slide--title .subtitle {
+  font-family: var(--font-body);
+  color: var(--sky);
+  font-size: 25px;      /* 15pt = 25px */
+  font-weight: 300;
+  margin-top: 5px;
+}
+.slide--title .author {
+  font-family: var(--font-body);
+  color: var(--white);
+  font-size: 20px;      /* 12pt = 20px */
+  font-weight: 400;
+  margin-top: 18px;
+  opacity: 0.85;
+}
+.slide--title .author .role {
+  font-weight: 300;
+  opacity: 0.7;
+}
+
+/* ── Section transition slide ──────────────────────────────────── */
+.slide--section {
+  background: var(--navy);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 160px;
+}
+.slide--section .section-label {
+  font-family: var(--font-mono);
+  color: var(--gold);
+  font-size: 18px;      /* ~11pt */
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.slide--section h1 {
+  font-family: var(--font-title);
+  color: var(--white);
+  font-size: 50px;      /* ~30pt */
+  font-weight: 400;
+  line-height: 1.2;
+  max-width: 80%;
+}
+.slide--section .gold-bar {
+  width: 60px;
+  height: 3px;
+  background: var(--gold);
+  margin: 18px auto;
+}
+.slide--section p {
+  color: var(--sky);
+  font-size: 25px;      /* 15pt = 25px */
+  font-weight: 300;
+  max-width: 70%;
+  line-height: 1.45;
+  margin-top: 8px;
+}
+
+/* ── Content slide (standard) ──────────────────────────────────── */
+/* PPTX: header=108px, accent=7px, body=144→684, footer=684→840   */
+.slide--content { display: flex; flex-direction: column; }
+
+.slide__header {
+  background: var(--navy);
+  padding: 14px 84px;
+  height: 108px;             /* PPTX: 108px exact */
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.slide__header h1 {
+  font-family: var(--font-title);
+  color: var(--white);
+  font-size: 53px;           /* PPTX: 32pt = 53px */
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.slide__accent {
+  width: 144px;              /* PPTX: 144px */
+  height: 7px;               /* PPTX: 7px */
+  background: var(--green);
+  margin-left: 84px;
+  flex-shrink: 0;
+}
+
+.slide__body {
+  flex: 1;
+  padding: 16px 84px 12px;  /* PPTX margin: 84px sides */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+.slide__footer {
+  background: var(--navy);
+  padding: 18px 84px;
+  min-height: 156px;         /* PPTX: 156px */
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--white);
+  font-size: 22px;           /* PPTX: 13pt=22px base, up to 20pt=33px */
+  line-height: 1.45;
+}
+.slide__footer p {
+  color: var(--white);
+  font-size: 22px;
+  line-height: 1.45;
+}
+/* Side-by-side footer items (multiple PPTX shapes on same row) */
+.slide__footer .footer-row {
+  display: flex;
+  gap: 32px;
+  align-items: baseline;
+}
+.slide__footer .footer-row span {
+  flex: 1;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CONTENT COMPONENTS
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Card ──────────────────────────────────────────────────────── */
+/* PPTX card: 1432px wide, 114–480px tall, text 15–20pt            */
+.card {
+  background: var(--white);
+  border-radius: 6px;
+  padding: 16px 32px;
+  border-left: 5px solid var(--sky);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.card h2 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 25px;           /* PPTX: 15pt = 25px */
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.card p, .card li {
+  font-size: 22px;           /* PPTX: 12-15pt = 20-25px, using 13pt avg */
+  line-height: 1.45;
+  color: var(--dark);
+}
+.card ul, .card ol { padding-left: 1.2em; }
+.card ul { list-style: none; }
+.card ul li { position: relative; padding-left: 16px; }
+.card ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sky);
+}
+.card .label {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mid-gray);
+}
+.card .highlight {
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* Card color variants */
+.card--sky    { border-left-color: var(--sky); }
+.card--gold   { border-left-color: var(--gold); }
+.card--green  { border-left-color: var(--green); }
+.card--navy   { border-left-color: var(--navy); }
+.card--purple { border-left-color: #7B1FA2; }
+.card--amber  { border-left-color: #FF8F00; }
+.card--hotpink{ border-left-color: #E91E63; }
+.card--red    { border-left-color: #C62828; }
+.card--salmon { border-left-color: #E57373; }
+.card--orange { border-left-color: #EF6C00; }
+.card--teal   { border-left-color: #00838F; }
+.card--midgreen{border-left-color: #388E3C; }
+.card--slate  { border-left-color: #546E7A; }
+.card--deeppurple{border-left-color: #4A148C; }
+.card--crimson{ border-left-color: #B71C1C; }
+.card--gray   { border-left-color: #9E9E9E; }
+
+/* ── Row card ──────────────────────────────────────────────────── */
+/* PPTX: 1432×114px, number=23pt=38px, title=15pt=25px, desc=12pt=20px */
+.row-card {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  align-items: start;
+  background: var(--white);
+  border-radius: 6px;
+  padding: 14px 32px;
+  border-left: 5px solid var(--sky);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.row-card__num {
+  font-family: var(--font-mono);
+  font-size: 38px;           /* PPTX: 23pt = 38px */
+  color: var(--navy);
+  text-align: center;
+  line-height: 1;
+  padding-top: 2px;
+}
+.row-card__title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 25px;           /* PPTX: 15pt = 25px */
+  color: var(--navy);
+}
+.row-card__desc {
+  font-size: 20px;           /* PPTX: 12pt = 20px */
+  color: var(--dark);
+  line-height: 1.4;
+}
+
+/* Row card color variants */
+.row-card--sky    { border-left-color: var(--sky); }
+.row-card--gold   { border-left-color: var(--gold); }
+.row-card--green  { border-left-color: var(--green); }
+.row-card--navy   { border-left-color: var(--navy); }
+.row-card--purple { border-left-color: #7B1FA2; }
+.row-card--amber  { border-left-color: #FF8F00; }
+.row-card--teal   { border-left-color: #00838F; }
+.row-card--red    { border-left-color: #C62828; }
+
+/* ── Columns ───────────────────────────────────────────────────── */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+}
+.cols--3 { grid-template-columns: 1fr 1fr 1fr; }
+.cols--uneven { grid-template-columns: 1fr 2fr; }
+.cols:has(.connector) { grid-template-columns: 1fr auto 1fr; }
+
+.text-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Connector ─────────────────────────────────────────────────── */
+.connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;           /* PPTX: 30pt = 50px */
+  font-weight: 600;
+  color: var(--navy);
+}
+
+/* ── Quote ──────────────────────────────────────────────────────── */
+/* PPTX: 18pt = 30px, gold left border */
+.quote, blockquote {
+  background: var(--white);
+  border-left: 5px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  padding: 20px 40px;
+  font-style: italic;
+  font-size: 28px;           /* PPTX: 18pt = 30px (slightly smaller for line wrap) */
+  line-height: 1.5;
+  color: var(--dark);
+}
+.quote .attr, blockquote .attr {
+  font-size: 18px;           /* PPTX: 11pt = 18px */
+  font-family: var(--font-mono);
+  font-style: normal;
+  color: var(--mid-gray);
+  margin-top: 10px;
+  display: block;
+}
+
+/* ── Tables ────────────────────────────────────────────────────── */
+.deck-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 17px;
+  line-height: 1.4;
+}
+.deck-table th {
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 12px;
+  text-align: left;
+}
+.deck-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #e0dcd4;
+  vertical-align: top;
+}
+.deck-table tr:nth-child(even) td {
+  background: rgba(0,0,0,0.02);
+}
+.deck-table td:first-child {
+  font-weight: 600;
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+/* ── Key point ─────────────────────────────────────────────────── */
+.key-point {
+  background: #e8f5e9;
+  border-left: 5px solid var(--green);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 32px;
+  color: #1b5e20;
+  font-weight: 500;
+  font-size: 22px;           /* ~13pt */
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+/* ── Timeline ──────────────────────────────────────────────────── */
+/* PPTX: pills 336×60px each, year 13pt=22px bold, desc 11pt=18px  */
+.timeline {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.pill {
+  background: var(--navy);
+  border-radius: 6px;
+  padding: 12px 18px;
+  flex: 1;
+  min-width: 0;
+}
+.pill strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 22px;           /* PPTX: 13pt = 22px */
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.pill .pill-desc, .pill span {
+  font-size: 18px;           /* PPTX: 11pt = 18px */
+  color: var(--white);
+  line-height: 1.35;
+}
+.arrow {
+  display: flex;
+  align-items: center;
+  color: var(--mid-gray);
+  font-size: 22px;
+}
+
+/* ── Image frame ───────────────────────────────────────────────── */
+/* PPTX: images are typically 456×360 (anatomy) or 1476×720 (full) */
+.img-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  overflow: hidden;
+  flex: 1;               /* Fill available space in body/cols */
+  min-height: 0;
+}
+.img-frame img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.img-frame--full {
+  flex: 2;
+  min-height: 300px;
+}
+/* Stack two images vertically in cols--uneven left column */
+.img-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+}
+.img-stack .img-frame {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Source line ────────────────────────────────────────────────── */
+/* PPTX: 9pt = 15px */
+.source-line {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--mid-gray);
+  flex-shrink: 0;
+  padding: 3px 0;
+}
+
+/* ── Dense slides ──────────────────────────────────────────────── */
+/* For slides with many elements — tighter spacing, smaller text   */
+.slide--dense .slide__body {
+  gap: 5px;
+  padding-top: 10px;
+  padding-bottom: 6px;
+}
+.slide--dense .card {
+  padding: 8px 24px;
+}
+.slide--dense .card h2 { font-size: 20px; }
+.slide--dense .card p, .slide--dense .card li { font-size: 18px; }
+.slide--dense .row-card { padding: 8px 24px; }
+.slide--dense .row-card__num { font-size: 30px; }
+.slide--dense .row-card__title { font-size: 20px; }
+.slide--dense .row-card__desc { font-size: 17px; }
+.slide--dense .cols { gap: 10px; }
+
+/* ══════════════════════════════════════════════════════════════════
+   PROGRESSIVE BUILDS
+   ══════════════════════════════════════════════════════════════════ */
+.build {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.build.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   OVERVIEW MODE
+   ══════════════════════════════════════════════════════════════════ */
+body.overview-mode {
+  overflow: auto;
+}
+body.overview-mode .deck {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+  padding: 1.2rem;
+  width: 100%;
+  height: auto;
+  overflow-y: auto;
+}
+body.overview-mode .slide {
+  position: relative;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  transform: none !important;
+  opacity: 1;
+  visibility: visible;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+body.overview-mode .slide:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+body.overview-mode .slide.active {
+  box-shadow: 0 0 0 3px var(--gold), 0 4px 16px rgba(0,0,0,0.25);
+}
+body.overview-mode .slide--content .slide__body {
+  overflow: hidden;
+}
+body.overview-mode .deck-progress,
+body.overview-mode .deck-counter {
+  display: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   EDIT MODE
+   ══════════════════════════════════════════════════════════════════ */
+.deck-home-btn {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 9999;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.3;
+  transition: opacity 0.2s, background 0.2s;
+  line-height: 1;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.deck-home-btn:hover {
+  opacity: 1;
+  background: var(--navy);
+}
+
+.deck-edit-btn {
+  position: fixed;
+  top: 12px;
+  left: 56px;
+  z-index: 9999;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.3;
+  transition: opacity 0.2s, background 0.2s;
+  line-height: 1;
+}
+.deck-edit-btn:hover {
+  opacity: 1;
+  background: var(--gold);
+}
+.edit-mode .deck-edit-btn {
+  opacity: 1;
+  background: #e53935;
+}
+.deck-edit-badge {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 9999;
+  background: #e53935;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+.edit-mode [contenteditable] {
+  outline: 1px dashed rgba(185,151,91,0.4);
+  outline-offset: 2px;
+  cursor: text;
+  transition: outline-color 0.15s;
+}
+.edit-mode [contenteditable]:focus {
+  outline-color: var(--gold);
+  background: rgba(185,151,91,0.06);
+}
+.edit-mode [contenteditable]:hover {
+  outline-color: rgba(185,151,91,0.7);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PRINT STYLESHEET
+   ══════════════════════════════════════════════════════════════════ */
+@media print {
+  body { overflow: visible; background: white; }
+  .deck { display: block; width: auto; height: auto; }
+  .slide {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+    min-height: 7in;
+    page-break-after: always;
+    page-break-inside: avoid;
+    border: 1px solid #ddd;
+    margin-bottom: 0.5in;
+  }
+  .slide .notes,
+  .slide aside.notes {
+    display: block;
+    background: #f5f5f5;
+    padding: 0.5in;
+    font-size: 10pt;
+    line-height: 1.5;
+    border-top: 2px solid var(--navy);
+    page-break-inside: avoid;
+  }
+  .deck-progress, .deck-counter { display: none; }
+}

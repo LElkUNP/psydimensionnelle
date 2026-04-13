@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outils — R3 Psychiatrie dimensionnelle</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .tool-section {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .tool-section h2 { margin-top: 0; }
+
+    .sliders-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem 2rem;
+    }
+
+    .hypothesis-panel {
+      background: var(--cream);
+      border-left: 4px solid var(--sky);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin-top: 1.5rem;
+    }
+    .hypothesis-panel h3 {
+      margin-top: 0;
+      font-size: 1rem;
+    }
+    .hyp-target {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--navy);
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+    .hyp-item {
+      font-size: 0.85rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .hyp-item:last-child { border-bottom: none; }
+    .hyp-dim {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Formulation template */
+    .form-template {
+      margin-top: 1rem;
+    }
+    .form-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      margin: 0.6rem 0;
+      font-size: 0.9rem;
+    }
+    .form-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--navy);
+      font-weight: 600;
+      min-width: 180px;
+      flex-shrink: 0;
+    }
+    .form-field {
+      flex: 1;
+      border-bottom: 1px solid var(--mid);
+      min-height: 1.4em;
+      padding: 0.1rem 0;
+    }
+    .form-scores {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 0.6rem 0;
+    }
+    .form-scores th {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      text-align: left;
+      padding: 0.4rem 0.6rem;
+      border-bottom: 2px solid var(--navy);
+      color: var(--navy);
+    }
+    .form-scores td {
+      padding: 0.4rem 0.6rem;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .btn-print {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      padding: 0.5rem 1.5rem;
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: opacity 0.15s;
+    }
+    .btn-print:hover { opacity: 0.85; }
+
+    @media print {
+      .site-header, .hero, .tool-section:first-of-type, .btn-print { display: none; }
+      .page { max-width: 100%; padding: 0; }
+      .tool-section { box-shadow: none; border: 1px solid #ccc; }
+      .form-field { border-bottom: 1px solid #000; }
+    }
+
+    .trait-toggle {
+      display: inline-flex;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      border: 1px solid var(--light-gray);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+    .trait-toggle span {
+      padding: 0.1rem 0.4rem;
+      cursor: pointer;
+      color: var(--mid);
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .trait-toggle span.active {
+      background: var(--navy);
+      color: white;
+    }
+    .trait-toggle span:hover:not(.active) {
+      background: rgba(0,64,113,0.08);
+    }
+
+    @media (max-width: 768px) {
+      .sliders-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo"><a href="index.html">R3 — Psychiatrie dimensionnelle</a></div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="c1/index.html">C1</a>
+    <a href="c2/index.html">C2</a>
+    <a href="hitop.html">HiTOP</a>
+    <a href="circuits.html">Circuits</a>
+    <a href="pharma.html">Pharma</a>
+    <a href="cases.html">Cas</a>
+    <a href="readings.html">Lectures</a>
+    <a href="glossary.html">Glossaire</a>
+    <a href="tools.html">Outils</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Outils</h1>
+    <div class="subtitle">Profil dimensionnel interactif + gabarit de formulation</div>
+  </div>
+
+  <!-- Profile Builder -->
+  <div class="tool-section">
+    <h2>Profile Builder</h2>
+
+    <div style="margin-bottom:1rem;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--mid);margin-right:0.5rem;">Cas pr&eacute;d&eacute;finis :</span>
+      <button class="filter-btn" onclick="loadPreset('maya')">Maya (OCD&gt;Distress&gt;Fear)</button>
+      <button class="filter-btn" onclick="loadPreset('thomas')">Thomas (PA&darr; dominant)</button>
+      <button class="filter-btn" onclick="loadPreset('ruggero')">Ruggero 2019 (Int+Ext)</button>
+      <button class="filter-btn" onclick="loadPreset('reset')">R&eacute;initialiser</button>
+    </div>
+
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.8rem;font-family:'DM Mono',monospace;font-size:0.68rem;">
+      <span><span style="display:inline-block;width:12px;height:12px;background:var(--green);border-radius:2px;vertical-align:middle;"></span> &lt;55 normal</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:var(--gold);border-radius:2px;vertical-align:middle;"></span> 55-65 &eacute;lev&eacute;</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:var(--navy);border-radius:2px;vertical-align:middle;"></span> 65-75 clinique</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:var(--red);border-radius:2px;vertical-align:middle;"></span> &gt;75 s&eacute;v&egrave;re</span>
+      <span style="color:var(--mid);margin-left:0.5rem;">&mdash; T-score : 50 = moyenne, 60 = 1 &Eacute;T, 70 = 2 &Eacute;T</span>
+    </div>
+
+    <div class="sliders-grid" id="sliders-container">
+      <div class="slider-group">
+        <label>Affect n&eacute;gatif (NA) <span class="val" id="val-na">T = 50</span>
+          <span class="trait-toggle" id="toggle-na"><span class="active" data-mode="state" onclick="setMode('na','state',this)">&Eacute;tat</span><span data-mode="trait" onclick="setMode('na','trait',this)">Trait</span></span>
+        </label>
+        <input type="range" min="0" max="100" value="50" id="slider-na" data-dim="na">
+      </div>
+      <div class="slider-group">
+        <label>Affect positif invers&eacute; (PA&darr;) <span class="val" id="val-pa">T = 50</span>
+          <span class="trait-toggle" id="toggle-pa"><span class="active" data-mode="state" onclick="setMode('pa','state',this)">&Eacute;tat</span><span data-mode="trait" onclick="setMode('pa','trait',this)">Trait</span></span>
+        </label>
+        <input type="range" min="0" max="100" value="50" id="slider-pa" data-dim="pa">
+      </div>
+      <div class="slider-group">
+        <label>Fear <span class="val" id="val-fear">T = 50</span>
+          <span class="trait-toggle" id="toggle-fear"><span class="active" data-mode="state" onclick="setMode('fear','state',this)">&Eacute;tat</span><span data-mode="trait" onclick="setMode('fear','trait',this)">Trait</span></span>
+        </label>
+        <input type="range" min="0" max="100" value="50" id="slider-fear" data-dim="fear">
+      </div>
+      <div class="slider-group">
+        <label>OCD <span class="val" id="val-ocd">T = 50</span>
+          <span class="trait-toggle" id="toggle-ocd"><span class="active" data-mode="state" onclick="setMode('ocd','state',this)">&Eacute;tat</span><span data-mode="trait" onclick="setMode('ocd','trait',this)">Trait</span></span>
+        </label>
+        <input type="range" min="0" max="100" value="50" id="slider-ocd" data-dim="ocd">
+      </div>
+      <div class="slider-group">
+        <label>Eating Pathology <span class="val" id="val-eat">T = 50</span>
+          <span class="trait-toggle" id="toggle-eat"><span class="active" data-mode="state" onclick="setMode('eat','state',this)">&Eacute;tat</span><span data-mode="trait" onclick="setMode('eat','trait',this)">Trait</span></span>
+        </label>
+        <input type="range" min="0" max="100" value="50" id="slider-eat" data-dim="eat">
+      </div>
+      <div class="slider-group">
+        <label>Externalisant <span class="val" id="val-ext">T = 50</span>
+          <span class="trait-toggle" id="toggle-ext"><span class="active" data-mode="state" onclick="setMode('ext','state',this)">&Eacute;tat</span><span data-mode="trait" onclick="setMode('ext','trait',this)">Trait</span></span>
+        </label>
+        <input type="range" min="0" max="100" value="50" id="slider-ext" data-dim="ext">
+      </div>
+      <div class="slider-group">
+        <label>Thought Disorder <span class="val" id="val-td">T = 50</span>
+          <span class="trait-toggle" id="toggle-td"><span class="active" data-mode="state" onclick="setMode('td','state',this)">&Eacute;tat</span><span data-mode="trait" onclick="setMode('td','trait',this)">Trait</span></span>
+        </label>
+        <input type="range" min="0" max="100" value="50" id="slider-td" data-dim="td">
+      </div>
+      <div class="slider-group">
+        <label>Detachment <span class="val" id="val-det">T = 50</span>
+          <span class="trait-toggle" id="toggle-det"><span class="active" data-mode="state" onclick="setMode('det','state',this)">&Eacute;tat</span><span data-mode="trait" onclick="setMode('det','trait',this)">Trait</span></span>
+        </label>
+        <input type="range" min="0" max="100" value="50" id="slider-det" data-dim="det">
+      </div>
+    </div>
+
+    <!-- Bar Chart -->
+    <div class="bar-chart" id="bar-chart"></div>
+
+    <!-- Clinical Note: PA↓ bridge — hidden by default, shown when PA↓ or Det elevated -->
+    <div id="pa-det-note" style="display:none;background:rgba(65,143,222,0.06);border:1px solid rgba(65,143,222,0.15);border-radius:var(--radius);padding:0.8rem 1rem;margin-top:1rem;font-size:0.82rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--navy);font-weight:700;margin-bottom:0.4rem;">PA&darr; &mdash; facteur-pont entre Distress et Detachment</div>
+      <p style="margin:0 0 0.4rem;">PA&darr; (affect positif invers&eacute;) charge sur <strong>deux spectres</strong> (Clark &amp; Watson 1991, Watson 2005) :</p>
+      <ul style="margin:0;padding-left:1.2rem;">
+        <li><strong>Distress</strong> &mdash; si NA&uarr; aussi &eacute;lev&eacute; &rarr; profil d&eacute;pression classique (anh&eacute;donie + d&eacute;tresse)</li>
+        <li><strong>Detachment</strong> &mdash; si NA normal &rarr; profil tire vers p&ocirc;le n&eacute;gatif/schizo&iuml;de (affect restreint + retrait + anh&eacute;donie sans d&eacute;tresse)</li>
+      </ul>
+      <p style="margin:0.4rem 0 0;"><strong>Detachment &ne; seulement social.</strong> Inclut : affect restreint, anh&eacute;donie large, retrait, &eacute;vitement intimit&eacute;, suspicion. Chevauche le construit <em>sympt&ocirc;mes n&eacute;gatifs</em> (avolition, alogie, asocialit&eacute;, &eacute;moussement). Peut &ecirc;tre trait (personnalit&eacute;) ou &eacute;tat (&eacute;pisode d&eacute;pressif, m&eacute;dication, phase prodromale).</p>
+      <p style="margin:0.4rem 0 0;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--mid);">Heuristique : &laquo; Est-ce que TOUT plaisir est &eacute;teint (PA&darr;) ou surtout l'affect/le lien social (Detachment) ? &raquo; Si activit&eacute;s solitaires pr&eacute;serv&eacute;es &rarr; Detachment. Si rien ne fait plaisir &rarr; PA&darr; (et Detachment peut &ecirc;tre secondaire).</p>
+    </div>
+
+    <!-- Hypothesis Panel -->
+    <div class="hypothesis-panel" id="hypothesis-panel">
+      <h3>Hypoth&egrave;se de traitement</h3>
+      <div id="hypothesis-content">
+        <div style="font-size:0.85rem;color:var(--mid);">Ajustez les curseurs pour g&eacute;n&eacute;rer une hypoth&egrave;se.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulation Template -->
+  <div class="tool-section">
+    <h2>Gabarit de formulation</h2>
+
+    <div class="form-template">
+      <div class="form-row">
+        <span class="form-label">Patient ID</span>
+        <span class="form-field" contenteditable="true"></span>
+      </div>
+      <div class="form-row">
+        <span class="form-label">Date</span>
+        <span class="form-field" contenteditable="true"></span>
+      </div>
+
+      <h3>Scores par spectre</h3>
+      <table class="form-scores">
+        <thead>
+          <tr><th>Spectre / Dimension</th><th>T-score</th><th>Interpr&eacute;tation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Affect n&eacute;gatif (NA)</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr><td>Affect positif invers&eacute; (PA&darr;)</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr><td>Fear</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr><td>OCD</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr><td>Eating Pathology</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr><td>Externalisant</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr><td>Thought Disorder</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+          <tr><td>Detachment</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        </tbody>
+      </table>
+
+      <div class="form-row">
+        <span class="form-label">Sous-facteurs dominants</span>
+        <span class="form-field" contenteditable="true"></span>
+      </div>
+      <div class="form-row">
+        <span class="form-label">Trait vs &Eacute;tat</span>
+        <span class="form-field" contenteditable="true"></span>
+      </div>
+      <div class="form-row">
+        <span class="form-label">Hypoth&egrave;se de traitement</span>
+        <span class="form-field" contenteditable="true"></span>
+      </div>
+      <div class="form-row">
+        <span class="form-label">Plan de monitoring</span>
+        <span class="form-field" contenteditable="true"></span>
+      </div>
+
+      <button class="btn-print" onclick="window.print()">Imprimer</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var dims = [
+    { id: 'na',   label: 'NA',              slider: 'slider-na',   valEl: 'val-na' },
+    { id: 'pa',   label: 'PA\u2193',        slider: 'slider-pa',   valEl: 'val-pa' },
+    { id: 'fear', label: 'Fear',            slider: 'slider-fear', valEl: 'val-fear' },
+    { id: 'ocd',  label: 'OCD',             slider: 'slider-ocd',  valEl: 'val-ocd' },
+    { id: 'eat',  label: 'Eating',          slider: 'slider-eat',  valEl: 'val-eat' },
+    { id: 'ext',  label: 'Externalisant',   slider: 'slider-ext',  valEl: 'val-ext' },
+    { id: 'td',   label: 'Thought Dis.',    slider: 'slider-td',   valEl: 'val-td' },
+    { id: 'det',  label: 'Detachment',      slider: 'slider-det',  valEl: 'val-det' }
+  ];
+
+  // ================================================================
+  // STATE vs TRAIT mode per dimension
+  // ================================================================
+  var modes = {};
+  dims.forEach(function(d) { modes[d.id] = 'state'; });
+
+  window.setMode = function(dimId, mode, el) {
+    modes[dimId] = mode;
+    var toggle = el.parentElement;
+    toggle.querySelectorAll('span').forEach(function(s) { s.classList.remove('active'); });
+    el.classList.add('active');
+    update();
+  };
+
+  // Trait-specific addendums — appended to guidance when trait is selected
+  var traitNotes = {
+    na:   'TRAIT : Neuroticism \u00e9lev\u00e9 (FFM). Moins m\u00e9dication-r\u00e9actif. Accent sur strat\u00e9gies de r\u00e9gulation \u00e9motionnelle \u00e0 long terme (UP, ACT, sch\u00e9math\u00e9rapie).',
+    pa:   'TRAIT : Anh\u00e9donie trait (PA\u2193 endurant). Faible r\u00e9ponse pharmacologique attendue. Activation comportementale soutenue + \u00e9valuer facteurs biologiques chroniques.',
+    fear: 'TRAIT : Sensibilit\u00e9 \u00e0 l\u2019anxi\u00e9t\u00e9 trait / \u00e9vitement endurant. Exposition prolong\u00e9e n\u00e9cessaire. Consid\u00e9rer TCC d\u2019entretien / rappels post-traitement.',
+    ocd:  'TRAIT : OCD chronique. ERP d\u2019entretien \u00e0 long terme. Risque de rechute \u00e0 l\u2019arr\u00eat de la m\u00e9dication \u00e9lev\u00e9 \u2192 maintien ISRS prolong\u00e9.',
+    eat:  'TRAIT : Pattern alimentaire endurant. Psychoth\u00e9rapie de longue dur\u00e9e (TCC-E + pr\u00e9vention rechute). Image corporelle comme cible de maintenance.',
+    ext:  'TRAIT : Trait de personnalit\u00e9 (impulsivit\u00e9 / antagonisme). Pharmacoth\u00e9rapie limit\u00e9e. TCD, gestion de la col\u00e8re, cadre structurant \u00e0 long terme.',
+    td:   'TRAIT : Schizotypie / trait psychotique. AP maintien \u00e0 consid\u00e9rer. Surveillance fonctionnelle et cognitive \u00e0 long terme.',
+    det:  'TRAIT : Pattern endurant (schizo\u00efde, sympt\u00f4mes n\u00e9gatifs chroniques). Faible r\u00e9ponse pharmacologique. Approche SST/SCIT \u00e0 long terme, r\u00e9adaptation psychosociale, soutien fonctionnel.'
+  };
+
+  // ================================================================
+  // RICH CLINICAL GUIDANCE PER DIMENSION
+  // Drawn from pharma.html, C2 circuits, Harmer/CNP model
+  // Each dimension has severity-graded tiers + circuit info
+  // ================================================================
+  var guidance = {
+    na: {
+      name: 'Affect n\u00e9gatif (NA\u2191)',
+      circuit: 'SN dysr\u00e9gul\u00e9 \u2192 ne d\u00e9sengage pas le DMN \u2192 CEN sous-recrut\u00e9',
+      rdoc: 'Negative Valence Systems (Loss, Sustained Threat)',
+      tiers: [
+        { min: 55, label: '\u00c9lev\u00e9',
+          pharma: 'ISRS 1\u00e8re ligne (sertraline 50-100mg ou escitalopram 10-20mg). Correction biais \u00e9motionnel J1-7 (Harmer), d\u00e9but d\u2019am\u00e9lioration sem 1-2, essai ad\u00e9quat 4-6 sem.',
+          psycho: 'Psychoth\u00e9rapie 1\u00e8re ligne : TCC, Protocole Unifi\u00e9 (Barlow 2017), ou ACT (Hayes). Choix selon pr\u00e9f\u00e9rence et disponibilit\u00e9 \u2014 tous transdiagnostiques.',
+          monitor: 'Attendre 4-6 sem avant de conclure \u00e0 l\u2019\u00e9chec. Surveiller PA\u2193 iatrog\u00e8ne (blunting ISRS).' },
+        { min: 70, label: 'Clinique',
+          pharma: 'ISRS dose optimale. Si r\u00e9ponse partielle \u2192 switch IRSN (venlafaxine \u2265225mg pour recrutement NE robuste).',
+          psycho: 'Intensifier : TCC/UP/ACT 12-16 s\u00e9ances + activation comportementale.',
+          monitor: 'R\u00e9\u00e9valuer profil \u00e0 8 sem. Chercher PA\u2193 masqu\u00e9 ou Fear sous-jacent.' },
+        { min: 80, label: 'S\u00e9v\u00e8re',
+          pharma: 'IRSN haute dose ou combinaison. Si r\u00e9fractaire : \u00e9valuer k\u00e9tamine (multi-RDoC), lithium augmentation.',
+          psycho: 'Soins intensifs / programme de jour si d\u00e9t\u00e9rioration fonctionnelle.',
+          monitor: 'Suicidalit\u00e9 active? \u2192 k\u00e9tamine IV (Wilkinson 2018). Réévaluer hebdomadaire.' }
+      ]
+    },
+    pa: {
+      name: 'Affect positif invers\u00e9 (PA\u2193)',
+      circuit: 'VTA\u2192NAcc (DA) \u2014 wanting\u2193 typiquement > liking\u2193 (Berridge), les deux peuvent \u00eatre atteints',
+      rdoc: 'Positive Valence Systems : Reward Responsiveness / Approach Motivation',
+      tiers: [
+        { min: 60, label: '\u00c9lev\u00e9',
+          pharma: 'V\u00e9rifier si blunting ISRS. Consid\u00e9rer venlafaxine \u2265225mg (recrutement NE robuste) ou bupropion augmentation.',
+          psycho: 'Activation comportementale cibl\u00e9e (planification d\u2019activit\u00e9s plaisantes, syst\u00e8me de r\u00e9compense).',
+          monitor: 'Anh\u00e9donie vs amotivation vs fatigue \u2014 les distinguer cliniquement.' },
+        { min: 70, label: 'Clinique',
+          pharma: 'Pivot bupropion (NDRI, effet modeste sur DA/NE dans circuit reward) en mono ou augmentation. Alternative : venlafaxine \u2265225mg.',
+          psycho: 'BATD (Behavioral Activation for Treatment of Depression). Cible l\u2019approach motivation (conceptuellement li\u00e9 au wanting).',
+          monitor: 'Si Detachment aussi \u00e9lev\u00e9 \u2192 double atteinte reward + social. Seuil fonctionnel critique.' },
+        { min: 80, label: 'S\u00e9v\u00e8re',
+          pharma: 'Pramipexole (D2/D3 agoniste, stimulation DA directe). K\u00e9tamine si r\u00e9sistant : effet rapide (heures) via multiples m\u00e9canismes dont d\u00e9sinhibition habenula\u2192VTA (pr\u00e9clinique) + AMPA/BDNF/mTOR (translationnel).',
+          psycho: 'Soins intensifs. R\u00e9\u00e9valuer facteurs biologiques (thyro\u00efde, fer, apn\u00e9e).',
+          monitor: '\u26a0 Pramipexole : surveiller impulsivit\u00e9 / troubles contr\u00f4le impulsions. K\u00e9tamine : protocole IV structur\u00e9.' }
+      ]
+    },
+    fear: {
+      name: 'Fear',
+      circuit: 'Aigu : amygdale BLA\u2192CeA\u2192PAG | Soutenu : BNST + insula + dACC',
+      rdoc: 'Acute Threat + Potential Threat',
+      tiers: [
+        { min: 55, label: '\u00c9lev\u00e9',
+          pharma: 'ISRS 1\u00e8re ligne. Cr\u00e9neau th\u00e9rapeutique : correction biais menace (Harmer J1-7).',
+          psycho: 'Exposition gradu\u00e9e + violation d\u2019attente (Craske 2014). Extinction via vmPFC\u2192ITC\u2192CeA.',
+          monitor: '\u26a0 \u00c9VITER BZD en maintenance = comportement de s\u00e9curit\u00e9 chimique, bloque l\u2019extinction.' },
+        { min: 70, label: 'Clinique',
+          pharma: 'ISRS dose optimale. Distinguer : Fear aigu (panique, phobie) vs soutenu (TAG, inqui\u00e9tude chronique).',
+          psycho: 'Fear aigu \u2192 exposition intensive (flooding si tol\u00e9r\u00e9). Fear soutenu \u2192 TCC + tol\u00e9rance \u00e0 l\u2019incertitude.',
+          monitor: 'BZD PRN max 2-4 sem comme pont si crise. \u00c9vitement secondaire? R\u00e9\u00e9valuer engagement dans l\u2019exposition.' },
+        { min: 80, label: 'S\u00e9v\u00e8re',
+          pharma: 'ISRS + pr\u00e9gabaline si anxi\u00e9t\u00e9 somatique invalidante. IRSN si comorbide NA\u2191.',
+          psycho: 'Exposition intensive + programme de jour si \u00e9vitement g\u00e9n\u00e9ralis\u00e9.',
+          monitor: 'Agoraphobie secondaire? Substances auto-m\u00e9dication? \u00c9valuer axe externalisant.' }
+      ]
+    },
+    ocd: {
+      name: 'OCD',
+      circuit: 'OFC\u2192caud\u00e9\u2192pallidum\u2192thalamus (boucle CSTC) \u2014 circuit DIFF\u00c9RENT de la d\u00e9pression',
+      rdoc: 'Cognitive Systems (contr\u00f4le cognitif) + Sensorimotor (Habit)',
+      tiers: [
+        { min: 55, label: '\u00c9lev\u00e9',
+          pharma: '\u26a0 ISRS \u2192 titrer rapidement vers HAUTE DOSE : fluox\u00e9tine 40-80mg, sertraline 150-200mg. La modulation de la boucle CSTC n\u00e9cessite une inhibition 5-HT 2-3\u00d7 plus \u00e9lev\u00e9e que pour la d\u00e9pression.',
+          psycho: 'ERP (Exposition et Pr\u00e9vention de la R\u00e9ponse) obligatoire. Shift habit\u2192goal-directed (Gillan & Robbins 2014).',
+          monitor: 'D\u00e9lai de r\u00e9ponse plus long : 8-12 sem (vs 4-6 sem d\u00e9pression). Ne pas conclure trop t\u00f4t.' },
+        { min: 70, label: 'Clinique',
+          pharma: 'ISRS dose maximale tol\u00e9r\u00e9e. Si insuffisant \u00e0 12 sem \u2192 augmentation AP atypique (Dold 2015) : aripiprazole ou risperidone faible dose.',
+          psycho: 'ERP intensive (quotidienne si possible). \u00c9valuer insight (Y-BOCS item 11).',
+          monitor: 'Comorbide NA\u2191? Le traitement OCD est prioritaire sur le dosage \u2014 ne pas sous-doser pour traiter le NA.' },
+        { min: 80, label: 'S\u00e9v\u00e8re',
+          pharma: 'Clomipramine (cas r\u00e9fractaires). M\u00e9mantine augmentation (Modarresi 2019 \u2014 prometteur mais \u00e9vidence pr\u00e9liminaire). Fluvoxamine 200-300mg alternative.',
+          psycho: 'ERP en programme intensif (hospitalier si n\u00e9cessaire). Stimulation c\u00e9r\u00e9brale si r\u00e9fractaire.',
+          monitor: 'Insight pr\u00e9serv\u00e9? Si faible insight \u2192 \u00e9valuer chevauchement Thought Disorder (fr\u00e9quent mais pas automatique). ECG si clomipramine.' }
+      ]
+    },
+    eat: {
+      name: 'Eating Pathology',
+      circuit: 'R\u00e9compense (NAcc) + interoception (insula) + contr\u00f4le cognitif (dlPFC) + image corporelle (r\u00e9seau distribu\u00e9)',
+      rdoc: 'Positive Valence + Arousal/Regulatory (interoception) + Negative Valence',
+      tiers: [
+        { min: 55, label: '\u00c9lev\u00e9',
+          pharma: '\u00c9valuation EDE-Q. Distinguer restriction vs binge-purge \u2014 circuits diff\u00e9rents.',
+          psycho: 'TCC-E (Fairburn) en 1\u00e8re ligne. Th\u00e9rapie interpersonnelle en 2e ligne (surtout BN/BED).',
+          monitor: 'Bilan somatique : \u00e9lectrolytes, ECG, densit\u00e9 osseuse si restriction.' },
+        { min: 70, label: 'Clinique',
+          pharma: 'Binge-purge : fluox\u00e9tine 60mg (seul ISRS avec \u00e9vidence sp\u00e9cifique). Restriction : pas de pharmacoth\u00e9rapie efficace \u2192 nutrition + psycho.',
+          psycho: 'Programme sp\u00e9cialis\u00e9 TCA. Traiter NA\u2191 comorbide en parall\u00e8le.',
+          monitor: 'IMC <15 = extr\u00eame (DSM-5). Stabilisation m\u00e9dicale prioritaire si instabilit\u00e9 somatique.' }
+      ]
+    },
+    ext: {
+      name: 'Externalisant',
+      circuit: 'PFC (vmPFC + dlPFC/IFG) hypoactif (impulsivit\u00e9) + amygdale hypo-r\u00e9active + vmPFC/OFC (antagonisme)',
+      rdoc: 'HiTOP : Disinhibited Ext + Antagonistic Ext',
+      tiers: [
+        { min: 55, label: '\u00c9lev\u00e9',
+          pharma: '\u00c9valuer impulsivit\u00e9 vs antagonisme \u2014 deux sous-spectres distincts (C3).',
+          psycho: 'Gestion de la col\u00e8re + TCD si instabilit\u00e9 \u00e9motionnelle. Entretien motivationnel si substances.',
+          monitor: 'Substances? TDAH comorbide? Traits antagonistes (TPAS, narcissisme) \u2014 \u00e9valuer dimensionnellement.' },
+        { min: 70, label: 'Clinique',
+          pharma: 'Si TDAH comorbide : stimulants / atomox\u00e9tine. Si impulsivit\u00e9/agression : valproate (\u00e9vidence mod\u00e9r\u00e9e). Lamotrigine : \u00e9vidence limit\u00e9e (surtout TPL).',
+          psycho: 'Programme structur\u00e9. D\u00e9tail en C3.',
+          monitor: 'Risque m\u00e9dico-l\u00e9gal? Substances actives? Gestion du risque prioritaire.' }
+      ]
+    },
+    td: {
+      name: 'Thought Disorder',
+      circuit: 'DA m\u00e9solimbique hyperactif (positif) + DA m\u00e9socortical/PFC hypoactif (n\u00e9gatif) + glutamate/NMDA (transversal)',
+      rdoc: 'Perception + Cognitive Systems + Social Processes',
+      tiers: [
+        { min: 55, label: '\u00c9lev\u00e9',
+          pharma: '\u00c9valuer : id\u00e9es de r\u00e9f\u00e9rence, exp\u00e9riences perceptuelles inhabituelles, pens\u00e9e magique.',
+          psycho: 'Psycho\u00e9ducation. TCC pour sympt\u00f4mes psychotiques si indiqu\u00e9.',
+          monitor: 'Prodrome? Premier \u00e9pisode? R\u00e9f\u00e9rer en clinique sp\u00e9cialis\u00e9e. D\u00e9tail en C4.' },
+        { min: 70, label: 'Clinique',
+          pharma: 'AP atypique faible dose. Minimiser impact cognitif (dose minimale efficace). Choisir profil m\u00e9tabolique favorable (aripiprazole > olanzapine).',
+          psycho: 'Programme premier \u00e9pisode si applicable.',
+          monitor: 'Syndrome m\u00e9tabolique? Prolactine? \u00c9valuation neuropsychologique.' }
+      ]
+    },
+    det: {
+      name: 'Detachment',
+      circuit: 'Reward (DA NAcc + opio\u00efdes mu + oxytocine) + PFC m\u00e9dial/TPJ (mentalisation) + affect restreint (PFC m\u00e9dial)',
+      rdoc: 'Social Processes + Positive Valence',
+      tiers: [
+        { min: 55, label: '\u00c9lev\u00e9',
+          pharma: 'Distinguer : (1) retrait anxieux (Fear comorbide?), (2) anh\u00e9donie g\u00e9n\u00e9ralis\u00e9e (PA\u2193 comorbide?), (3) trait endurant (affect restreint + retrait + anh\u00e9donie = pattern n\u00e9gatif/schizo\u00efde).',
+          psycho: 'Protocole Unifi\u00e9 ou ACT si comorbide internalisant. Habilet\u00e9s sociales structur\u00e9es (SST Bellack).',
+          monitor: 'Le Detachment \u2260 seulement social : inclut affect restreint, anh\u00e9donie large, retrait, \u00e9vitement intimit\u00e9. \u00c9volution trait vs \u00e9tat?' },
+        { min: 70, label: 'Clinique',
+          pharma: 'Si PA\u2193 comorbide \u2192 traiter PA\u2193 en priorit\u00e9 (pont commun DA/opio\u00efdes). IRSN ou bupropion. Si spectre/sympt\u00f4mes n\u00e9gatifs : amisulpride faible dose (50-100mg).',
+          psycho: 'Programme de r\u00e9adaptation psychosociale (SST Bellack, SCIT). Ressources locales (ex. AVEC-S au Qu\u00e9bec). Activation comportementale si anh\u00e9donie domine.',
+          monitor: 'Risque d\u2019isolement chronique. PA\u2193 est le facteur-pont entre Distress et Detachment \u2014 si NA\u2191 aussi \u00e9lev\u00e9, profil tire vers d\u00e9pression; si NA normal, profil tire vers p\u00f4le n\u00e9gatif/schizo\u00efde. \u00c9valuer TD comorbide.' }
+      ]
+    }
+  };
+
+  // INTERACTION RULES — when multiple dimensions elevated together
+  var interactions = [
+    { dims: ['na', 'pa'], minSum: 130,
+      text: '\u26a0 NA\u2191 + PA\u2193 : IRSN pr\u00e9f\u00e9r\u00e9 aux ISRS (recrutement NE pour PA\u2193). Bupropion augmentation si anh\u00e9donie persiste. K\u00e9tamine si r\u00e9sistant (multi-circuit).' },
+    { dims: ['na', 'fear'], minSum: 125,
+      text: '\u26a0 NA\u2191 + Fear : ISRS + exposition obligatoire. Le NA amplifie la r\u00e9activit\u00e9 amygdalienne. \u00c9viter BZD \u2014 bloque l\u2019extinction.' },
+    { dims: ['na', 'ocd'], minSum: 125,
+      text: '\u26a0 NA\u2191 + OCD : le dosage OCD est prioritaire (haute dose). Ne pas sous-doser pour le NA \u2014 la haute dose couvre les deux, mais le d\u00e9lai est 8-12 sem.' },
+    { dims: ['pa', 'det'], minSum: 125,
+      text: '\u26a0 PA\u2193 + Detachment : double atteinte reward + social. Le circuit DA/opio\u00efdes (VTA\u2192NAcc) sous-tend le chevauchement. Traiter PA\u2193 en priorit\u00e9 (bupropion/IRSN) mais les d\u00e9ficits de mentalisation (mPFC/TPJ) n\u00e9cessitent aussi une intervention psychosociale.' },
+    { dims: ['fear', 'ocd'], minSum: 125,
+      text: '\u26a0 Fear + OCD : distinguer compulsions de v\u00e9rification (OCD) vs \u00e9vitement phobique (Fear). ERP couvre les deux mais le cadre conceptuel diff\u00e8re.' },
+    { dims: ['na', 'pa', 'fear'], minSum: 190,
+      text: '\ud83d\udea8 Triple \u00e9l\u00e9vation NA\u2191 + PA\u2193 + Fear : profil internalisant complexe. IRSN haute dose + exposition + activation comportementale. \u00c9valuer k\u00e9tamine si suicidalit\u00e9 ou r\u00e9sistance.' },
+    { dims: ['ocd', 'td'], minSum: 125,
+      text: '\u26a0 OCD + Thought Disorder : \u00e9valuer insight (Y-BOCS item 11). OCD avec faible insight chevauche le spectre pens\u00e9e. AP atypique augmentation plus t\u00f4t.' },
+    { dims: ['na', 'eat'], minSum: 125,
+      text: '\u26a0 NA\u2191 + Eating : le NA drive souvent le binge. Traiter NA en parall\u00e8le (ISRS). Fluox\u00e9tine 60mg est 1\u00e8re ligne pour binge-purge et peut am\u00e9liorer le NA, mais r\u00e9ponse partielle \u2014 TCC-E reste essentielle.' }
+  ];
+
+  function sevClass(v) {
+    if (v > 75) return 'sev-severe';
+    if (v > 65) return 'sev-high';
+    if (v >= 55) return 'sev-mod';
+    return 'sev-low';
+  }
+
+  function getValues() {
+    var vals = {};
+    dims.forEach(function(d) {
+      vals[d.id] = parseInt(document.getElementById(d.slider).value);
+    });
+    return vals;
+  }
+
+  function renderHypothesis(vals) {
+    var entries = dims.map(function(d) { return { id: d.id, label: d.label, val: vals[d.id] }; });
+    entries.sort(function(a, b) { return b.val - a.val; });
+
+    // Find elevated dimensions
+    var elevated = entries.filter(function(e) {
+      var g = guidance[e.id];
+      return g && g.tiers && e.val >= g.tiers[0].min;
+    });
+
+    if (elevated.length === 0) {
+      document.getElementById('hypothesis-content').innerHTML =
+        '<div style="font-size:0.85rem;color:var(--mid);">Aucune dimension \u00e9lev\u00e9e (\u2265 55). Profil dans les limites normales.</div>';
+      return;
+    }
+
+    var html = '';
+
+    // Target principal
+    html += '<div class="hyp-target">Cible principale\u00a0: ' + elevated[0].label + ' (T\u00a0=\u00a0' + elevated[0].val + ')</div>';
+
+    // Per-dimension cards
+    elevated.forEach(function(e) {
+      var g = guidance[e.id];
+      if (!g) return;
+      // Find the highest matching tier
+      var tier = null;
+      for (var i = g.tiers.length - 1; i >= 0; i--) {
+        if (e.val >= g.tiers[i].min) { tier = g.tiers[i]; break; }
+      }
+      if (!tier) return;
+
+      var sevColor = e.val >= 80 ? 'var(--red)' : e.val >= 70 ? 'var(--navy)' : e.val >= 55 ? 'var(--gold)' : 'var(--green)';
+
+      html += '<div style="border-left:4px solid ' + sevColor + ';padding:0.6rem 0.8rem;margin:0.8rem 0;background:rgba(0,0,0,0.02);border-radius:0 6px 6px 0;">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.3rem;">';
+      html += '<span style="font-family:\'DM Mono\',monospace;font-size:0.85rem;font-weight:700;color:var(--navy);">' + g.name + '</span>';
+      var modeLabel = modes[e.id] === 'trait' ? ' \u00b7 Trait' : '';
+      var modeBg = modes[e.id] === 'trait' ? ';border:1px solid var(--gold)' : '';
+      html += '<span style="font-family:\'DM Mono\',monospace;font-size:0.72rem;padding:0.15rem 0.5rem;border-radius:4px;background:' + sevColor + ';color:white' + modeBg + ';">' + tier.label + ' \u2014 T\u00a0=\u00a0' + e.val + modeLabel + '</span>';
+      html += '</div>';
+
+      // Circuit
+      html += '<div style="font-size:0.75rem;color:var(--mid);margin-bottom:0.5rem;font-family:\'DM Mono\',monospace;">Circuit\u00a0: ' + g.circuit + ' \u00a0\u00b7\u00a0 RDoC\u00a0: ' + g.rdoc + '</div>';
+
+      // Pharma
+      html += '<div style="font-size:0.82rem;margin-bottom:0.3rem;"><span style="font-family:\'DM Mono\',monospace;font-size:0.72rem;color:var(--sky);font-weight:600;">PHARMA</span> ' + tier.pharma + '</div>';
+
+      // Psycho
+      html += '<div style="font-size:0.82rem;margin-bottom:0.3rem;"><span style="font-family:\'DM Mono\',monospace;font-size:0.72rem;color:var(--green);font-weight:600;">PSYCHO</span> ' + tier.psycho + '</div>';
+
+      // Monitor
+      html += '<div style="font-size:0.82rem;"><span style="font-family:\'DM Mono\',monospace;font-size:0.72rem;color:var(--gold);font-weight:600;">MONITOR</span> ' + tier.monitor + '</div>';
+
+      // Trait addendum
+      if (modes[e.id] === 'trait' && traitNotes[e.id]) {
+        html += '<div style="font-size:0.78rem;margin-top:0.4rem;padding:0.4rem 0.6rem;background:rgba(185,151,91,0.1);border-radius:4px;border-left:3px solid var(--gold);"><span style="font-family:\'DM Mono\',monospace;font-size:0.68rem;color:var(--gold);font-weight:700;">TRAIT</span> ' + traitNotes[e.id] + '</div>';
+      }
+
+      html += '</div>';
+    });
+
+    // Interaction rules
+    var activeInteractions = interactions.filter(function(rule) {
+      var allElevated = rule.dims.every(function(d) { return vals[d] >= 55; });
+      if (!allElevated) return false;
+      var sum = 0;
+      rule.dims.forEach(function(d) { sum += vals[d]; });
+      return sum >= rule.minSum;
+    });
+
+    if (activeInteractions.length > 0) {
+      html += '<div style="margin-top:1rem;padding:0.6rem 0.8rem;background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.15);border-radius:6px;">';
+      html += '<div style="font-family:\'DM Mono\',monospace;font-size:0.78rem;color:var(--red);font-weight:700;margin-bottom:0.4rem;">Interactions dimensionnelles</div>';
+      activeInteractions.forEach(function(rule) {
+        html += '<div style="font-size:0.82rem;margin-bottom:0.3rem;">' + rule.text + '</div>';
+      });
+      html += '</div>';
+    }
+
+    document.getElementById('hypothesis-content').innerHTML = html;
+  }
+
+  function update() {
+    var vals = getValues();
+    dims.forEach(function(d) {
+      document.getElementById(d.valEl).textContent = 'T = ' + vals[d.id];
+    });
+    renderChart(vals);
+    renderHypothesis(vals);
+    // Show PA↓/Detachment note only when relevant
+    var paDetNote = document.getElementById('pa-det-note');
+    if (paDetNote) {
+      paDetNote.style.display = (vals.pa >= 55 || vals.det >= 55) ? '' : 'none';
+    }
+  }
+
+  function renderChart(vals) {
+    var html = '';
+    dims.forEach(function(d) {
+      var v = vals[d.id];
+      var cls = sevClass(v);
+      html += '<div class="bar-row">' +
+        '<span class="bar-label">' + d.label + '</span>' +
+        '<span class="bar-track" style="position:relative;">' +
+          '<span style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(0,0,0,0.15);z-index:1;"></span>' +
+          '<span style="position:absolute;left:60%;top:0;bottom:0;width:1px;background:rgba(0,0,0,0.1);z-index:1;border-left:1px dashed rgba(0,0,0,0.15);"></span>' +
+          '<span style="position:absolute;left:70%;top:0;bottom:0;width:1px;background:rgba(0,0,0,0.1);z-index:1;border-left:1px dashed rgba(192,57,43,0.3);"></span>' +
+          '<span class="bar-fill ' + cls + '" style="width:' + v + '%"></span>' +
+        '</span>' +
+        '<span class="bar-val">' + v + '</span>' +
+        '</div>';
+    });
+    document.getElementById('bar-chart').innerHTML = html;
+  }
+
+  // Preset profiles
+  var presets = {
+    maya:    { na: 68, pa: 58, fear: 62, ocd: 78, eat: 60, ext: 40, td: 42, det: 45 },
+    thomas:  { na: 62, pa: 82, fear: 48, ocd: 44, eat: 42, ext: 38, td: 40, det: 58 },
+    ruggero: { na: 85, pa: 70, fear: 78, ocd: 52, eat: 45, ext: 72, td: 48, det: 65 },
+    reset:   { na: 50, pa: 50, fear: 50, ocd: 50, eat: 50, ext: 50, td: 50, det: 50 }
+  };
+
+  window.loadPreset = function(name) {
+    var p = presets[name];
+    if (!p) return;
+    dims.forEach(function(d) {
+      var slider = document.getElementById(d.slider);
+      slider.value = p[d.id];
+      // Reset to state mode
+      modes[d.id] = 'state';
+      var toggle = document.getElementById('toggle-' + d.id);
+      if (toggle) {
+        toggle.querySelectorAll('span').forEach(function(s) {
+          s.classList.toggle('active', s.getAttribute('data-mode') === 'state');
+        });
+      }
+    });
+    update();
+  };
+
+  // Bind sliders
+  dims.forEach(function(d) {
+    document.getElementById(d.slider).addEventListener('input', update);
+  });
+
+  // Initial render
+  update();
+})();
+</script>
+
+</body>
+</html>

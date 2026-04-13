@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossaire — R3 Psychiatrie dimensionnelle</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .search-box {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      font-family: 'Rethink Sans', sans-serif;
+      font-size: 0.95rem;
+      border: 2px solid var(--light-gray);
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .search-box:focus {
+      outline: none;
+      border-color: var(--sky);
+    }
+    .search-box::placeholder { color: var(--mid); }
+
+    .glossary-section { margin-bottom: 1.5rem; }
+    .glossary-section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      padding: 0.7rem 1rem;
+      background: var(--navy);
+      color: white;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
+      user-select: none;
+      transition: opacity 0.15s;
+    }
+    .glossary-section-header:hover { opacity: 0.9; }
+    .glossary-section-header .toggle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      margin-left: auto;
+      color: rgba(255,255,255,0.6);
+    }
+    .glossary-section-body {
+      padding-top: 0.6rem;
+    }
+    .glossary-section-body.collapsed { display: none; }
+
+    .glossary-item .g-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      margin-right: 0.3rem;
+    }
+    .glossary-item .g-related .tag {
+      margin-right: 0.3rem;
+      margin-top: 0.2rem;
+    }
+    .glossary-item.hidden { display: none; }
+    .glossary-section.hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo"><a href="index.html">R3 — Psychiatrie dimensionnelle</a></div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="c1/index.html">C1</a>
+    <a href="c2/index.html">C2</a>
+    <a href="hitop.html">HiTOP</a>
+    <a href="circuits.html">Circuits</a>
+    <a href="pharma.html">Pharma</a>
+    <a href="cases.html">Cas</a>
+    <a href="readings.html">Lectures</a>
+    <a href="glossary.html" class="active">Glossaire</a>
+    <a href="tools.html">Outils</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Glossaire</h1>
+    <div class="subtitle">Termes cl&eacute;s &mdash; construits, circuits, mesures, principes</div>
+  </div>
+
+  <input type="text" class="search-box" id="glossary-search" placeholder="Rechercher un terme...">
+
+  <!-- Section: Construits dimensionnels -->
+  <div class="glossary-section" data-section="construits">
+    <div class="glossary-section-header" onclick="toggleSection(this)">
+      Construits dimensionnels
+      <span class="toggle">&minus;</span>
+    </div>
+    <div class="glossary-section-body">
+
+      <div class="glossary-item" data-terms="affect négatif na anxiété tristesse colère culpabilité internalisant pid-5">
+        <div class="g-term"><span class="g-num">01</span>Affect n&eacute;gatif (NA)</div>
+        <div class="g-def">Tendance stable &agrave; exp&eacute;rimenter des &eacute;motions n&eacute;gatives (anxi&eacute;t&eacute;, tristesse, col&egrave;re, culpabilit&eacute;). C&oelig;ur partag&eacute; du spectre internalisant (r &asymp; 0.98). Mesure&nbsp;: PID-5 Negative Affectivity.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S8</span><span class="tag tag-sky">C2 S1-S2</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="affect positif pa plaisir intérêt engagement anhédonie shaps dars">
+        <div class="g-term"><span class="g-num">02</span>Affect positif (PA)</div>
+        <div class="g-def">Capacit&eacute; &agrave; ressentir du plaisir, de l&rsquo;int&eacute;r&ecirc;t, de l&rsquo;engagement. PA&darr; = anh&eacute;donie. <strong>Facteur-pont</strong>&nbsp;: PA&darr; charge sur Distress ET Detachment (Watson 2005). Mesure&nbsp;: SHAPS, DARS.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S2</span><span class="tag tag-sky">C2 S4</span><span class="tag tag-sky">C2 S5</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="distress sous-facteur internalisant na pa mdd gad">
+        <div class="g-term"><span class="g-num">03</span>Distress</div>
+        <div class="g-def">Sous-facteur internalisant combinant NA&uarr; et PA&darr;. MDD et GAD partagent ce facteur.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S2</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="fear sous-facteur internalisant menace panique phobie tag bnst phasique tonique">
+        <div class="g-term"><span class="g-num">04</span>Fear</div>
+        <div class="g-def">Sous-facteur internalisant li&eacute; &agrave; la menace. Phasique (panique, phobie) et tonique (TAG, BNST).</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S2</span><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="spectre internalisant hitop humeur anxiété dsm dimension">
+        <div class="g-term"><span class="g-num">05</span>Spectre internalisant</div>
+        <div class="g-def">Dimension HiTOP englobant les troubles de l&rsquo;humeur et de l&rsquo;anxi&eacute;t&eacute;. Plus stable que les diagnostics DSM individuels.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S1</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="supraspectre hitop emotional dysfunction somatoforme">
+        <div class="g-term"><span class="g-num">06</span>Supraspectre</div>
+        <div class="g-def">Niveau le plus large de HiTOP. Emotional Dysfunction englobe Internalisant + Somatoforme.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S1</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="anhédonie plaisir wanting liking learning berridge motivation récompense">
+        <div class="g-term"><span class="g-num">07</span>Anh&eacute;donie</div>
+        <div class="g-def">R&eacute;duction de la capacit&eacute; &agrave; ressentir du plaisir. Distinction wanting (motivation) vs liking (plaisir consommatoire) vs learning (apprentissage par r&eacute;compense). Berridge&nbsp;: anh&eacute;donie clinique = surtout wanting&darr;.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="detachment retrait social affect restreint anhédonie schizoid symptômes négatifs avolition alogie pid-5 watson">
+        <div class="g-term"><span class="g-num">08</span>Detachment</div>
+        <div class="g-def">Spectre HiTOP incluant affect restreint, retrait (social et g&eacute;n&eacute;ral), anh&eacute;donie large, &eacute;vitement de l&rsquo;intimit&eacute;, suspicion. Chevauche le construit <em>sympt&ocirc;mes n&eacute;gatifs</em> (avolition, alogie, asocialit&eacute;, &eacute;moussement). PA&darr; est le facteur-pont entre Distress et Detachment (Clark &amp; Watson 1991)&nbsp;: si NA&uarr; aussi &eacute;lev&eacute; &rarr; profil d&eacute;pression; si NA normal &rarr; p&ocirc;le n&eacute;gatif/schizo&iuml;de. Peut &ecirc;tre trait (personnalit&eacute;) ou &eacute;tat (&eacute;pisode, m&eacute;dication, prodrome). Mesure&nbsp;: PID-5 Detachment.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S2</span><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="équifinalité parcours tableau clinique mécanismes symptômes">
+        <div class="g-term"><span class="g-num">09</span>&Eacute;quifinalit&eacute;</div>
+        <div class="g-def">Plusieurs parcours m&egrave;nent au m&ecirc;me tableau clinique. Implication&nbsp;: v&eacute;rifier les m&eacute;canismes, pas seulement les sympt&ocirc;mes.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="biotype sous-type neurobiologique marqueurs cérébraux circuits connectivité williams transdiagnostique">
+        <div class="g-term"><span class="g-num">10</span>Biotype</div>
+        <div class="g-def">Sous-type neurobiologique d&eacute;fini par des marqueurs c&eacute;r&eacute;braux (circuits, connectivit&eacute;) plut&ocirc;t que par des sympt&ocirc;mes cliniques. Les biotypes traversent les cat&eacute;gories diagnostiques traditionnelles (Williams, 2016).</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S6</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="endophénotype marqueur intermédiaire neuroimagerie eeg neuropsychologie génotype phénotype">
+        <div class="g-term"><span class="g-num">11</span>Endoph&eacute;notype</div>
+        <div class="g-def">Marqueur interm&eacute;diaire mesurable (neuroimagerie, EEG, neuropsychologie) qui se situe entre le g&eacute;notype et le ph&eacute;notype clinique. Plus proche de la biologie que le diagnostic cat&eacute;goriel.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S6</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="transdiagnostique frontières catégories diagnostiques rumination évitement processus">
+        <div class="g-term"><span class="g-num">12</span>Transdiagnostique</div>
+        <div class="g-def">Qui traverse les fronti&egrave;res des cat&eacute;gories diagnostiques. Un processus transdiagnostique (ex.&nbsp;: rumination, &eacute;vitement) se retrouve dans plusieurs troubles distincts.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S5</span><span class="tag tag-sky">C2 S1</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section: Circuits & réseaux -->
+  <div class="glossary-section" data-section="circuits">
+    <div class="glossary-section-header" onclick="toggleSection(this)">
+      Circuits &amp; r&eacute;seaux
+      <span class="toggle">&minus;</span>
+    </div>
+    <div class="glossary-section-body">
+
+      <div class="glossary-item" data-terms="salience network sn insula dacc saillance cen dmn menon">
+        <div class="g-term"><span class="g-num">13</span>Salience Network (SN)</div>
+        <div class="g-def">Insula ant&eacute;rieure + dACC. D&eacute;tecte la saillance, bascule entre CEN et DMN (Menon 2011). Hyperactif dans l&rsquo;internalisant.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S5</span><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="central executive network cen dlpfc ppc mémoire travail planification contrôle cognitif">
+        <div class="g-term"><span class="g-num">14</span>Central Executive Network (CEN)</div>
+        <div class="g-def">dlPFC + PPC. M&eacute;moire de travail, planification, contr&ocirc;le cognitif. Hypoactif quand SN bloqu&eacute; ON.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S5</span><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="default mode network dmn mpfc pcc hippocampe autoréférentielle rumination dépression">
+        <div class="g-term"><span class="g-num">15</span>Default Mode Network (DMN)</div>
+        <div class="g-def">mPFC + PCC + hippocampe. Pens&eacute;e autor&eacute;f&eacute;rentielle, rumination si dominant. Hyperconnect&eacute; dans la d&eacute;pression.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S5</span><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="amygdale menace bla cea pag détection sensorielle autonome motrice">
+        <div class="g-term"><span class="g-num">16</span>Amygdale</div>
+        <div class="g-def">Noyau de la d&eacute;tection de menace. BLA (entr&eacute;e sensorielle) &rarr; CeA (sortie autonome) &rarr; PAG (r&eacute;ponse motrice).</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S3</span><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="vta nacc circuit récompense dopaminergique wanting motivation bupropion pramipexole">
+        <div class="g-term"><span class="g-num">17</span>VTA &rarr; NAcc</div>
+        <div class="g-def">Circuit de r&eacute;compense dopaminergique. Wanting (motivation). Cible du bupropion et pramipexole.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="bnst bed nucleus stria terminalis menace soutenue anxiété anticipatoire amygdale">
+        <div class="g-term"><span class="g-num">18</span>BNST</div>
+        <div class="g-def">Bed nucleus of the stria terminalis. Menace soutenue (heures/jours), anxi&eacute;t&eacute; anticipatoire. Distinct de l&rsquo;amygdale (menace aigu&euml;).</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="boucle cstc cortico-striato-thalamo-corticale ofc caudé pallidum thalamus toc">
+        <div class="g-term"><span class="g-num">19</span>Boucle CSTC</div>
+        <div class="g-def">Cortico-striato-thalamo-corticale. OFC &rarr; caud&eacute; &rarr; pallidum &rarr; thalamus &rarr; OFC. Dysfonctionnelle dans le TOC.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S3</span><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section: HiTOP -->
+  <div class="glossary-section" data-section="hitop">
+    <div class="glossary-section-header" onclick="toggleSection(this)">
+      HiTOP
+      <span class="toggle">&minus;</span>
+    </div>
+    <div class="glossary-section-body">
+
+      <div class="glossary-item" data-terms="p-factor facteur général psychopathologie hiérarchie hitop sévérité">
+        <div class="g-term"><span class="g-num">20</span>p-factor</div>
+        <div class="g-def">Facteur g&eacute;n&eacute;ral de psychopathologie au sommet de la hi&eacute;rarchie HiTOP. Pr&eacute;dit la s&eacute;v&eacute;rit&eacute; globale.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S8</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="composante niveau fin hitop traits états mesurables rumination anhédonie panique">
+        <div class="g-term"><span class="g-num">21</span>Composante</div>
+        <div class="g-def">Niveau le plus fin de HiTOP. Traits et &eacute;tats mesurables (ex&nbsp;: rumination, anh&eacute;donie, panique).</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S2</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="sous-facteur niveau intermédiaire spectre composante distress fear internalisant">
+        <div class="g-term"><span class="g-num">22</span>Sous-facteur</div>
+        <div class="g-def">Niveau interm&eacute;diaire entre spectre et composante. Distress et Fear sont les sous-facteurs de l&rsquo;internalisant.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S2</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="profilage dimensionnel évaluation balayage large drill down diagnostics profil continu">
+        <div class="g-term"><span class="g-num">23</span>Profilage dimensionnel</div>
+        <div class="g-def">&Eacute;valuation par balayage large puis drill down. Remplace le comptage de diagnostics par un profil continu.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S3</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section: Mesure & évaluation -->
+  <div class="glossary-section" data-section="mesure">
+    <div class="glossary-section-header" onclick="toggleSection(this)">
+      Mesure &amp; &eacute;valuation
+      <span class="toggle">&minus;</span>
+    </div>
+    <div class="glossary-section-body">
+
+      <div class="glossary-item" data-terms="pid-5-bf personality inventory dsm-5 brief form 25 items 5 domaines traits personnalité pathologiques">
+        <div class="g-term"><span class="g-num">24</span>PID-5-BF</div>
+        <div class="g-def">Personality Inventory for DSM-5, Brief Form. 25 items, 5 domaines. Balayage large des traits de personnalit&eacute; pathologiques.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S3</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="idas-ii inventory depression anxiety symptoms dimensionnelle internalisant">
+        <div class="g-term"><span class="g-num">25</span>IDAS-II</div>
+        <div class="g-def">Inventory of Depression and Anxiety Symptoms. Mesure dimensionnelle des sympt&ocirc;mes internalisant.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S3</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="phq-9 patient health questionnaire dépistage dépression somatiques médicales">
+        <div class="g-term"><span class="g-num">26</span>PHQ-9</div>
+        <div class="g-def">Patient Health Questionnaire, 9 items. D&eacute;pistage d&eacute;pression. Attention&nbsp;: items somatiques peuvent &ecirc;tre gonfl&eacute;s par conditions m&eacute;dicales.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S3</span><span class="tag tag-sky">C2 S6</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="gad-7 generalized anxiety disorder anxiété worry anticipation">
+        <div class="g-term"><span class="g-num">27</span>GAD-7</div>
+        <div class="g-def">Generalized Anxiety Disorder, 7 items. Mesure l&rsquo;anxi&eacute;t&eacute;. Couvre surtout la composante worry/anticipation.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S3</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="y-bocs yale-brown obsessive compulsive scale sévérité toc">
+        <div class="g-term"><span class="g-num">28</span>Y-BOCS</div>
+        <div class="g-def">Yale-Brown Obsessive Compulsive Scale. S&eacute;v&eacute;rit&eacute; TOC. 10 items, score 0-40.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S6</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="t-score score standardisé moyenne et profilage dimensionnel">
+        <div class="g-term"><span class="g-num">29</span>T-score</div>
+        <div class="g-def">Score standardis&eacute; (moyenne=50, ET=10). &gt;60 = 1 ET au-dessus, &gt;70 = 2 ET. Utilis&eacute; pour le profilage dimensionnel.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S3</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="kappa coefficient concordance inter-évaluateur regier dsm-5">
+        <div class="g-term"><span class="g-num">30</span>Kappa</div>
+        <div class="g-def">Coefficient de concordance inter-&eacute;valuateur. Regier 2013&nbsp;: kappa moyen des diagnostics DSM-5 = 0.20-0.76.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S2</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section: Principes -->
+  <div class="glossary-section" data-section="principes">
+    <div class="glossary-section-header" onclick="toggleSection(this)">
+      Principes
+      <span class="toggle">&minus;</span>
+    </div>
+    <div class="glossary-section-body">
+
+      <div class="glossary-item" data-terms="continuité hétérotypique symptômes forme vie dimension stable">
+        <div class="g-term"><span class="g-num">31</span>Continuit&eacute; h&eacute;t&eacute;rotypique</div>
+        <div class="g-def">Les sympt&ocirc;mes changent de forme au cours de la vie, mais la dimension sous-jacente reste stable.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S1</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="practical kinds zachar kendler catégories psychiatriques naturelles arbitraires pragmatiques utilité">
+        <div class="g-term"><span class="g-num">32</span>Practical kinds (Zachar &amp; Kendler)</div>
+        <div class="g-def">Les cat&eacute;gories psychiatriques ne sont ni naturelles ni arbitraires &mdash; ce sont des outils pragmatiques &eacute;valu&eacute;s par leur utilit&eacute;.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S2</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="modèle cnp harmer isrs biais traitement émotionnel négatif réapprentissage social">
+        <div class="g-term"><span class="g-num">33</span>Mod&egrave;le CNP (Harmer)</div>
+        <div class="g-def">Les ISRS corrigent le biais de traitement &eacute;motionnel n&eacute;gatif d&egrave;s J1-7. L&rsquo;am&eacute;lioration clinique suit en 4-6 semaines via le r&eacute;apprentissage social.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="violation attente craske extinction résultat craint habituation graduelle">
+        <div class="g-term"><span class="g-num">34</span>Violation d&rsquo;attente (Craske)</div>
+        <div class="g-def">M&eacute;canisme d&rsquo;extinction&nbsp;: la non-occurrence du r&eacute;sultat craint est plus efficace que l&rsquo;habituation graduelle.</div>
+        <div class="g-related"><span class="tag tag-sky">C2 S4</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="nosologie classification maladies catégoriel dimensionnel dsm cim hitop rdoc">
+        <div class="g-term"><span class="g-num">35</span>Nosologie</div>
+        <div class="g-def">Science de la classification des maladies. En psychiatrie, d&eacute;bat entre approches cat&eacute;gorielles (DSM, CIM) et dimensionnelles (HiTOP, RDoC).</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S2</span><span class="tag tag-sky">C1 S7-S8</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="dysfonction nuisible harmful dysfunction wakefield trouble mental mécanisme biologique normes sociales">
+        <div class="g-term"><span class="g-num">36</span>Dysfonction nuisible (Harmful Dysfunction)</div>
+        <div class="g-def">Concept de Wakefield (1992)&nbsp;: un trouble mental requiert &agrave; la fois (a) un dysfonctionnement d&rsquo;un m&eacute;canisme biologique et (b) un pr&eacute;judice jug&eacute; par les normes sociales.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S1</span></div>
+      </div>
+
+      <div class="glossary-item" data-terms="dimensionnel catégoriel psychopathologie dsm hitop continuum sévérité">
+        <div class="g-term"><span class="g-num">37</span>Dimensionnel vs cat&eacute;goriel</div>
+        <div class="g-def">Deux fa&ccedil;ons de conceptualiser la psychopathologie. Cat&eacute;goriel&nbsp;: pr&eacute;sent ou absent (DSM). Dimensionnel&nbsp;: un continuum de s&eacute;v&eacute;rit&eacute; (HiTOP). La recherche favorise de plus en plus l&rsquo;approche dimensionnelle.</div>
+        <div class="g-related"><span class="tag tag-sky">C1 S2</span><span class="tag tag-sky">C2 S1</span></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleSection(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.toggle');
+  body.classList.toggle('collapsed');
+  toggle.textContent = body.classList.contains('collapsed') ? '+' : '\u2212';
+}
+
+document.getElementById('glossary-search').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  const sections = document.querySelectorAll('.glossary-section');
+
+  sections.forEach(function(section) {
+    const items = section.querySelectorAll('.glossary-item');
+    let visibleCount = 0;
+
+    items.forEach(function(item) {
+      const terms = item.getAttribute('data-terms') || '';
+      const termText = item.querySelector('.g-term').textContent.toLowerCase();
+      const defText = item.querySelector('.g-def').textContent.toLowerCase();
+      const match = !q || terms.includes(q) || termText.includes(q) || defText.includes(q);
+
+      item.classList.toggle('hidden', !match);
+      if (match) visibleCount++;
+    });
+
+    section.classList.toggle('hidden', visibleCount === 0 && q !== '');
+
+    // Expand section if searching
+    if (q && visibleCount > 0) {
+      const body = section.querySelector('.glossary-section-body');
+      const toggle = section.querySelector('.toggle');
+      body.classList.remove('collapsed');
+      toggle.textContent = '\u2212';
+    }
+  });
+});
+</script>
+
+</body>
+</html>

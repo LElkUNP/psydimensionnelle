@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacologie — R3 Psychiatrie dimensionnelle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo"><a href="index.html">R3 — Psychiatrie dimensionnelle</a></div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="c1/index.html">C1</a>
+    <a href="c2/index.html">C2</a>
+    <a href="hitop.html">HiTOP</a>
+    <a href="circuits.html">Circuits</a>
+    <a href="pharma.html" class="active">Pharma</a>
+    <a href="cases.html">Cas</a>
+    <a href="readings.html">Lectures</a>
+    <a href="glossary.html">Glossaire</a>
+    <a href="tools.html">Outils</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Pharmacologie</h1>
+    <div class="subtitle">Mol&eacute;cule &rarr; m&eacute;canisme &rarr; circuit — approche par paliers</div>
+  </div>
+
+  <h2>Paliers</h2>
+  <div class="palier-track">
+    <div class="palier-step" style="background: var(--navy);">
+      <span class="p-num">Palier 1</span>
+      <span class="p-label">ISRS</span>
+      <span class="p-detail">NA&#8593; supraspectre</span>
+    </div>
+    <div class="palier-step" style="background: var(--sky);">
+      <span class="p-num">Palier 2a</span>
+      <span class="p-label">Pivot DA/NE</span>
+      <span class="p-detail">Si PA&#8595; persiste</span>
+    </div>
+    <div class="palier-step" style="background: var(--green);">
+      <span class="p-num">Palier 2b</span>
+      <span class="p-label">Exposition</span>
+      <span class="p-detail">Si Fear dominant</span>
+    </div>
+    <div class="palier-step" style="background: var(--gold);">
+      <span class="p-num">Palier 2c</span>
+      <span class="p-label">ISRS haute dose</span>
+      <span class="p-detail">Si OCD</span>
+    </div>
+    <div class="palier-step" style="background: var(--dark);">
+      <span class="p-num">Palier 3</span>
+      <span class="p-label">Composantes r&eacute;siduelles</span>
+      <span class="p-detail">Cognition, insomnie, blunting, irritabilit&eacute;</span>
+    </div>
+  </div>
+
+  <h2>Grille pharmacologique</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Mol&eacute;cule</th>
+        <th>Classe</th>
+        <th>Circuit cible</th>
+        <th>Syst&egrave;me RDoC</th>
+        <th>Indication dimensionnelle</th>
+        <th>M&eacute;canisme</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="expandable-row" onclick="toggleRow(this)">
+        <td>ISRS (sertraline, escitalopram)</td>
+        <td>SRI</td>
+        <td>SN/amygdale (NA&#8593;)</td>
+        <td>Neg valence (broad)</td>
+        <td>Supraspectre internalisant</td>
+        <td>Correction biais &eacute;motionnel (Harmer)</td>
+      </tr>
+      <tr class="row-detail">
+        <td colspan="6">
+          <p>Les ISRS corrigent le biais de traitement &eacute;motionnel d&egrave;s J1-7 (Harmer). L'amygdale et le SN (insula, dACC) r&eacute;duisent leur r&eacute;activit&eacute; aux stimuli n&eacute;gatifs. L'am&eacute;lioration clinique suit en 4-6 semaines via le r&eacute;apprentissage social. Effet supraspectre sur l'ensemble du facteur internalisant.</p>
+        </td>
+      </tr>
+
+      <tr class="expandable-row" onclick="toggleRow(this)">
+        <td>Venlafaxine &ge;150mg</td>
+        <td>IRSN</td>
+        <td>SN + PFC&rarr;striatum (NE indirect)</td>
+        <td>Neg valence + partial pos valence</td>
+        <td>NA&#8593; + PA&#8595; partiel</td>
+        <td>5-HT dominant + NE &agrave; haute dose</td>
+      </tr>
+      <tr class="row-detail">
+        <td colspan="6">
+          <p>&Agrave; doses &le;150mg, la venlafaxine agit principalement comme un SRI. Au-del&agrave; de 150mg, le blocage du transporteur NE s'ajoute, recrutant les circuits PFC&rarr;striatum. Cela apporte un b&eacute;n&eacute;fice partiel sur la composante PA&#8595; (anhédonie, fatigue) en plus de l'effet NA&#8593; standard.</p>
+        </td>
+      </tr>
+
+      <tr class="expandable-row" onclick="toggleRow(this)">
+        <td>Bupropion</td>
+        <td>NDRI</td>
+        <td>VTA&rarr;NAcc (DA direct)</td>
+        <td>Pos valence : wanting + learning</td>
+        <td>PA&#8595; dominant (anh&eacute;donie)</td>
+        <td>DA/NE reuptake in NAcc</td>
+      </tr>
+      <tr class="row-detail">
+        <td colspan="6">
+          <p>Le bupropion cible directement le circuit de r&eacute;compense VTA&rarr;NAcc en bloquant la recapture de DA et NE. Il am&eacute;liore le wanting (motivation) et le learning (erreur de pr&eacute;diction DA). Indiqu&eacute; quand l'anh&eacute;donie domine le tableau clinique, en monoth&eacute;rapie ou en augmentation d'un ISRS.</p>
+        </td>
+      </tr>
+
+      <tr class="expandable-row" onclick="toggleRow(this)">
+        <td>Pramipexole</td>
+        <td>D2/D3 agoniste</td>
+        <td>NAcc/VTA (DA direct)</td>
+        <td>Pos valence : wanting</td>
+        <td>PA&#8595; s&eacute;v&egrave;re, r&eacute;sistant</td>
+        <td>Stimulation directe r&eacute;cepteurs DA</td>
+      </tr>
+      <tr class="row-detail">
+        <td colspan="6">
+          <p>Agoniste direct D2/D3, le pramipexole stimule les r&eacute;cepteurs dopaminergiques du NAcc et du VTA sans passer par la recapture. R&eacute;serv&eacute; aux PA&#8595; s&eacute;v&egrave;res r&eacute;sistants aux strat&eacute;gies de palier 1-2. Surveillance : impulsivit&eacute;, troubles du contr&ocirc;le des impulsions.</p>
+        </td>
+      </tr>
+
+      <tr class="expandable-row" onclick="toggleRow(this)">
+        <td>K&eacute;tamine / eskétamine</td>
+        <td>NMDA antagoniste</td>
+        <td>Habenula &rarr; VTA &rarr; NAcc + PFC + amygdale</td>
+        <td><strong>Multi-RDoC</strong></td>
+        <td>D&eacute;pression r&eacute;sistante, PA&#8595;, suicidalit&eacute;</td>
+        <td>D&eacute;sinhibition VTA + synaptogen&egrave;se rapide</td>
+      </tr>
+      <tr class="row-detail">
+        <td colspan="6">
+          <p><strong>M&eacute;canismes multiples — la k&eacute;tamine traverse plusieurs syst&egrave;mes RDoC :</strong></p>
+          <table style="width:100%;font-size:0.82rem;margin:0.5rem 0;border-collapse:collapse;">
+            <tr style="border-bottom:1px solid var(--light-gray);">
+              <td style="padding:0.3rem 0.5rem;font-family:'DM Mono',monospace;color:var(--navy);width:160px;">Pos Valence: Reward</td>
+              <td style="padding:0.3rem 0.5rem;">Bloque NMDA sur la habenula lat&eacute;rale &rarr; l&egrave;ve l'inhibition tonique sur le VTA &rarr; restaure la signalisation DA dans le NAcc. Cible wanting + liking + learning. Effet en heures (vs semaines pour ISRS).</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--light-gray);">
+              <td style="padding:0.3rem 0.5rem;font-family:'DM Mono',monospace;color:var(--navy);">Neg Valence: Loss</td>
+              <td style="padding:0.3rem 0.5rem;">R&eacute;duit l'hyperactivit&eacute; sgACC/DMN (rumination). D&eacute;clenche une cascade AMPA &rarr; BDNF &rarr; mTOR &rarr; synaptogen&egrave;se rapide dans le PFC. Les synapses perdues par le stress chronique sont restaur&eacute;es en 24h (Duman 2012).</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--light-gray);">
+              <td style="padding:0.3rem 0.5rem;font-family:'DM Mono',monospace;color:var(--navy);">Neg Valence: Threat</td>
+              <td style="padding:0.3rem 0.5rem;">R&eacute;duit la r&eacute;activit&eacute; amygdalienne aux stimuli mena&ccedil;ants. Le biais &eacute;motionnel est modifi&eacute; en HEURES (vs J7 pour ISRS). Valid&eacute; dans le mod&egrave;le CNP (Harmer) — m&ecirc;me m&eacute;canisme que les ISRS, mais acc&eacute;l&eacute;r&eacute;.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--light-gray);">
+              <td style="padding:0.3rem 0.5rem;font-family:'DM Mono',monospace;color:var(--navy);">Cognitive Systems</td>
+              <td style="padding:0.3rem 0.5rem;">Am&eacute;liore la plasticit&eacute; synaptique PFC (BDNF/mTOR). Restaure le fonctionnement CEN (attention, flexibilit&eacute;) d&eacute;grad&eacute; par le stress chronique.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.3rem 0.5rem;font-family:'DM Mono',monospace;color:var(--navy);">Arousal/Regulatory</td>
+              <td style="padding:0.3rem 0.5rem;">Effets dissociatifs aigus (transitoires). Modulation glutamatergique globale &rarr; r&eacute;initialisation des r&eacute;seaux (anti-suicidaire rapide, Wilkinson 2018).</td>
+            </tr>
+          </table>
+          <p style="margin-top:0.5rem;"><strong>Profil dimensionnel :</strong> La k&eacute;tamine n'est pas un &laquo; antid&eacute;presseur &raquo; — c'est un agent multi-circuit. Son b&eacute;n&eacute;fice est maximal chez les patients avec PA&#8595; dominant (anhédonie, anergie) + NA&#8593; r&eacute;sistant + suicidalit&eacute;. Le mod&egrave;le Harmer confirme : le shift de biais &eacute;motionnel est le m&ecirc;me m&eacute;canisme que les ISRS, mais compress&eacute; dans le temps.</p>
+        </td>
+      </tr>
+
+      <tr class="expandable-row" onclick="toggleRow(this)">
+        <td>ISRS haute dose</td>
+        <td>SRI</td>
+        <td>Boucle OFC-caud&eacute;-thalamus</td>
+        <td>Cognitive + habit</td>
+        <td>OCD</td>
+        <td>Saturation 5-HT striatale (CSTC)</td>
+      </tr>
+      <tr class="row-detail">
+        <td colspan="6">
+          <p><strong>Pourquoi la haute dose est n&eacute;cessaire dans le TOC :</strong></p>
+          <p>Le circuit OCD (OFC &rarr; caud&eacute; &rarr; pallidum &rarr; thalamus &rarr; retour OFC) est un circuit DIFF&Eacute;RENT de celui de la d&eacute;pression/anxi&eacute;t&eacute;. La boucle est bloqu&eacute;e en mode &laquo; signal d'erreur &raquo; — l'OFC dit &laquo; pas assez propre / pas assez s&ucirc;r &raquo; et le signal ne s'&eacute;teint pas.</p>
+          <table style="width:100%;font-size:0.82rem;margin:0.5rem 0;border-collapse:collapse;">
+            <tr style="border-bottom:1px solid var(--light-gray);">
+              <td style="padding:0.3rem 0.5rem;font-family:'DM Mono',monospace;color:var(--navy);width:180px;">Circuit diff&eacute;rent</td>
+              <td style="padding:0.3rem 0.5rem;">Dans l'internalisant (NA&#8593;), les ISRS agissent sur l'amygdale/SN (biais &eacute;motionnel, Harmer). Dans le TOC, la cible est le <strong>striatum</strong> (caud&eacute;) o&ugrave; la densit&eacute; de r&eacute;cepteurs 5-HT est plus faible &rarr; il faut une saturation s&eacute;rotoninergique 2-3&times; plus &eacute;lev&eacute;e pour moduler la boucle CSTC.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--light-gray);">
+              <td style="padding:0.3rem 0.5rem;font-family:'DM Mono',monospace;color:var(--navy);">M&eacute;canisme striatal</td>
+              <td style="padding:0.3rem 0.5rem;">La 5-HT module la balance entre voie directe (D1, go) et indirecte (D2, stop) dans le striatum. &Agrave; dose standard, l'effet est insuffisant pour freiner la voie directe hyperactive du TOC. La haute dose sature les r&eacute;cepteurs 5-HT2A et 5-HT2C du caud&eacute;, r&eacute;tablissant le frein.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--light-gray);">
+              <td style="padding:0.3rem 0.5rem;font-family:'DM Mono',monospace;color:var(--navy);">Shift habit &rarr; goal</td>
+              <td style="padding:0.3rem 0.5rem;">Le TOC = shift de comportement goal-directed vers habitude (Gillan &amp; Robbins 2014). Les compulsions deviennent automatiques. La haute dose + ERP force le retour vers le contr&ocirc;le goal-directed (PFC &rarr; caud&eacute;).</td>
+            </tr>
+            <tr>
+              <td style="padding:0.3rem 0.5rem;font-family:'DM Mono',monospace;color:var(--navy);">Doses (Kayser 2020)</td>
+              <td style="padding:0.3rem 0.5rem;">Fluox&eacute;tine 40-80mg, sertraline 150-200mg, fluvoxamine 200-300mg. D&eacute;lai de r&eacute;ponse plus long (8-12 sem vs 4-6 sem d&eacute;pression). Si insuffisant &rarr; augmentation : AP atypiques (Dold 2015), glutamate / m&eacute;mantine (Modarresi 2019), clomipramine (cas r&eacute;fractaires).</td>
+            </tr>
+          </table>
+          <p style="margin-top:0.5rem;"><strong>Point clinique :</strong> Un r&eacute;sident qui prescrit sertraline 50mg pour un patient dont le profil HiTOP montre OCD dominant sous-dose. La structure HiTOP r&eacute;v&egrave;le que l'OCD est <em>adjacent</em> &agrave; l'internalisant, pas identique &rarr; le dosage suit la localisation du circuit, pas le spectre.</p>
+        </td>
+      </tr>
+
+      <tr class="expandable-row" onclick="toggleRow(this)">
+        <td>Aripiprazole</td>
+        <td>AP atypique (agoniste partiel D2)</td>
+        <td>D2/5-HT1A/5-HT2A</td>
+        <td>Pos valence + Neg valence</td>
+        <td>Schizophr&eacute;nie, manie, adjuvant d&eacute;pression r&eacute;sistante, TSA</td>
+        <td>Agoniste partiel D2 + 5-HT1A, antagoniste 5-HT2A</td>
+      </tr>
+      <tr class="row-detail">
+        <td colspan="6">
+          <p><strong>Classe :</strong> Antipsychotique atypique (agoniste partiel D2)</p>
+          <p><strong>M&eacute;canisme :</strong> Agoniste partiel des r&eacute;cepteurs D2 et 5-HT1A, antagoniste 5-HT2A. Stabilise l'activit&eacute; dopaminergique plut&ocirc;t que de la bloquer compl&egrave;tement.</p>
+          <p><strong>Indications :</strong> Schizophr&eacute;nie, trouble bipolaire (manie), adjuvant dans la d&eacute;pression majeure r&eacute;sistante, irritabilit&eacute; dans le TSA.</p>
+          <p><strong>Effets secondaires :</strong> Akathisie (fr&eacute;quent), insomnie, naus&eacute;e, prise de poids mod&eacute;r&eacute;e (moins que olanzapine/qu&eacute;tiapine).</p>
+          <p><strong>Note clinique :</strong> Profil m&eacute;tabolique plus favorable que les autres antipsychotiques atypiques. L'akathisie peut &ecirc;tre confondue avec l'agitation psychotique.</p>
+        </td>
+      </tr>
+
+      <tr class="expandable-row" onclick="toggleRow(this)">
+        <td>Amisulpride</td>
+        <td>AP atypique (antagoniste s&eacute;lectif D2/D3)</td>
+        <td>D2/D3 pr&eacute;synaptique (faible dose) / postsynaptique (haute dose)</td>
+        <td>Pos valence (faible dose) + Neg valence (haute dose)</td>
+        <td>Schizophr&eacute;nie (positifs + n&eacute;gatifs), dysthymie</td>
+        <td>Prodopaminergique &agrave; faible dose, antipsychotique &agrave; haute dose</td>
+      </tr>
+      <tr class="row-detail">
+        <td colspan="6">
+          <p><strong>Classe :</strong> Antipsychotique atypique (antagoniste s&eacute;lectif D2/D3)</p>
+          <p><strong>M&eacute;canisme :</strong> &Agrave; faibles doses (50-300 mg), bloque pr&eacute;f&eacute;rentiellement les autor&eacute;cepteurs D2/D3 pr&eacute;synaptiques &rarr; augmentation de la transmission dopaminergique (effet prodopaminergique). &Agrave; hautes doses (400-1200 mg), bloque les r&eacute;cepteurs postsynaptiques &rarr; effet antipsychotique classique.</p>
+          <p><strong>Indications :</strong> Schizophr&eacute;nie (sympt&ocirc;mes positifs et n&eacute;gatifs), dysthymie (faibles doses).</p>
+          <p><strong>Effets secondaires :</strong> Hyperprolactin&eacute;mie (fr&eacute;quent), allongement QTc, prise de poids mod&eacute;r&eacute;e.</p>
+          <p><strong>Note clinique :</strong> Un des rares antipsychotiques efficaces sur les sympt&ocirc;mes n&eacute;gatifs &agrave; faible dose. Non disponible aux &Eacute;tats-Unis mais utilis&eacute; en Europe et au Canada.</p>
+        </td>
+      </tr>
+
+      <tr class="expandable-row" onclick="toggleRow(this)">
+        <td>Vortioxétine</td>
+        <td>Multimodal</td>
+        <td>5-HT + cognition</td>
+        <td>Cognitive systems</td>
+        <td>Blunting &eacute;motionnel sous ISRS</td>
+        <td>5-HT7, 5-HT1D + SRI</td>
+      </tr>
+      <tr class="row-detail">
+        <td colspan="6">
+          <p>La vortioxétine combine l'inhibition de la recapture 5-HT avec un antagonisme 5-HT7 et 5-HT1D, plus un agonisme 5-HT1A. Ce profil multimodal am&eacute;liore la cognition (vitesse de traitement, m&eacute;moire) et r&eacute;duit le blunting &eacute;motionnel observ&eacute; sous ISRS classiques. Option de switch quand les fonctions cognitives restent alt&eacute;r&eacute;es.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<style>
+  .row-detail { display: none; }
+  .row-detail td {
+    padding: 0.8rem 1rem;
+    background: rgba(65,143,222,0.04);
+    font-size: 0.84rem;
+    line-height: 1.6;
+    border-bottom: 1px solid var(--light-gray);
+  }
+  .row-detail.open { display: table-row; }
+  .expandable-row { cursor: pointer; }
+  .expandable-row td:last-child { position: relative; padding-right: 1.8rem; }
+  .expandable-row td:last-child::after {
+    content: '+';
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--sky);
+    position: absolute;
+    right: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .expandable-row.open td:last-child::after { content: '\2212'; }
+</style>
+
+<script>
+function toggleRow(row) {
+  var detail = row.nextElementSibling;
+  var wasOpen = detail.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.row-detail').forEach(function(r) { r.classList.remove('open'); });
+  document.querySelectorAll('.expandable-row').forEach(function(r) { r.classList.remove('open'); });
+  // Toggle
+  if (!wasOpen) {
+    detail.classList.add('open');
+    row.classList.add('open');
+  }
+}
+</script>
+
+</body>
+</html>

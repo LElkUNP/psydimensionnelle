@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lectures — R3 Psychiatrie dimensionnelle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo"><a href="index.html">R3 — Psychiatrie dimensionnelle</a></div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="c1/index.html">C1</a>
+    <a href="c2/index.html">C2</a>
+    <a href="hitop.html">HiTOP</a>
+    <a href="circuits.html">Circuits</a>
+    <a href="pharma.html">Pharma</a>
+    <a href="cases.html">Cas</a>
+    <a href="readings.html" class="active">Lectures</a>
+    <a href="glossary.html">Glossaire</a>
+    <a href="tools.html">Outils</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Lectures</h1>
+    <div class="subtitle">R&eacute;f&eacute;rences par cours et par th&egrave;me</div>
+  </div>
+
+  <!-- Filter bar: Course -->
+  <div class="filter-bar" id="filter-course">
+    <button class="filter-btn active" data-course="tous">Tous</button>
+    <button class="filter-btn" data-course="c1">C1</button>
+    <button class="filter-btn" data-course="c2">C2</button>
+    <button class="filter-btn" data-course="c3">C3</button>
+  </div>
+
+  <!-- Filter bar: Topic -->
+  <div class="filter-bar" id="filter-topic">
+    <button class="filter-btn active" data-topic="tous">#tous</button>
+    <button class="filter-btn" data-topic="fondamental">#fondamental</button>
+    <button class="filter-btn" data-topic="hitop">#HiTOP</button>
+    <button class="filter-btn" data-topic="personnalite">#personnalit&eacute;</button>
+    <button class="filter-btn" data-topic="circuits">#circuits</button>
+    <button class="filter-btn" data-topic="pharmacologie">#pharmacologie</button>
+    <button class="filter-btn" data-topic="psychotherapie">#psychoth&eacute;rapie</button>
+    <button class="filter-btn" data-topic="validite">#validit&eacute;</button>
+    <button class="filter-btn" data-topic="rdoc">#RDoC</button>
+    <button class="filter-btn" data-topic="biotypes">#biotypes</button>
+    <button class="filter-btn" data-topic="nosologie">#nosologie</button>
+    <button class="filter-btn" data-topic="anxiete">#anxi&eacute;t&eacute;</button>
+    <button class="filter-btn" data-topic="neurosciences">#neurosciences</button>
+    <button class="filter-btn" data-topic="philosophie">#philosophie</button>
+  </div>
+
+  <!-- C1 Readings -->
+  <h2>C1 &mdash; Qu'est-ce qu'un trouble?</h2>
+
+  <div class="reading-card" data-course="c1" data-topic="fondamental">
+    <div class="r-citation">Fried, E. I. (2017). The 52 symptoms of major depression. <em>J Abnorm Psychol.</em></div>
+    <div class="r-why">Montre que la MDD est un syndrome h&eacute;t&eacute;rog&egrave;ne &mdash; 52 sympt&ocirc;mes, 1000+ profils possibles.</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#fondamental</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c1" data-topic="fondamental">
+    <div class="r-citation">Zachar, P. &amp; Kendler, K. S. (2007). Psychiatric disorders as kinds. <em>Br J Psychiatry.</em></div>
+    <div class="r-why">Les troubles psychiatriques comme practical kinds &mdash; ni naturels ni purement sociaux.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#fondamental</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c1" data-topic="circuits">
+    <div class="r-citation">Menon, V. (2011). Large-scale brain networks. <em>Trends Cogn Sci.</em></div>
+    <div class="r-why">Le mod&egrave;le triple r&eacute;seau (SN, CEN, DMN) &mdash; fondation de la neuroscience transdiagnostique.</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#circuits</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c1" data-topic="circuits">
+    <div class="r-citation">Williams, L. M. (2016). Precision psychiatry. <em>Am J Psychiatry.</em></div>
+    <div class="r-why">6 biotypes bas&eacute;s sur 6 circuits. Analogie cardiaque de la psychiatrie.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#circuits</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c1" data-topic="hitop">
+    <div class="r-citation">Kotov, R. et al. (2017). The Hierarchical Taxonomy of Psychopathology (HiTOP). <em>J Abnorm Psychol.</em></div>
+    <div class="r-why">Article fondateur du consortium HiTOP. Structure hi&eacute;rarchique de la psychopathologie.</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#HiTOP</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c1" data-topic="biotypes">
+    <div class="r-citation">Tozzi, L. et al. (2024). Personalized brain circuit scores identify clinically distinct biotypes in depression and anxiety. <em>Nature Medicine</em>, 30, 2076&ndash;2087.</div>
+    <div class="r-why">Validation empirique des biotypes de Williams, n=801, task+rest fMRI.</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#biotypes</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c1" data-topic="biotypes">
+    <div class="r-citation">Hack, L. M. et al. (2023). Transdiagnostic brain circuit-based subtypes predict response to treatment. <em>Molecular Psychiatry</em>, 28, 4127&ndash;4139.</div>
+    <div class="r-why">R&eacute;plication des biotypes et pr&eacute;diction de la r&eacute;ponse au traitement.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#biotypes</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c1" data-topic="nosologie">
+    <div class="r-citation">Wakefield, J. C. (1992). The concept of mental disorder: On the boundary between biological facts and social values. <em>American Psychologist</em>, 47(3), 373&ndash;388.</div>
+    <div class="r-why">Article fondateur sur l&rsquo;analyse de la dysfonction nuisible (harmful dysfunction).</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#nosologie</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c1" data-topic="nosologie">
+    <div class="r-citation">Wakefield, J. C. (2007). The concept of mental disorder: Diagnostic implications of the harmful dysfunction analysis. <em>World Psychiatry</em>, 6(3), 149&ndash;156.</div>
+    <div class="r-why">Mise &agrave; jour de l&rsquo;analyse de la dysfonction nuisible, implications pour le DSM.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#nosologie</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c1" data-topic="nosologie philosophie">
+    <div class="r-citation">Kendler, K. S. (2011). Philosophical Issues in Psychiatry II: Nosology. In K. Kendler &amp; J. Parnas (Eds.), <em>Oxford University Press</em>.</div>
+    <div class="r-why">Cadre philosophique cl&eacute; pour la classification psychiatrique.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#nosologie</span>
+      <span class="tag tag-sky">#philosophie</span>
+      <span class="tag tag-navy">C1</span>
+    </div>
+  </div>
+
+  <!-- C2 Readings -->
+  <h2>C2 &mdash; Les troubles internalisants</h2>
+
+  <div class="reading-card" data-course="c2" data-topic="hitop pharmacologie">
+    <div class="r-citation">Elkrief, L. et al. (sous presse). HiTOP in Everyday Practice. <em>Psychopharmacology.</em></div>
+    <div class="r-why">Manuscrit colonne vert&eacute;brale du cours. Application clinique du profilage dimensionnel.</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#HiTOP</span>
+      <span class="tag tag-sky">#pharmacologie</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="hitop validite">
+    <div class="r-citation">Watson, D. et al. (2022). Validity and utility of HiTOP. <em>World Psychiatry.</em></div>
+    <div class="r-why">Supraspectre Emotional Dysfunction. Donn&eacute;es de validit&eacute; et d'utilit&eacute; clinique.</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#HiTOP</span>
+      <span class="tag tag-sky">#validit&eacute;</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="hitop fondamental">
+    <div class="r-citation">Krueger, R. F. (1999). The structure of common mental disorders. <em>Arch Gen Psychiatry.</em></div>
+    <div class="r-why">Analyse factorielle originale &mdash; Internalisant vs Externalisant.</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#HiTOP</span>
+      <span class="tag tag-sky">#fondamental</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="validite">
+    <div class="r-citation">Regier, D. A. et al. (2013). DSM-5 field trials. <em>Am J Psychiatry.</em></div>
+    <div class="r-why">Field trials du DSM-5 &mdash; kappa inter-&eacute;valuateur d&eacute;cevants pour la plupart des diagnostics.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#validit&eacute;</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="validite">
+    <div class="r-citation">Markon, K. E. (2011). Dimensional vs categorical. <em>J Abnorm Psychol.</em></div>
+    <div class="r-why">M&eacute;ta-analyse : +15% fiabilit&eacute;, +37% validit&eacute; pour le dimensionnel vs cat&eacute;goriel.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#validit&eacute;</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="pharmacologie circuits">
+    <div class="r-citation">Harmer, C. J. et al. (2009). Cognitive neuropsychological model. <em>Br J Psychiatry.</em></div>
+    <div class="r-why">Mod&egrave;le CNP : les ISRS corrigent le biais &eacute;motionnel, pas les niveaux de s&eacute;rotonine.</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#pharmacologie</span>
+      <span class="tag tag-sky">#circuits</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="psychotherapie">
+    <div class="r-citation">Craske, M. G. et al. (2014). Maximizing exposure therapy. <em>Behav Res Ther.</em></div>
+    <div class="r-why">Violation d'attente comme m&eacute;canisme d'extinction. Implications pour l'exposition.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#psychoth&eacute;rapie</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="psychotherapie">
+    <div class="r-citation">Barlow, D. H. et al. (2017). Unified Protocol. <em>Oxford UP.</em></div>
+    <div class="r-why">Protocole transdiagnostique pour les troubles &eacute;motionnels.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#psychoth&eacute;rapie</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="hitop">
+    <div class="r-citation">Ruggero, C. J. et al. (2019). Integrating HiTOP into clinical practice. <em>J Consult Clin Psychol.</em></div>
+    <div class="r-why">Cas clinique int&eacute;gral avec formulation dimensionnelle &eacute;tape par &eacute;tape.</div>
+    <div class="r-tags">
+      <span class="tag tag-red">ESSENTIEL</span>
+      <span class="tag tag-sky">#HiTOP</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="personnalite">
+    <div class="r-citation">Kotov, R. et al. (2010). Linking Big Five personality traits to anxiety, depression. <em>Psychol Bull.</em></div>
+    <div class="r-why">M&eacute;ta-analyse Big Five &times; psychopathologie. Effect sizes par spectre HiTOP.</div>
+    <div class="r-tags">
+      <span class="tag tag-green">OPTIONNEL</span>
+      <span class="tag tag-sky">#personnalit&eacute;</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+  <div class="reading-card" data-course="c2" data-topic="anxiete neurosciences">
+    <div class="r-citation">Shackman, A. J. et al. (2024). The neurobiology of anxiety: Current knowledge and emerging directions. <em>Annual Review of Neuroscience</em>, 47, 359&ndash;388.</div>
+    <div class="r-why">Revue compl&egrave;te de la neurocircuiterie de l&rsquo;anxi&eacute;t&eacute;.</div>
+    <div class="r-tags">
+      <span class="tag tag-gold">RECOMMAND&Eacute;</span>
+      <span class="tag tag-sky">#anxi&eacute;t&eacute;</span>
+      <span class="tag tag-sky">#neurosciences</span>
+      <span class="tag tag-navy">C2</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var activeCourse = 'tous';
+  var activeTopic = 'tous';
+
+  var courseBtns = document.querySelectorAll('#filter-course .filter-btn');
+  var topicBtns = document.querySelectorAll('#filter-topic .filter-btn');
+  var cards = document.querySelectorAll('.reading-card');
+
+  function applyFilters() {
+    cards.forEach(function(card) {
+      var course = card.getAttribute('data-course') || '';
+      var topics = card.getAttribute('data-topic') || '';
+      var topicList = topics.split(/\s+/);
+
+      var courseMatch = activeCourse === 'tous' || course === activeCourse;
+      var topicMatch = activeTopic === 'tous' || topicList.indexOf(activeTopic) !== -1;
+
+      card.style.display = (courseMatch && topicMatch) ? '' : 'none';
+    });
+
+    // Show/hide section headers based on visible cards
+    var headers = document.querySelectorAll('h2');
+    headers.forEach(function(h) {
+      var next = h.nextElementSibling;
+      var anyVisible = false;
+      while (next && !next.matches('h2')) {
+        if (next.classList.contains('reading-card') && next.style.display !== 'none') {
+          anyVisible = true;
+        }
+        next = next.nextElementSibling;
+      }
+      h.style.display = anyVisible ? '' : 'none';
+    });
+  }
+
+  courseBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      courseBtns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeCourse = btn.getAttribute('data-course');
+      applyFilters();
+    });
+  });
+
+  topicBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      topicBtns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeTopic = btn.getAttribute('data-topic');
+      applyFilters();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

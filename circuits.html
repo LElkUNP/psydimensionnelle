@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circuit Cards — R3 Psychiatrie dimensionnelle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo"><a href="index.html">R3 — Psychiatrie dimensionnelle</a></div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="c1/index.html">C1</a>
+    <a href="c2/index.html">C2</a>
+    <a href="hitop.html">HiTOP</a>
+    <a href="circuits.html" class="active">Circuits</a>
+    <a href="pharma.html">Pharma</a>
+    <a href="cases.html">Cas</a>
+    <a href="readings.html">Lectures</a>
+    <a href="glossary.html">Glossaire</a>
+    <a href="tools.html">Outils</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Circuit Cards</h1>
+    <div class="subtitle">Circuits neuronaux par dimension — filtrables</div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">Tous</button>
+    <button class="filter-btn" data-filter="na">NA&#8593;</button>
+    <button class="filter-btn" data-filter="fear">Fear</button>
+    <button class="filter-btn" data-filter="distress">Distress</button>
+    <button class="filter-btn" data-filter="ocd">OCD</button>
+    <button class="filter-btn" data-filter="reward">Reward</button>
+  </div>
+
+  <!-- Card 1: NA↑ -->
+  <div class="circuit-card" data-filter="na">
+    <h3>NA&#8593; (Shared Internalizing)</h3>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:0.8rem 0;">
+      <div style="flex:1;min-width:200px;">
+        <div class="nodes">
+          <span class="node-tag">amygdale</span>
+          <span class="node-tag">insula ant. (SN)</span>
+          <span class="node-tag">dACC (SN)</span>
+          <span class="node-tag">mPFC (DMN)</span>
+          <span class="node-tag">PCC (DMN)</span>
+        </div>
+        <dl class="circuit-row">
+          <dt>Triple network</dt>
+          <dd>SN bloqu&eacute; ON &rarr; CEN offline &rarr; DMN domine</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>RDoC</dt>
+          <dd>Negative Valence Systems (broad)</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Pharmacologie</dt>
+          <dd>ISRS (Harmer : correction biais &eacute;motionnel)</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Psychoth&eacute;rapie</dt>
+          <dd>TCC, Protocole Unifi&eacute; (Barlow 2017)</dd>
+        </dl>
+      </div>
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;gap:0.5rem;align-items:center;">
+        <img src="/wolt/TA/site/img/neuroanat/circuit_na_shared.png" alt="NA↑ circuit — all structures" style="max-width:320px;width:100%;height:auto;border-radius:8px;background:#1a1a2e;padding:4px;">
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--mid);">SN (orange) · DMN (violet) · CEN dim (bleu)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: Fear — Menace aiguë -->
+  <div class="circuit-card" data-filter="fear">
+    <h3>Fear — Menace aigu&euml;</h3>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:0.8rem 0;">
+      <div style="flex:1;min-width:200px;">
+        <div class="nodes">
+          <span class="node-tag">amygdale BLA</span>
+          <span class="node-tag">CeA</span>
+          <span class="node-tag">PAG</span>
+        </div>
+        <dl class="circuit-row">
+          <dt>Temporal</dt>
+          <dd>Phasique (secondes), r&eacute;flexe, somatique</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>RDoC</dt>
+          <dd>Acute Threat</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Pharmacologie</dt>
+          <dd>ISRS + exposition</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Psychoth&eacute;rapie</dt>
+          <dd>Extinction (vmPFC &rarr; ITC &rarr; CeA), violation d'attente (Craske 2014)</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Caveat BZD</dt>
+          <dd>Comportement de s&eacute;curit&eacute; chimique</dd>
+        </dl>
+      </div>
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;gap:0.5rem;align-items:center;">
+        <img src="/wolt/TA/site/img/neuroanat/circuit_fear_acute.png" alt="Fear Acute — all structures" style="max-width:320px;width:100%;height:auto;border-radius:8px;background:#1a1a2e;padding:4px;">
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--mid);">Amygdale (rouge) · Thalamus · vmPFC (vert) · Hippo (teal)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: Fear — Menace soutenue -->
+  <div class="circuit-card" data-filter="fear">
+    <h3>Fear — Menace soutenue</h3>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:0.8rem 0;">
+      <div style="flex:1;min-width:200px;">
+        <div class="nodes">
+          <span class="node-tag">BNST</span>
+          <span class="node-tag">insula ant&eacute;rieure</span>
+          <span class="node-tag">mPFC</span>
+        </div>
+        <dl class="circuit-row">
+          <dt>Temporal</dt>
+          <dd>Tonique (heures/jours)</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>RDoC</dt>
+          <dd>Potential Threat</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Pharmacologie</dt>
+          <dd>ISRS</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Troubles</dt>
+          <dd>TAG, intol&eacute;rance &agrave; l'incertitude</dd>
+        </dl>
+      </div>
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;gap:0.5rem;align-items:center;">
+        <img src="/wolt/TA/site/img/neuroanat/circuit_fear_sustained.png" alt="Fear Sustained — all structures" style="max-width:320px;width:100%;height:auto;border-radius:8px;background:#1a1a2e;padding:4px;">
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--mid);">BNST proxy (orange) · Insula · mPFC (or) · dACC (rouge)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4: Distress — PA↓ (Reward) -->
+  <div class="circuit-card" data-filter="distress reward">
+    <h3>Distress — PA&#8595; (Reward)</h3>
+    <div style="display:flex;gap:0.5rem;margin:0.5rem 0;flex-wrap:wrap;">
+      <img src="/wolt/TA/site/img/neuroanat/circuit_reward_pa.png" alt="Reward PA↓ — all structures" style="max-width:320px;width:100%;height:auto;border-radius:8px;background:#1a1a2e;padding:4px;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--mid);align-self:flex-end;">VTA (vert) · NAcc · OFC (bleu) · Caudé (teal) · Thal (gris)</span>
+    </div>
+
+    <h4 class="expandable" onclick="toggleExpand(this)">Wanting</h4>
+    <div class="expand-content">
+      <div class="nodes">
+        <span class="node-tag">VTA</span>
+        <span class="node-tag">NAcc</span>
+        <span class="node-tag">DA</span>
+      </div>
+      <p style="font-size:0.85rem; margin-top:0.4rem;">Cible : bupropion, pramipexole</p>
+    </div>
+
+    <h4 class="expandable" onclick="toggleExpand(this)">Liking</h4>
+    <div class="expand-content">
+      <div class="nodes">
+        <span class="node-tag">r&eacute;cepteurs mu opio&iuml;des</span>
+        <span class="node-tag">NAcc shell</span>
+      </div>
+      <p style="font-size:0.85rem; margin-top:0.4rem;">Cible : k&eacute;tamine</p>
+    </div>
+
+    <h4 class="expandable" onclick="toggleExpand(this)">Learning</h4>
+    <div class="expand-content">
+      <div class="nodes">
+        <span class="node-tag">erreur de pr&eacute;diction DA phasique</span>
+      </div>
+      <p style="font-size:0.85rem; margin-top:0.4rem;">Cible : activation comportementale</p>
+    </div>
+
+    <dl class="circuit-row" style="margin-top:0.8rem;">
+      <dt>Panksepp</dt>
+      <dd>PANIC/GRIEF &rarr; SEEKING collapse &rarr; d&eacute;sespoir</dd>
+    </dl>
+    <dl class="circuit-row">
+      <dt>Berridge</dt>
+      <dd>Anh&eacute;donie = surtout wanting&#8595;, pas liking&#8595;</dd>
+    </dl>
+  </div>
+
+  <!-- Card 5: OCD -->
+  <div class="circuit-card" data-filter="ocd">
+    <h3>OCD — Boucle cortico-striatale</h3>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:0.8rem 0;">
+      <div style="flex:1;min-width:200px;">
+        <div class="nodes">
+          <span class="node-tag">OFC</span>
+          <span class="node-tag">caud&eacute;</span>
+          <span class="node-tag">thalamus</span>
+        </div>
+        <dl class="circuit-row">
+          <dt>Boucle</dt>
+          <dd>OFC &rarr; caud&eacute; &rarr; thalamus &rarr; retour OFC</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Sous-circuits</dt>
+          <dd>5 sous-circuits (Shephard 2021)</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>M&eacute;canisme</dt>
+          <dd>Shift goal-directed &rarr; habit (Gillan &amp; Robbins 2014)</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Pharmacologie</dt>
+          <dd>ISRS haute dose, augmentation AP atypiques, m&eacute;mantine</dd>
+        </dl>
+        <dl class="circuit-row">
+          <dt>Psychoth&eacute;rapie</dt>
+          <dd>ERP</dd>
+        </dl>
+      </div>
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;gap:0.5rem;align-items:center;">
+        <img src="/wolt/TA/site/img/neuroanat/circuit_ocd_cstc.png" alt="OCD CSTC — all structures" style="max-width:320px;width:100%;height:auto;border-radius:8px;background:#1a1a2e;padding:4px;">
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--mid);">OFC (or) · Caudé · Putamen (rouge) · Pallidum (violet) · Thal</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Filter logic
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var filter = btn.getAttribute('data-filter');
+    document.querySelectorAll('.circuit-card').forEach(function(card) {
+      if (filter === 'all') {
+        card.style.display = '';
+      } else {
+        var cardFilters = card.getAttribute('data-filter');
+        card.style.display = cardFilters.indexOf(filter) !== -1 ? '' : 'none';
+      }
+    });
+  });
+});
+
+// Expandable sections
+function toggleExpand(el) {
+  el.classList.toggle('open');
+  var content = el.nextElementSibling;
+  content.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
