@@ -143,6 +143,159 @@
       background: rgba(0,64,113,0.08);
     }
 
+    /* ===== CASE EXERCISE ===== */
+    .case-exercise {
+      background: linear-gradient(135deg, #f8f6f0 0%, #f0ece3 100%);
+      border: 2px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .case-exercise .ce-badge {
+      position: absolute;
+      top: -10px;
+      left: 1.2rem;
+      background: var(--gold);
+      color: white;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.7rem;
+      border-radius: 4px;
+    }
+    .case-exercise h3 {
+      margin: 0.3rem 0 0.6rem;
+      font-size: 1.05rem;
+      color: var(--navy);
+    }
+    .case-exercise .ce-vignette {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+    .case-exercise .ce-task {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--navy);
+      background: rgba(0,64,113,0.06);
+      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .case-exercise .ce-actions {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .ce-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .ce-btn:hover { opacity: 0.85; }
+    .ce-btn-primary {
+      background: var(--navy);
+      color: white;
+    }
+    .ce-btn-secondary {
+      background: transparent;
+      color: var(--navy);
+      border: 1.5px solid var(--navy);
+    }
+    .ce-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Expert markers on bar chart */
+    .bar-expert-mark {
+      position: absolute;
+      top: -2px;
+      bottom: -2px;
+      width: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+      z-index: 5;
+      transition: opacity 0.3s;
+    }
+    .bar-expert-mark::after {
+      content: attr(data-val);
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .ce-legend {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--mid);
+    }
+    .ce-legend-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      vertical-align: middle;
+      margin-right: 0.3rem;
+    }
+
+    /* Score comparison table */
+    .ce-compare {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+    }
+    .ce-compare table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .ce-compare th {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      text-align: left;
+      padding: 0.35rem 0.5rem;
+      border-bottom: 2px solid var(--navy);
+      color: var(--navy);
+    }
+    .ce-compare td {
+      padding: 0.35rem 0.5rem;
+      border-bottom: 1px solid var(--light-gray);
+      font-size: 0.8rem;
+    }
+    .ce-compare .match { color: var(--green); font-weight: 600; }
+    .ce-compare .close { color: var(--gold); }
+    .ce-compare .off   { color: var(--red); }
+
+    .ce-explanation {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--dark);
+      background: rgba(0,64,113,0.04);
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+    }
+    .ce-explanation strong {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--navy);
+    }
+
     @media (max-width: 768px) {
       .sliders-grid { grid-template-columns: 1fr; }
     }
@@ -151,6 +304,8 @@
       .form-label { min-width: auto; }
       .form-scores th,
       .form-scores td { padding: 0.3rem 0.4rem; font-size: 0.78rem; }
+      .case-exercise { padding: 1rem; }
+      .ce-btn { font-size: 0.72rem; padding: 0.4rem 0.8rem; }
     }
   </style>
 </head>
@@ -189,6 +344,26 @@
       <button class="filter-btn" onclick="loadPreset('thomas')">Thomas (PA&darr; dominant)</button>
       <button class="filter-btn" onclick="loadPreset('ruggero')">Ruggero 2019 (Int+Ext)</button>
       <button class="filter-btn" onclick="loadPreset('reset')">R&eacute;initialiser</button>
+    </div>
+
+    <!-- Case Exercise Panel (hidden by default) -->
+    <div id="case-exercise-panel" class="case-exercise" style="display:none">
+      <span class="ce-badge">EXERCICE</span>
+      <h3 id="ce-title"></h3>
+      <div class="ce-vignette" id="ce-vignette"></div>
+      <div class="ce-task" id="ce-task"></div>
+      <div class="ce-actions">
+        <button class="ce-btn ce-btn-primary" id="ce-reveal" onclick="revealExpert()">Voir la r&eacute;ponse experte</button>
+        <button class="ce-btn ce-btn-secondary" onclick="closeCaseExercise()">Fermer l'exercice</button>
+      </div>
+      <div id="ce-result" style="display:none">
+        <div class="ce-legend">
+          <span><span class="ce-legend-dot" style="background:var(--sky)"></span> Votre profil</span>
+          <span><span class="ce-legend-dot" style="background:var(--gold)"></span> R&eacute;ponse experte</span>
+        </div>
+        <div class="ce-compare" id="ce-compare"></div>
+        <div class="ce-explanation" id="ce-explanation"></div>
+      </div>
     </div>
 
     <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.8rem;font-family:'DM Mono',monospace;font-size:0.68rem;">
@@ -769,6 +944,13 @@
     dims.forEach(function(d) {
       var v = vals[d.id];
       var cls = sevClass(v);
+      var expertMark = '';
+      if (exerciseActive && exerciseRevealed && currentExercise) {
+        var ev = currentExercise.expert[d.id];
+        if (ev !== undefined) {
+          expertMark = '<span class="bar-expert-mark" style="left:' + ev + '%" data-val="' + ev + '"></span>';
+        }
+      }
       html += '<div class="bar-row">' +
         '<span class="bar-label">' + d.label + '</span>' +
         '<span class="bar-track" style="position:relative;">' +
@@ -776,6 +958,7 @@
           '<span style="position:absolute;left:60%;top:0;bottom:0;width:1px;background:rgba(0,0,0,0.1);z-index:1;border-left:1px dashed rgba(0,0,0,0.15);"></span>' +
           '<span style="position:absolute;left:70%;top:0;bottom:0;width:1px;background:rgba(0,0,0,0.1);z-index:1;border-left:1px dashed rgba(192,57,43,0.3);"></span>' +
           '<span class="bar-fill ' + cls + '" style="width:' + v + '%"></span>' +
+          expertMark +
         '</span>' +
         '<span class="bar-val">' + v + '</span>' +
         '</div>';
@@ -791,9 +974,142 @@
     reset:   { na: 50, pa: 50, fear: 50, ocd: 50, eat: 50, ext: 50, td: 50, det: 50 }
   };
 
+  // ================================================================
+  // CASE EXERCISE ENGINE
+  // ================================================================
+  var exerciseActive = false;
+  var exerciseRevealed = false;
+  var currentExercise = null;
+
+  var caseExercises = {
+    maya: {
+      title: 'Cas Maya \u2014 Construisez le profil dimensionnel',
+      vignette: '<strong>Maya, 28 ans</strong> \u2014 \u00c9tudiante aux cycles sup\u00e9rieurs. Anxiété croissante depuis 8 mois, humeur basse, pens\u00e9es intrusives de contamination \u2192 rituels de v\u00e9rification et lavage (2h/j). Perfectionnisme et rigidit\u00e9 de longue date. Restriction alimentaire + insatisfaction corporelle (sous-seuil DSM pour TCA).'
+        + '<br><br><strong>Scores standardis\u00e9s :</strong> Y-BOCS = 22 (mod\u00e9r\u00e9-s\u00e9v\u00e8re), PHQ-9 = 14 (mod\u00e9r\u00e9), GAD-7 = 16 (\u00e9lev\u00e9), EDE-Q = sous-seuil mais \u00e9lev\u00e9.'
+        + '<br><br><strong>DSM :</strong> TOC, TAG, \u00c9DM, TCA possible \u2014 4 diagnostics. <strong>Votre t\u00e2che :</strong> pensez en <em>dimensions</em>, pas en cat\u00e9gories.',
+      task: '\u2192 Ajustez les 8 curseurs (T-scores) pour construire le profil dimensionnel de Maya. R\u00e9fl\u00e9chissez \u00e0 quels sous-facteurs sont les plus \u00e9lev\u00e9s et pourquoi. Quand vous \u00eates satisfait, cliquez \u00ab Voir la r\u00e9ponse experte \u00bb.',
+      expert: { na: 68, pa: 58, fear: 62, ocd: 78, eat: 60, ext: 40, td: 42, det: 45 },
+      explanations: {
+        na: '<strong>NA = 68 (clinique).</strong> Humeur basse + anxi\u00e9t\u00e9 croissante. Le NA est le c\u0153ur partag\u00e9 du supraspectre internalisant \u2014 \u00e9lev\u00e9 ici mais PAS le plus dominant (OCD est le pic).',
+        pa: '<strong>PA\u2193 = 58 (\u00e9lev\u00e9).</strong> Anh\u00e9donie mod\u00e9r\u00e9e (PHQ-9 = 14 capture partiellement ceci). Pas le trait dominant \u2014 Maya a encore des int\u00e9r\u00eats acad\u00e9miques, mais le plaisir est diminu\u00e9.',
+        fear: '<strong>Fear = 62 (\u00e9lev\u00e9).</strong> GAD-7 = 16 est significatif. L\u2019anxi\u00e9t\u00e9 est pr\u00e9sente mais secondaire aux compulsions \u2014 Fear soutenu (inqui\u00e9tude chronique) plus que Fear aigu (panique).',
+        ocd: '<strong>OCD = 78 (s\u00e9v\u00e8re).</strong> C\u2019est le PIC du profil. Y-BOCS = 22, 2h/jour de rituels. Le circuit CSTC (OFC\u2192caud\u00e9\u2192pallidum\u2192thalamus) est le m\u00e9canisme sp\u00e9cifique \u2014 DIFF\u00c9RENT de la d\u00e9pression.',
+        eat: '<strong>Eating = 60 (\u00e9lev\u00e9).</strong> Sous-seuil DSM mais dimensionnellement \u00e9lev\u00e9. La restriction + insatisfaction corporelle partagent un circuit (r\u00e9compense + int\u00e9roception) et aggravent le tableau.',
+        ext: '<strong>Ext = 40 (normal).</strong> Aucun trait externalisant. Maya est hypercontr\u00f4l\u00e9e \u2014 le profil oppos\u00e9 de la d\u00e9sinhibition.',
+        td: '<strong>TD = 42 (normal).</strong> Pas de pens\u00e9e d\u00e9sorganis\u00e9e ni d\u2019id\u00e9es d\u00e9lirantes. L\u2019insight est pr\u00e9serv\u00e9 malgr\u00e9 la s\u00e9v\u00e9rit\u00e9 de l\u2019OCD.',
+        det: '<strong>Det = 45 (normal).</strong> Pas de retrait social ni d\u2019affect restreint. Les relations de Maya sont pr\u00e9serv\u00e9es.'
+      }
+    }
+  };
+
+  function startCaseExercise(caseName) {
+    var ex = caseExercises[caseName];
+    if (!ex) return;
+
+    currentExercise = ex;
+    exerciseActive = true;
+    exerciseRevealed = false;
+
+    // Reset sliders to 50
+    dims.forEach(function(d) {
+      document.getElementById(d.slider).value = 50;
+      modes[d.id] = 'state';
+      var toggle = document.getElementById('toggle-' + d.id);
+      if (toggle) {
+        toggle.querySelectorAll('span').forEach(function(s) {
+          s.classList.toggle('active', s.getAttribute('data-mode') === 'state');
+        });
+      }
+    });
+
+    // Show exercise panel
+    var panel = document.getElementById('case-exercise-panel');
+    panel.style.display = '';
+    document.getElementById('ce-title').textContent = ex.title;
+    document.getElementById('ce-vignette').innerHTML = ex.vignette;
+    document.getElementById('ce-task').innerHTML = ex.task;
+    document.getElementById('ce-reveal').disabled = false;
+    document.getElementById('ce-result').style.display = 'none';
+
+    // Scroll to panel
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    update();
+  }
+
+  window.revealExpert = function() {
+    if (!currentExercise || exerciseRevealed) return;
+    exerciseRevealed = true;
+
+    var vals = getValues();
+    var expert = currentExercise.expert;
+
+    // Build comparison table
+    var tableHtml = '<table><thead><tr><th>Dimension</th><th>Vous</th><th>Expert</th><th>\u0394</th></tr></thead><tbody>';
+    var totalDelta = 0;
+    dims.forEach(function(d) {
+      var sv = vals[d.id];
+      var ev = expert[d.id];
+      var delta = Math.abs(sv - ev);
+      totalDelta += delta;
+      var cls = delta <= 5 ? 'match' : delta <= 12 ? 'close' : 'off';
+      var arrow = sv < ev ? '\u2191' : sv > ev ? '\u2193' : '=';
+      tableHtml += '<tr><td>' + d.label + '</td><td>' + sv + '</td><td>' + ev + '</td><td class="' + cls + '">' + (delta === 0 ? '=' : arrow + ' ' + delta) + '</td></tr>';
+    });
+    var avgDelta = Math.round(totalDelta / dims.length);
+    var scoreMsg = avgDelta <= 5 ? 'Excellent! Profil tr\u00e8s proche.' : avgDelta <= 10 ? 'Bon travail! Quelques ajustements.' : 'Continuez \u00e0 pratiquer \u2014 relisez les explications.';
+    tableHtml += '</tbody></table>';
+    tableHtml += '<div style="margin-top:0.6rem;font-family:\'DM Mono\',monospace;font-size:0.75rem;color:var(--navy);">\u0394 moyen = ' + avgDelta + ' \u2014 ' + scoreMsg + '</div>';
+
+    document.getElementById('ce-compare').innerHTML = tableHtml;
+
+    // Build explanations
+    var expHtml = '<strong style="display:block;margin-bottom:0.5rem;">Pourquoi ces scores?</strong>';
+    dims.forEach(function(d) {
+      if (currentExercise.explanations[d.id]) {
+        expHtml += '<div style="margin-bottom:0.5rem;">' + currentExercise.explanations[d.id] + '</div>';
+      }
+    });
+    document.getElementById('ce-explanation').innerHTML = expHtml;
+
+    // Show result
+    document.getElementById('ce-result').style.display = '';
+    document.getElementById('ce-reveal').disabled = true;
+
+    // Re-render chart with expert markers
+    update();
+  };
+
+  window.closeCaseExercise = function() {
+    exerciseActive = false;
+    exerciseRevealed = false;
+    currentExercise = null;
+    document.getElementById('case-exercise-panel').style.display = 'none';
+    // Reset to 50
+    dims.forEach(function(d) {
+      document.getElementById(d.slider).value = 50;
+    });
+    update();
+  };
+
   window.loadPreset = function(name) {
+    // If this case has an exercise, enter exercise mode
+    if (caseExercises[name]) {
+      startCaseExercise(name);
+      return;
+    }
+
     var p = presets[name];
     if (!p) return;
+
+    // Close any active exercise
+    if (exerciseActive) {
+      exerciseActive = false;
+      exerciseRevealed = false;
+      currentExercise = null;
+      document.getElementById('case-exercise-panel').style.display = 'none';
+    }
+
     dims.forEach(function(d) {
       var slider = document.getElementById(d.slider);
       slider.value = p[d.id];
@@ -808,6 +1124,15 @@
     });
     update();
   };
+
+  // URL param support: ?case=maya → auto-enter exercise
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var caseName = params.get('case');
+    if (caseName && caseExercises[caseName]) {
+      setTimeout(function() { startCaseExercise(caseName); }, 100);
+    }
+  })();
 
   // Bind sliders
   dims.forEach(function(d) {
