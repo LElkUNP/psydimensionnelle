@@ -6,226 +6,233 @@
   <title>HiTOP Explorer — R3 Psychiatrie dimensionnelle</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ===== P-FACTOR BANNER ===== */
-    .pfactor-banner {
-      background: linear-gradient(135deg, #2a1a00 0%, #3d2800 50%, #1a1000 100%);
-      border: 2px solid var(--gold);
-      border-radius: var(--radius);
-      padding: 1.2rem 1.8rem;
-      margin-bottom: 1.5rem;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .pfactor-banner::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(90deg, rgba(185,151,91,0.08) 0%, transparent 50%, rgba(185,151,91,0.08) 100%);
-      pointer-events: none;
-    }
-    .pfactor-banner:hover {
-      border-color: #d4b06a;
-      box-shadow: 0 4px 24px rgba(185,151,91,0.25);
-      transform: translateY(-1px);
-    }
-    .pfactor-banner.selected {
-      border-color: #d4b06a;
-      box-shadow: 0 0 0 3px rgba(185,151,91,0.3), 0 4px 24px rgba(185,151,91,0.2);
-    }
-    .pfactor-icon {
-      font-size: 2rem;
-      font-family: 'DM Mono', monospace;
-      font-weight: 700;
-      color: var(--gold);
-      flex-shrink: 0;
-      width: 52px; height: 52px;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(185,151,91,0.12);
-      border-radius: 50%;
-      border: 1px solid rgba(185,151,91,0.25);
-    }
-    .pfactor-text h2 {
-      font-size: 1.1rem;
-      color: var(--gold);
-      margin: 0 0 0.15rem;
-      font-weight: 700;
-    }
-    .pfactor-text p {
-      font-size: 0.82rem;
-      color: rgba(185,151,91,0.75);
-      margin: 0;
-      font-family: 'DM Mono', monospace;
+    /* ===== TREE VARIABLES ===== */
+    :root {
+      --tree-gap: 24px;
+      --line-color: rgba(0,64,113,0.18);
+      --line-w: 2px;
     }
 
-    /* ===== GROUP LABEL ===== */
-    .group-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--mid);
-      margin-bottom: 0.5rem;
-      padding-left: 0.2rem;
-    }
-
-    /* ===== SPECTRUM GRID ===== */
-    .spectrum-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-      margin-bottom: 0.5rem;
-    }
-    @media (max-width: 900px) {
-      .spectrum-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 520px) {
-      .spectrum-grid { grid-template-columns: 1fr; }
-    }
-
-    /* ===== SPECTRUM CARDS ===== */
-    .spectrum-card {
-      padding: 1rem 1.2rem;
-      border-radius: 10px;
-      color: white;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      user-select: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-      position: relative;
-      min-height: 72px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .spectrum-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    }
-    .spectrum-card.selected {
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.7), 0 8px 28px rgba(0,0,0,0.25);
-      transform: translateY(-3px) scale(1.02);
-    }
-    .spectrum-card .sc-name {
-      font-size: 0.95rem;
-      font-weight: 700;
-      display: block;
-      line-height: 1.2;
-    }
-    .spectrum-card .sc-subtitle {
-      font-size: 0.7rem;
-      font-family: 'DM Mono', monospace;
-      opacity: 0.7;
-      margin-top: 0.2rem;
-      display: block;
-    }
-    .spectrum-card .sc-count {
-      font-size: 0.62rem;
-      opacity: 0.55;
-      margin-top: 0.3rem;
-      display: block;
-    }
-
-    /* ===== SUBFACTOR EXPANSION ROW ===== */
-    .subfactor-row {
-      background: #f5f4f1;
-      border-radius: var(--radius);
-      padding: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease, margin 0.3s ease;
-      margin-bottom: 0;
-    }
-    .subfactor-row.open {
-      max-height: 600px;
-      padding: 1.2rem 1rem;
-      margin-top: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    .subfactor-row-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--mid);
-      margin-bottom: 0.6rem;
-    }
-    .subfactor-cards {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-    }
-
-    /* ===== SUBFACTOR CARD ===== */
-    .subfactor-card {
-      padding: 0.55rem 1rem;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: white;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-      opacity: 0;
-      animation: sfIn 0.3s ease forwards;
-    }
-    .subfactor-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-    }
-    .subfactor-card.selected {
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.8), 0 4px 16px rgba(0,0,0,0.2);
-      transform: translateY(-2px) scale(1.03);
-    }
-    @keyframes sfIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== COMPONENT PILLS ===== */
-    .component-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-top: 0.6rem;
-      padding-top: 0.6rem;
-      border-top: 1px solid rgba(0,0,0,0.06);
-    }
-    .component-pill {
-      display: inline-block;
-      padding: 0.25rem 0.65rem;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: white;
-      opacity: 0;
-      animation: pillIn 0.25s ease forwards;
-    }
-    @keyframes pillIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-
-    /* ===== MAIN LAYOUT: EXPLORER + DETAIL PANEL ===== */
+    /* ===== TREE LAYOUT ===== */
     .hitop-layout {
       display: grid;
-      grid-template-columns: 1fr 420px;
+      grid-template-columns: 1fr 380px;
       gap: 1.5rem;
       align-items: start;
       margin-bottom: 2rem;
     }
-    @media (max-width: 1000px) {
-      .hitop-layout {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 1050px) {
+      .hitop-layout { grid-template-columns: 1fr; }
     }
 
-    .hitop-main {
-      min-width: 0;
+    .tree-wrap {
+      overflow-x: auto;
+      padding: 0.5rem 0 1.5rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ===== CSS ORG-CHART TREE ===== */
+    .htree, .htree ul, .htree li {
+      margin: 0; padding: 0; list-style: none;
+    }
+    .htree {
+      display: flex;
+      justify-content: center;
+      min-width: min-content;
+    }
+    .htree ul {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      padding-top: var(--tree-gap);
+    }
+    .htree li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding: var(--tree-gap) 6px 0;
+    }
+
+    /* Root node: no connectors */
+    .htree > li { padding-top: 0; }
+    .htree > li::before, .htree > li::after { display: none; }
+
+    /* Vertical trunk from parent down to children row */
+    .htree ul::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: var(--tree-gap);
+      border-left: var(--line-w) solid var(--line-color);
+    }
+
+    /* Horizontal connector: left half */
+    .htree li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 50%;
+      width: 50%;
+      height: 0;
+      border-top: var(--line-w) solid var(--line-color);
+    }
+    /* Horizontal connector: right half + vertical drop */
+    .htree li::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      height: var(--tree-gap);
+      border-top: var(--line-w) solid var(--line-color);
+      border-left: var(--line-w) solid var(--line-color);
+    }
+
+    /* First child: no left horizontal bar */
+    .htree li:first-child::before { border: none; }
+    /* Last child: no right horizontal bar, keep vertical drop */
+    .htree li:last-child::after { border-top: none; width: 0; }
+    /* Only child: just vertical drop */
+    .htree li:only-child::before { display: none; }
+    .htree li:only-child::after { border-top: none; width: 0; }
+
+    /* Corner rounding */
+    .htree li:last-child::before { border-radius: 0 6px 0 0; border-right: var(--line-w) solid var(--line-color); }
+    .htree li:first-child::after { border-radius: 6px 0 0 0; }
+
+    /* ===== TREE NODES ===== */
+    .hnode {
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      user-select: none;
+      text-align: center;
+    }
+    .hnode:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+    .hnode.selected {
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.7), 0 4px 16px rgba(0,0,0,0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Expand indicator */
+    .hnode[data-expandable]::after {
+      content: '+';
+      display: inline-block;
+      margin-left: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      opacity: 0.5;
+      font-family: 'DM Mono', monospace;
+    }
+    .hnode[data-expandable].expanded::after {
+      content: '−';
+    }
+
+    /* Root (p-factor) */
+    .hnode-root {
+      background: linear-gradient(135deg, #3d2800, #1a1000);
+      color: var(--gold);
+      border: 2px solid var(--gold);
+      padding: 0.65rem 1.6rem;
+      font-size: 1rem;
+      font-family: 'DM Mono', monospace;
+    }
+    .hnode-root .node-sub {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 400;
+      opacity: 0.7;
+      font-family: 'DM Sans', sans-serif;
+      margin-top: 0.1rem;
+    }
+
+    /* Superspectrum (Emotional Dysfunction) */
+    .hnode-supra {
+      background: rgba(185,151,91,0.06);
+      color: var(--gold);
+      border: 1.5px dashed rgba(185,151,91,0.5);
+      font-size: 0.76rem;
+      font-weight: 500;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.02em;
+    }
+
+    /* Spectrum nodes */
+    .hnode-spectrum {
+      color: white;
+      font-size: 0.82rem;
+      padding: 0.5rem 1.1rem;
+    }
+    .hnode-spectrum .node-sub {
+      display: block;
+      font-size: 0.62rem;
+      font-weight: 400;
+      opacity: 0.7;
+      font-family: 'DM Mono', monospace;
+      margin-top: 0.1rem;
+    }
+
+    /* Subfactor nodes */
+    .hnode-sf {
+      font-size: 0.76rem;
+      color: white;
+      padding: 0.35rem 0.85rem;
+    }
+
+    /* Component pills */
+    .hnode-comp {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: white;
+      padding: 0.2rem 0.55rem;
+      border-radius: 12px;
+      cursor: default;
+      box-shadow: none;
+    }
+    .hnode-comp:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Color classes */
+    .bg-int { background: #418FDE; }
+    .bg-som { background: #D4A556; color: #2a1a00 !important; }
+    .bg-td  { background: #8E44AD; }
+    .bg-ext { background: #C0392B; }
+    .bg-det { background: #004071; }
+
+    .bg-int-light { background: rgba(65,143,222,0.78); }
+    .bg-som-light { background: rgba(212,165,86,0.78); color: #2a1a00 !important; }
+    .bg-td-light  { background: rgba(142,68,173,0.78); }
+    .bg-ext-light { background: rgba(192,57,43,0.78); }
+    .bg-det-light { background: rgba(0,64,113,0.78); }
+
+    .bg-int-pill { background: rgba(65,143,222,0.55); }
+    .bg-som-pill { background: rgba(212,165,86,0.55); color: #2a1a00 !important; }
+    .bg-td-pill  { background: rgba(142,68,173,0.55); }
+    .bg-ext-pill { background: rgba(192,57,43,0.55); }
+    .bg-det-pill { background: rgba(0,64,113,0.55); }
+
+    /* Fade-in for dynamically added nodes */
+    .hnode-enter {
+      animation: nodeIn 0.3s ease both;
+    }
+    @keyframes nodeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ===== DETAIL PANEL ===== */
@@ -239,19 +246,17 @@
       top: 70px;
       transition: opacity 0.3s ease;
     }
-    .detail-panel.empty {
-      opacity: 0.5;
-    }
+    .detail-panel.empty { opacity: 0.5; }
     .detail-panel h3 {
       margin: 0 0 0.25rem;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--navy);
       line-height: 1.3;
     }
     .detail-panel .dp-level-tag {
       display: inline-block;
       font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 500;
       padding: 2px 10px;
       border-radius: 4px;
@@ -264,15 +269,11 @@
       grid-template-columns: 1fr 1fr;
       gap: 0.9rem;
     }
-    .detail-panel .dp-field {
-      margin-bottom: 0;
-    }
-    .detail-panel .dp-field.full {
-      grid-column: 1 / -1;
-    }
+    .detail-panel .dp-field { margin-bottom: 0; }
+    .detail-panel .dp-field.full { grid-column: 1 / -1; }
     .detail-panel .dp-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.66rem;
+      font-size: 0.64rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -280,7 +281,7 @@
       margin-bottom: 0.15rem;
     }
     .detail-panel .dp-value {
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       color: var(--dark);
       line-height: 1.5;
     }
@@ -304,13 +305,9 @@
       margin-bottom: 0.5rem;
       opacity: 0.4;
     }
-    @media (max-width: 1000px) {
-      .detail-panel {
-        position: static;
-      }
-      .detail-panel .dp-grid {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 1050px) {
+      .detail-panel { position: static; }
+      .detail-panel .dp-grid { grid-template-columns: 1fr; }
     }
 
     /* ===== REFERENCE LINE ===== */
@@ -341,10 +338,7 @@
       position: relative;
       overflow: hidden;
     }
-    .continuum-bar-fill {
-      height: 100%;
-      border-radius: 6px;
-    }
+    .continuum-bar-fill { height: 100%; border-radius: 6px; }
     .continuum-domain {
       font-family: 'DM Mono', monospace;
       font-size: 0.7rem;
@@ -359,6 +353,19 @@
     @media (max-width: 768px) {
       .continuum-labels { font-size: 0.75rem; }
       .facet-row td { padding-left: 1rem !important; }
+    }
+
+    /* ===== MOBILE TREE ===== */
+    @media (max-width: 700px) {
+      :root { --tree-gap: 18px; }
+      .hnode { font-size: 0.72rem; padding: 0.35rem 0.7rem; }
+      .hnode-root { font-size: 0.85rem; padding: 0.5rem 1.2rem; }
+      .hnode-spectrum { font-size: 0.72rem; padding: 0.4rem 0.8rem; }
+      .hnode-sf { font-size: 0.68rem; padding: 0.3rem 0.6rem; }
+      .hnode-comp { font-size: 0.6rem; padding: 0.15rem 0.45rem; }
+      .htree li { padding-left: 3px; padding-right: 3px; }
+      .hnode-spectrum .node-sub,
+      .hnode-root .node-sub { display: none; }
     }
   </style>
 </head>
@@ -387,28 +394,64 @@
     <div class="subtitle">Hi&eacute;rarchie interactive &mdash; du facteur p aux composantes</div>
   </div>
 
-  <!-- ===== HITOP EXPLORER ===== -->
+  <!-- ===== HITOP TREE + DETAIL PANEL ===== -->
   <div class="hitop-layout">
-    <div class="hitop-main">
 
-      <!-- P-FACTOR BANNER -->
-      <div class="pfactor-banner" id="pfactor-banner" onclick="selectNode('pfactor')">
-        <div class="pfactor-icon">p</div>
-        <div class="pfactor-text">
-          <h2>p-factor</h2>
-          <p>Facteur g&eacute;n&eacute;ral de psychopathologie &mdash; Caspi et al. 2014</p>
-        </div>
-      </div>
+    <!-- TREE DIAGRAM -->
+    <div class="tree-wrap">
+      <ul class="htree" id="hitop-tree">
+        <li>
+          <!-- P-FACTOR -->
+          <div class="hnode hnode-root" data-id="pfactor">
+            <span>p-factor</span>
+            <span class="node-sub">Facteur g&eacute;n&eacute;ral de psychopathologie</span>
+          </div>
+          <ul>
+            <!-- EMOTIONAL DYSFUNCTION BRANCH -->
+            <li>
+              <div class="hnode hnode-supra" data-id="emotional-dysfunction">Emotional Dysfunction</div>
+              <ul>
+                <li data-spectrum="internalizing">
+                  <div class="hnode hnode-spectrum bg-int" data-id="internalizing" data-expandable>
+                    <span>Internalizing</span>
+                    <span class="node-sub">NA&uarr;</span>
+                  </div>
+                </li>
+                <li data-spectrum="somatoform">
+                  <div class="hnode hnode-spectrum bg-som" data-id="somatoform" data-expandable>
+                    <span>Somatoform</span>
+                    <span class="node-sub">Int&eacute;roception</span>
+                  </div>
+                </li>
+              </ul>
+            </li>
 
-      <!-- EMOTIONAL DYSFUNCTION GROUP -->
-      <div class="group-label">Emotional Dysfunction</div>
-      <div class="spectrum-grid" id="spectrum-grid-emotional"></div>
-      <div class="subfactor-row" id="subfactor-row-emotional"></div>
+            <!-- THOUGHT DISORDER -->
+            <li data-spectrum="thought-disorder">
+              <div class="hnode hnode-spectrum bg-td" data-id="thought-disorder" data-expandable>
+                <span>Thought Disorder</span>
+                <span class="node-sub">DA m&eacute;solimbique</span>
+              </div>
+            </li>
 
-      <!-- REMAINING SPECTRA -->
-      <div class="spectrum-grid" id="spectrum-grid-other"></div>
-      <div class="subfactor-row" id="subfactor-row-other"></div>
+            <!-- EXTERNALIZING -->
+            <li data-spectrum="externalizing">
+              <div class="hnode hnode-spectrum bg-ext" data-id="externalizing" data-expandable>
+                <span>Externalizing</span>
+                <span class="node-sub">Contr&ocirc;le&darr;</span>
+              </div>
+            </li>
 
+            <!-- DETACHMENT -->
+            <li data-spectrum="detachment">
+              <div class="hnode hnode-spectrum bg-det" data-id="detachment" data-expandable>
+                <span>Detachment</span>
+                <span class="node-sub">Reward&darr;</span>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
 
     <!-- DETAIL PANEL -->
@@ -455,7 +498,7 @@
     </div>
   </div>
 
-  <p class="ref-line">Kotov et al. (2017), <em>J Abnormal Psychology</em> &mdash; Cliquez pour explorer chaque niveau de la hi&eacute;rarchie</p>
+  <p class="ref-line">Kotov et al. (2017), <em>J Abnormal Psychology</em> &mdash; Cliquez sur les spectres pour explorer les sous-facteurs et composantes</p>
 
   <!-- ===== DSM -> HiTOP QUICK REFERENCE ===== -->
   <div style="margin-top: 3rem;">
@@ -471,96 +514,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Trouble d&eacute;pressif majeur (TDM)</td>
-          <td>Internalizing</td>
-          <td>Distress</td>
-          <td>NA&uarr; + PA&darr;</td>
-        </tr>
-        <tr>
-          <td>Trouble d'anxi&eacute;t&eacute; g&eacute;n&eacute;ralis&eacute;e (TAG)</td>
-          <td>Internalizing</td>
-          <td>Distress</td>
-          <td>NA&uarr; pur</td>
-        </tr>
-        <tr>
-          <td>Trouble panique</td>
-          <td>Internalizing</td>
-          <td>Fear</td>
-          <td>&mdash;</td>
-        </tr>
-        <tr>
-          <td>Phobie sociale</td>
-          <td>Internalizing</td>
-          <td>Fear</td>
-          <td>&mdash;</td>
-        </tr>
-        <tr>
-          <td>Trouble de stress post-traumatique (TSPT)</td>
-          <td>Internalizing</td>
-          <td>Distress</td>
-          <td>+ Fear si hypervigilance</td>
-        </tr>
-        <tr>
-          <td>Trouble obsessionnel-compulsif (TOC)</td>
-          <td>Internalizing</td>
-          <td>OCD</td>
-          <td>Adjacent &mdash; circuit CSTC distinct</td>
-        </tr>
-        <tr>
-          <td>Anorexie / Boulimie</td>
-          <td>Internalizing</td>
-          <td>Eating Pathology</td>
-          <td>&mdash;</td>
-        </tr>
-        <tr>
-          <td>Schizophr&eacute;nie</td>
-          <td>Thought Disorder</td>
-          <td>Psychoticism</td>
-          <td>&mdash;</td>
-        </tr>
-        <tr>
-          <td>Trouble bipolaire (manie)</td>
-          <td>Thought Disorder</td>
-          <td>Mania</td>
-          <td>&mdash;</td>
-        </tr>
-        <tr>
-          <td>TDAH</td>
-          <td>Externalizing</td>
-          <td>Disinhibited</td>
-          <td>&mdash;</td>
-        </tr>
-        <tr>
-          <td>TUS (alcool, substances)</td>
-          <td>Externalizing</td>
-          <td>Disinhibited</td>
-          <td>&mdash;</td>
-        </tr>
-        <tr>
-          <td>Trouble de personnalit&eacute; antisociale (TPAS)</td>
-          <td>Externalizing</td>
-          <td>Antagonistic</td>
-          <td>&mdash;</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;">Trouble de personnalit&eacute; limite (TPL)</td>
-          <td style="font-weight:600;">Cross-spectral</td>
-          <td style="font-weight:600;">Distress + Disinhibited + Antagonistic</td>
-          <td style="font-weight:600;">Le TPL charge sur 3 spectres &mdash; illustre la n&eacute;cessit&eacute; d'un mod&egrave;le dimensionnel</td>
-        </tr>
-        <tr>
-          <td>Trouble schizo&iuml;de</td>
-          <td>Detachment</td>
-          <td>&mdash;</td>
-          <td>&mdash;</td>
-        </tr>
-        <tr>
-          <td>Trouble somatoforme</td>
-          <td>Somatoform</td>
-          <td>&mdash;</td>
-          <td>&mdash;</td>
-        </tr>
+        <tr><td>Trouble d&eacute;pressif majeur (TDM)</td><td>Internalizing</td><td>Distress</td><td>NA&uarr; + PA&darr;</td></tr>
+        <tr><td>Trouble d'anxi&eacute;t&eacute; g&eacute;n&eacute;ralis&eacute;e (TAG)</td><td>Internalizing</td><td>Distress</td><td>NA&uarr; pur</td></tr>
+        <tr><td>Trouble panique</td><td>Internalizing</td><td>Fear</td><td>&mdash;</td></tr>
+        <tr><td>Phobie sociale</td><td>Internalizing</td><td>Fear</td><td>&mdash;</td></tr>
+        <tr><td>TSPT</td><td>Internalizing</td><td>Distress</td><td>+ Fear si hypervigilance</td></tr>
+        <tr><td>TOC</td><td>Internalizing</td><td>OCD</td><td>Adjacent &mdash; circuit CSTC distinct</td></tr>
+        <tr><td>Anorexie / Boulimie</td><td>Internalizing</td><td>Eating Pathology</td><td>&mdash;</td></tr>
+        <tr><td>Schizophr&eacute;nie</td><td>Thought Disorder</td><td>Psychoticism</td><td>&mdash;</td></tr>
+        <tr><td>Trouble bipolaire (manie)</td><td>Thought Disorder</td><td>Mania</td><td>&mdash;</td></tr>
+        <tr><td>TDAH</td><td>Externalizing</td><td>Disinhibited</td><td>&mdash;</td></tr>
+        <tr><td>TUS (alcool, substances)</td><td>Externalizing</td><td>Disinhibited</td><td>&mdash;</td></tr>
+        <tr><td>TPAS</td><td>Externalizing</td><td>Antagonistic</td><td>&mdash;</td></tr>
+        <tr style="font-weight:600;"><td>TPL</td><td>Cross-spectral</td><td>Distress + Disinhibited + Antagonistic</td><td>Charge sur 3 spectres</td></tr>
+        <tr><td>Trouble schizo&iuml;de</td><td>Detachment</td><td>&mdash;</td><td>&mdash;</td></tr>
+        <tr><td>Trouble somatoforme</td><td>Somatoform</td><td>&mdash;</td><td>&mdash;</td></tr>
       </tbody>
     </table>
   </div>
@@ -568,14 +536,13 @@
   <!-- ===== SEPARATOR ===== -->
   <hr style="border: none; border-top: 2px solid var(--light-gray); margin: 3rem 0;">
   <h2>Personnalit&eacute; et psychopathologie</h2>
-  <p style="font-size:0.88rem;color:var(--mid);margin-bottom:2rem;max-width:48rem;">Le mod&egrave;le HiTOP int&egrave;gre la personnalit&eacute; normale (Big Five) et pathologique (PID-5) dans un cadre unifi&eacute;. Les spectres HiTOP correspondent aux p&ocirc;les maladaptatifs des dimensions de personnalit&eacute;. Cette section d&eacute;taille les correspondances domaine par domaine, du normal au pathologique.</p>
+  <p style="font-size:0.88rem;color:var(--mid);margin-bottom:2rem;max-width:48rem;">Le mod&egrave;le HiTOP int&egrave;gre la personnalit&eacute; normale (Big Five) et pathologique (PID-5) dans un cadre unifi&eacute;. Les spectres HiTOP correspondent aux p&ocirc;les maladaptatifs des dimensions de personnalit&eacute;.</p>
 
   <!-- ===== BIG FIVE -> HiTOP SECTION ===== -->
   <div class="ffm-section" style="margin-top:0;">
     <h2>Big Five &rarr; HiTOP Mapping</h2>
     <p style="font-size:0.82rem;color:var(--mid);margin-bottom:1rem;">Mapping : Widiger et al. (2019), <em>Clinical Psychological Science</em>. Effect sizes (Cohen's d) : Kotov et al. (2010), <em>Psychological Bulletin</em>, 175 &eacute;tudes, 851 effect sizes.</p>
 
-    <!-- A. Full facet breakdown table -->
     <h3>A. Domaines et facettes du Big Five</h3>
     <table class="data-table" style="margin-bottom:2rem;">
       <thead>
@@ -587,225 +554,45 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Neuroticism -->
-        <tr class="domain-header">
-          <td>N&eacute;vrosisme (Neuroticism)</td>
-          <td><span class="tag tag-red">High</span></td>
-          <td><span class="mono">d = +1.65</span></td>
-          <td>Internalizing (supra-spectral)</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Anxi&eacute;t&eacute;</td>
-          <td><span class="tag tag-red">&uarr;</span></td>
-          <td><span class="mono">d = +1.85</span></td>
-          <td>Internalizing &mdash; Fear</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Hostilit&eacute; col&eacute;rique</td>
-          <td><span class="tag tag-red">&uarr;</span></td>
-          <td><span class="mono">d = +1.24</span></td>
-          <td>Internalizing / Externalizing</td>
-        </tr>
-        <tr class="facet-row">
-          <td>D&eacute;pression</td>
-          <td><span class="tag tag-red">&uarr;</span></td>
-          <td><span class="mono">d = +1.78</span></td>
-          <td>Internalizing &mdash; Distress</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Conscience de soi</td>
-          <td><span class="tag tag-red">&uarr;</span></td>
-          <td><span class="mono">d = +1.45</span></td>
-          <td>Internalizing &mdash; Fear / Distress</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Impulsivit&eacute;</td>
-          <td><span class="tag tag-red">&uarr;</span></td>
-          <td><span class="mono">d = +0.98</span></td>
-          <td>Disinhibited Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Vuln&eacute;rabilit&eacute;</td>
-          <td><span class="tag tag-red">&uarr;</span></td>
-          <td><span class="mono">d = +1.60</span></td>
-          <td>Internalizing &mdash; Distress</td>
-        </tr>
+        <tr class="domain-header"><td>N&eacute;vrosisme (Neuroticism)</td><td><span class="tag tag-red">High</span></td><td><span class="mono">d = +1.65</span></td><td>Internalizing (supra-spectral)</td></tr>
+        <tr class="facet-row"><td>Anxi&eacute;t&eacute;</td><td><span class="tag tag-red">&uarr;</span></td><td><span class="mono">d = +1.85</span></td><td>Internalizing &mdash; Fear</td></tr>
+        <tr class="facet-row"><td>Hostilit&eacute; col&eacute;rique</td><td><span class="tag tag-red">&uarr;</span></td><td><span class="mono">d = +1.24</span></td><td>Internalizing / Externalizing</td></tr>
+        <tr class="facet-row"><td>D&eacute;pression</td><td><span class="tag tag-red">&uarr;</span></td><td><span class="mono">d = +1.78</span></td><td>Internalizing &mdash; Distress</td></tr>
+        <tr class="facet-row"><td>Conscience de soi</td><td><span class="tag tag-red">&uarr;</span></td><td><span class="mono">d = +1.45</span></td><td>Internalizing &mdash; Fear / Distress</td></tr>
+        <tr class="facet-row"><td>Impulsivit&eacute;</td><td><span class="tag tag-red">&uarr;</span></td><td><span class="mono">d = +0.98</span></td><td>Disinhibited Ext.</td></tr>
+        <tr class="facet-row"><td>Vuln&eacute;rabilit&eacute;</td><td><span class="tag tag-red">&uarr;</span></td><td><span class="mono">d = +1.60</span></td><td>Internalizing &mdash; Distress</td></tr>
 
-        <!-- Extraversion -->
-        <tr class="domain-header">
-          <td>Extraversion</td>
-          <td><span class="tag tag-sky">Low</span></td>
-          <td><span class="mono">d = &minus;1.47</span></td>
-          <td>Detachment</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Chaleur</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;1.38</span></td>
-          <td>Detachment</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Gr&eacute;garit&eacute;</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;1.25</span></td>
-          <td>Detachment</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Assertivit&eacute;</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;1.12</span></td>
-          <td>Detachment / Distress</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Activit&eacute;</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.96</span></td>
-          <td>Detachment</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Recherche de sensations</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.45</span></td>
-          <td>Detachment</td>
-        </tr>
-        <tr class="facet-row">
-          <td>&Eacute;motions positives</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;1.50</span></td>
-          <td>Detachment / Distress (PA&darr;)</td>
-        </tr>
+        <tr class="domain-header"><td>Extraversion</td><td><span class="tag tag-sky">Low</span></td><td><span class="mono">d = &minus;1.47</span></td><td>Detachment</td></tr>
+        <tr class="facet-row"><td>Chaleur</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;1.38</span></td><td>Detachment</td></tr>
+        <tr class="facet-row"><td>Gr&eacute;garit&eacute;</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;1.25</span></td><td>Detachment</td></tr>
+        <tr class="facet-row"><td>Assertivit&eacute;</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;1.12</span></td><td>Detachment / Distress</td></tr>
+        <tr class="facet-row"><td>Activit&eacute;</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.96</span></td><td>Detachment</td></tr>
+        <tr class="facet-row"><td>Recherche de sensations</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.45</span></td><td>Detachment</td></tr>
+        <tr class="facet-row"><td>&Eacute;motions positives</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;1.50</span></td><td>Detachment / Distress (PA&darr;)</td></tr>
 
-        <!-- Agreeableness -->
-        <tr class="domain-header">
-          <td>Agr&eacute;abilit&eacute; (Agreeableness)</td>
-          <td><span class="tag tag-sky">Low</span></td>
-          <td><span class="mono">NS &agrave; mod&eacute;r&eacute;</span></td>
-          <td>Antagonistic Externalizing</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Confiance</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.65</span></td>
-          <td>Antagonistic Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Droiture</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.52</span></td>
-          <td>Antagonistic Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Altruisme</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.48</span></td>
-          <td>Antagonistic Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Complaisance</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.70</span></td>
-          <td>Antagonistic Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Modestie</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.38</span></td>
-          <td>Antagonistic Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Sensibilit&eacute;</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.30</span></td>
-          <td>Antagonistic Ext.</td>
-        </tr>
+        <tr class="domain-header"><td>Agr&eacute;abilit&eacute; (Agreeableness)</td><td><span class="tag tag-sky">Low</span></td><td><span class="mono">NS &agrave; mod&eacute;r&eacute;</span></td><td>Antagonistic Externalizing</td></tr>
+        <tr class="facet-row"><td>Confiance</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.65</span></td><td>Antagonistic Ext.</td></tr>
+        <tr class="facet-row"><td>Droiture</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.52</span></td><td>Antagonistic Ext.</td></tr>
+        <tr class="facet-row"><td>Altruisme</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.48</span></td><td>Antagonistic Ext.</td></tr>
+        <tr class="facet-row"><td>Complaisance</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.70</span></td><td>Antagonistic Ext.</td></tr>
+        <tr class="facet-row"><td>Modestie</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.38</span></td><td>Antagonistic Ext.</td></tr>
+        <tr class="facet-row"><td>Sensibilit&eacute;</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.30</span></td><td>Antagonistic Ext.</td></tr>
 
-        <!-- Conscientiousness -->
-        <tr class="domain-header">
-          <td>Conscienciosit&eacute; (Conscientiousness)</td>
-          <td><span class="tag tag-sky">Low</span></td>
-          <td><span class="mono">d = &minus;1.01</span></td>
-          <td>Disinhibited Externalizing</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Comp&eacute;tence</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;1.18</span></td>
-          <td>Disinhibited Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Ordre</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.62</span></td>
-          <td>Disinhibited Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Sens du devoir</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.85</span></td>
-          <td>Disinhibited Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Recherche de r&eacute;ussite</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;0.90</span></td>
-          <td>Disinhibited Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Autodiscipline</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;1.30</span></td>
-          <td>Disinhibited Ext.</td>
-        </tr>
-        <tr class="facet-row">
-          <td>D&eacute;lib&eacute;ration</td>
-          <td><span class="tag tag-sky">&darr;</span></td>
-          <td><span class="mono">d = &minus;1.05</span></td>
-          <td>Disinhibited Ext.</td>
-        </tr>
+        <tr class="domain-header"><td>Conscienciosit&eacute; (Conscientiousness)</td><td><span class="tag tag-sky">Low</span></td><td><span class="mono">d = &minus;1.01</span></td><td>Disinhibited Externalizing</td></tr>
+        <tr class="facet-row"><td>Comp&eacute;tence</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;1.18</span></td><td>Disinhibited Ext.</td></tr>
+        <tr class="facet-row"><td>Ordre</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.62</span></td><td>Disinhibited Ext.</td></tr>
+        <tr class="facet-row"><td>Sens du devoir</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.85</span></td><td>Disinhibited Ext.</td></tr>
+        <tr class="facet-row"><td>Recherche de r&eacute;ussite</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;0.90</span></td><td>Disinhibited Ext.</td></tr>
+        <tr class="facet-row"><td>Autodiscipline</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;1.30</span></td><td>Disinhibited Ext.</td></tr>
+        <tr class="facet-row"><td>D&eacute;lib&eacute;ration</td><td><span class="tag tag-sky">&darr;</span></td><td><span class="mono">d = &minus;1.05</span></td><td>Disinhibited Ext.</td></tr>
 
-        <!-- Openness -->
-        <tr class="domain-header">
-          <td>Ouverture (Openness)</td>
-          <td><span class="tag tag-gold">Variable</span></td>
-          <td><span class="mono">NS</span></td>
-          <td>Thought Disorder</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Fantaisie</td>
-          <td><span class="tag tag-gold">&uarr; maladaptatif</span></td>
-          <td><span class="mono">NS</span></td>
-          <td>Thought Disorder</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Esth&eacute;tique</td>
-          <td><span class="tag tag-gold">variable</span></td>
-          <td><span class="mono">NS</span></td>
-          <td>&mdash;</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Sentiments</td>
-          <td><span class="tag tag-gold">variable</span></td>
-          <td><span class="mono">NS</span></td>
-          <td>&mdash;</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Actions</td>
-          <td><span class="tag tag-gold">variable</span></td>
-          <td><span class="mono">NS</span></td>
-          <td>&mdash;</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Id&eacute;es</td>
-          <td><span class="tag tag-gold">&uarr; maladaptatif</span></td>
-          <td><span class="mono">NS</span></td>
-          <td>Thought Disorder (schizotypie)</td>
-        </tr>
-        <tr class="facet-row">
-          <td>Valeurs</td>
-          <td><span class="tag tag-gold">variable</span></td>
-          <td><span class="mono">NS</span></td>
-          <td>&mdash;</td>
-        </tr>
+        <tr class="domain-header"><td>Ouverture (Openness)</td><td><span class="tag tag-gold">Variable</span></td><td><span class="mono">NS</span></td><td>Thought Disorder</td></tr>
+        <tr class="facet-row"><td>Fantaisie</td><td><span class="tag tag-gold">&uarr; maladaptatif</span></td><td><span class="mono">NS</span></td><td>Thought Disorder</td></tr>
+        <tr class="facet-row"><td>Esth&eacute;tique</td><td><span class="tag tag-gold">variable</span></td><td><span class="mono">NS</span></td><td>&mdash;</td></tr>
+        <tr class="facet-row"><td>Sentiments</td><td><span class="tag tag-gold">variable</span></td><td><span class="mono">NS</span></td><td>&mdash;</td></tr>
+        <tr class="facet-row"><td>Actions</td><td><span class="tag tag-gold">variable</span></td><td><span class="mono">NS</span></td><td>&mdash;</td></tr>
+        <tr class="facet-row"><td>Id&eacute;es</td><td><span class="tag tag-gold">&uarr; maladaptatif</span></td><td><span class="mono">NS</span></td><td>Thought Disorder (schizotypie)</td></tr>
+        <tr class="facet-row"><td>Valeurs</td><td><span class="tag tag-gold">variable</span></td><td><span class="mono">NS</span></td><td>&mdash;</td></tr>
       </tbody>
     </table>
 
@@ -814,39 +601,13 @@
       <h3>B. Big Five &rarr; PID-5 : de la personnalit&eacute; normale &agrave; pathologique</h3>
       <p style="font-size:0.82rem;color:var(--mid);margin-bottom:1rem;">Le mod&egrave;le alternatif du DSM-5 (Section III) propose le PID-5 comme &eacute;quivalent pathologique des Big Five. Krueger et al. (2012), <em>Psychological Medicine</em>.</p>
       <table class="data-table" style="margin-bottom:1.5rem;">
-        <thead>
-          <tr>
-            <th>Domaine Big Five</th>
-            <th>Domaine PID-5</th>
-            <th>Description</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Domaine Big Five</th><th>Domaine PID-5</th><th>Description</th></tr></thead>
         <tbody>
-          <tr>
-            <td>N&eacute;vrosisme (&eacute;lev&eacute;)</td>
-            <td><span class="tag tag-red">Affectivit&eacute; n&eacute;gative</span></td>
-            <td>Instabilit&eacute; &eacute;motionnelle, anxi&eacute;t&eacute;, d&eacute;pressivit&eacute;, labilit&eacute; &eacute;motionnelle, hostilit&eacute;</td>
-          </tr>
-          <tr>
-            <td>Extraversion (faible)</td>
-            <td><span class="tag tag-navy">D&eacute;tachement</span></td>
-            <td>Retrait social, anh&eacute;donie, &eacute;vitement de l'intimit&eacute;, affectivit&eacute; restreinte, suspicion</td>
-          </tr>
-          <tr>
-            <td>Agr&eacute;abilit&eacute; (faible)</td>
-            <td><span class="tag tag-gold">Antagonisme</span></td>
-            <td>Manipulation, hostilit&eacute;, tromperie, grandiosit&eacute;, recherche d'attention, insensibilit&eacute;</td>
-          </tr>
-          <tr>
-            <td>Conscienciosit&eacute; (faible)</td>
-            <td><span class="tag tag-red">D&eacute;sinhibition</span></td>
-            <td>Impulsivit&eacute;, irresponsabilit&eacute;, distractibilit&eacute;, prise de risque, perfectionnisme rigide (invers&eacute;)</td>
-          </tr>
-          <tr>
-            <td>Ouverture (variable)</td>
-            <td><span class="tag" style="background:rgba(142,68,173,0.15);color:#8E44AD;">Psychoticisme</span></td>
-            <td>Exp&eacute;riences inhabituelles, excentricit&eacute;, d&eacute;r&eacute;gulation cognitive et perceptuelle</td>
-          </tr>
+          <tr><td>N&eacute;vrosisme (&eacute;lev&eacute;)</td><td><span class="tag tag-red">Affectivit&eacute; n&eacute;gative</span></td><td>Instabilit&eacute; &eacute;motionnelle, anxi&eacute;t&eacute;, d&eacute;pressivit&eacute;, labilit&eacute;, hostilit&eacute;</td></tr>
+          <tr><td>Extraversion (faible)</td><td><span class="tag tag-navy">D&eacute;tachement</span></td><td>Retrait social, anh&eacute;donie, &eacute;vitement de l'intimit&eacute;, affectivit&eacute; restreinte</td></tr>
+          <tr><td>Agr&eacute;abilit&eacute; (faible)</td><td><span class="tag tag-gold">Antagonisme</span></td><td>Manipulation, hostilit&eacute;, tromperie, grandiosit&eacute;, insensibilit&eacute;</td></tr>
+          <tr><td>Conscienciosit&eacute; (faible)</td><td><span class="tag tag-red">D&eacute;sinhibition</span></td><td>Impulsivit&eacute;, irresponsabilit&eacute;, distractibilit&eacute;, prise de risque</td></tr>
+          <tr><td>Ouverture (variable)</td><td><span class="tag" style="background:rgba(142,68,173,0.15);color:#8E44AD;">Psychoticisme</span></td><td>Exp&eacute;riences inhabituelles, excentricit&eacute;, d&eacute;r&eacute;gulation cognitive et perceptuelle</td></tr>
         </tbody>
       </table>
     </div>
@@ -857,61 +618,31 @@
       <p style="font-size:0.82rem;color:var(--mid);margin-bottom:1.2rem;">Chaque dimension de personnalit&eacute; se situe sur un continuum. Le p&ocirc;le pathologique n'est pas un &laquo;&nbsp;type&nbsp;&raquo; distinct mais l'extr&eacute;mit&eacute; d'une distribution continue.</p>
 
       <div class="continuum-item">
-        <div class="continuum-labels">
-          <span class="pole-normal">Stabilit&eacute; &eacute;motionnelle</span>
-          <span class="pole-patho">Affectivit&eacute; n&eacute;gative</span>
-        </div>
-        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, var(--red));">
-          <div class="continuum-bar-fill"></div>
-        </div>
-        <div class="continuum-domain">N&eacute;vrosisme (bas) &nbsp;&nbsp;&harr;&nbsp;&nbsp; N&eacute;vrosisme (&eacute;lev&eacute;) &nbsp;|&nbsp; Spectre : Internalizing</div>
+        <div class="continuum-labels"><span class="pole-normal">Stabilit&eacute; &eacute;motionnelle</span><span class="pole-patho">Affectivit&eacute; n&eacute;gative</span></div>
+        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, var(--red));"><div class="continuum-bar-fill"></div></div>
+        <div class="continuum-domain">N&eacute;vrosisme (bas) &harr; N&eacute;vrosisme (&eacute;lev&eacute;) | Spectre : Internalizing</div>
       </div>
-
       <div class="continuum-item">
-        <div class="continuum-labels">
-          <span class="pole-normal">Extraversion</span>
-          <span class="pole-patho">D&eacute;tachement</span>
-        </div>
-        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, var(--navy));">
-          <div class="continuum-bar-fill"></div>
-        </div>
-        <div class="continuum-domain">Extraversion (&eacute;lev&eacute;e) &nbsp;&nbsp;&harr;&nbsp;&nbsp; Extraversion (faible) &nbsp;|&nbsp; Spectre : Detachment</div>
+        <div class="continuum-labels"><span class="pole-normal">Extraversion</span><span class="pole-patho">D&eacute;tachement</span></div>
+        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, var(--navy));"><div class="continuum-bar-fill"></div></div>
+        <div class="continuum-domain">Extraversion (&eacute;lev&eacute;e) &harr; Extraversion (faible) | Spectre : Detachment</div>
       </div>
-
       <div class="continuum-item">
-        <div class="continuum-labels">
-          <span class="pole-normal">Agr&eacute;abilit&eacute;</span>
-          <span class="pole-patho">Antagonisme</span>
-        </div>
-        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, #B9975B);">
-          <div class="continuum-bar-fill"></div>
-        </div>
-        <div class="continuum-domain">Agr&eacute;abilit&eacute; (&eacute;lev&eacute;e) &nbsp;&nbsp;&harr;&nbsp;&nbsp; Agr&eacute;abilit&eacute; (faible) &nbsp;|&nbsp; Spectre : Antagonistic Ext.</div>
+        <div class="continuum-labels"><span class="pole-normal">Agr&eacute;abilit&eacute;</span><span class="pole-patho">Antagonisme</span></div>
+        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, #B9975B);"><div class="continuum-bar-fill"></div></div>
+        <div class="continuum-domain">Agr&eacute;abilit&eacute; (&eacute;lev&eacute;e) &harr; Agr&eacute;abilit&eacute; (faible) | Spectre : Antagonistic Ext.</div>
       </div>
-
       <div class="continuum-item">
-        <div class="continuum-labels">
-          <span class="pole-normal">Conscienciosit&eacute;</span>
-          <span class="pole-patho">D&eacute;sinhibition</span>
-        </div>
-        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, var(--red));">
-          <div class="continuum-bar-fill"></div>
-        </div>
-        <div class="continuum-domain">Conscienciosit&eacute; (&eacute;lev&eacute;e) &nbsp;&nbsp;&harr;&nbsp;&nbsp; Conscienciosit&eacute; (faible) &nbsp;|&nbsp; Spectre : Disinhibited Ext.</div>
+        <div class="continuum-labels"><span class="pole-normal">Conscienciosit&eacute;</span><span class="pole-patho">D&eacute;sinhibition</span></div>
+        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, var(--red));"><div class="continuum-bar-fill"></div></div>
+        <div class="continuum-domain">Conscienciosit&eacute; (&eacute;lev&eacute;e) &harr; Conscienciosit&eacute; (faible) | Spectre : Disinhibited Ext.</div>
       </div>
-
       <div class="continuum-item">
-        <div class="continuum-labels">
-          <span class="pole-normal">Ouverture (adaptative)</span>
-          <span class="pole-patho">Psychoticisme</span>
-        </div>
-        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, #8E44AD);">
-          <div class="continuum-bar-fill"></div>
-        </div>
-        <div class="continuum-domain">Ouverture (normative) &nbsp;&nbsp;&harr;&nbsp;&nbsp; Ouverture (extr&ecirc;me / maladaptative) &nbsp;|&nbsp; Spectre : Thought Disorder</div>
+        <div class="continuum-labels"><span class="pole-normal">Ouverture (adaptative)</span><span class="pole-patho">Psychoticisme</span></div>
+        <div class="continuum-bar" style="background: linear-gradient(to right, var(--green), var(--gold) 50%, #8E44AD);"><div class="continuum-bar-fill"></div></div>
+        <div class="continuum-domain">Ouverture (normative) &harr; Ouverture (extr&ecirc;me) | Spectre : Thought Disorder</div>
       </div>
     </div>
-
   </div>
 
 </div>
@@ -919,7 +650,7 @@
 <script>
 (function () {
 
-  // ======= NODE DETAIL DATA (preserved from original) =======
+  // ======= NODE DETAIL DATA =======
   var data = {
     'pfactor': {
       title: 'p-factor (Facteur g\u00e9n\u00e9ral de psychopathologie)',
@@ -927,10 +658,10 @@
       def: 'Facteur g\u00e9n\u00e9ral de psychopathologie (facteur p). Refl\u00e8te une vuln\u00e9rabilit\u00e9 commune \u00e0 toutes les formes de psychopathologie. Associ\u00e9 \u00e0 des d\u00e9ficits pr\u00e9coces en autocontr\u00f4le, en neurocognition et \u00e0 des exp\u00e9riences interpersonnelles n\u00e9gatives (Caspi et al., 2014). Un score p \u00e9lev\u00e9 pr\u00e9dit une s\u00e9v\u00e9rit\u00e9 accrue, une comorbidit\u00e9 transdiagnostique et un pronostic d\u00e9favorable.',
       dsm: 'Transdiagnostique \u2014 charge sur tous les troubles',
       rdoc: 'Tous les domaines RDoC (Negative Valence, Positive Valence, Cognitive, Social, Arousal)',
-      circuits: 'D\u00e9ficits diffus : CEN (contr\u00f4le ex\u00e9cutif), connectivit\u00e9 frontostriatale, int\u00e9grit\u00e9 de la substance blanche r\u00e9duite (Caspi 2014, Romer & Pizzagalli 2021)',
+      circuits: 'D\u00e9ficits diffus : CEN (contr\u00f4le ex\u00e9cutif), connectivit\u00e9 frontostriatale, int\u00e9grit\u00e9 substance blanche r\u00e9duite',
       instruments: 'Mesur\u00e9 par mod\u00e8le bifactoriel (facteur g\u00e9n\u00e9ral extrait de batteries multi-spectres)',
-      stability: '\u00c9lev\u00e9e \u2014 le facteur p \u00e0 l\u2019enfance pr\u00e9dit la psychopathologie adulte (Caspi 2014, Dunedin cohort)',
-      treatment: 'Cible transdiagnostique : am\u00e9liorer l\u2019autocontr\u00f4le, la r\u00e9gulation \u00e9motionnelle et les fonctions ex\u00e9cutives. Justifie les approches transdiagnostiques (Unified Protocol, Barlow).',
+      stability: '\u00c9lev\u00e9e \u2014 le facteur p \u00e0 l\u2019enfance pr\u00e9dit la psychopathologie adulte (Caspi 2014)',
+      treatment: 'Cible transdiagnostique : am\u00e9liorer l\u2019autocontr\u00f4le, r\u00e9gulation \u00e9motionnelle, fonctions ex\u00e9cutives. Unified Protocol (Barlow).',
       ref: 'Caspi et al. (2014), Clinical Psychological Science'
     },
     'emotional-dysfunction': {
@@ -944,18 +675,6 @@
       stability: '\u00c9lev\u00e9e \u2014 plus stable que les diagnostics cat\u00e9goriels individuels',
       treatment: 'ISRS comme traitement de premi\u00e8re ligne (couverture large de l\u2019affectivit\u00e9 n\u00e9gative)',
       ref: 'Watson et al. (2022), J Abnormal Psychology'
-    },
-    'psychobehavioral-dysfunction': {
-      title: 'Psychobehavioral Dysfunction Superspectrum',
-      level: 'Superspectrum',
-      def: 'Supraspectre regroupant les spectres Thought Disorder, Externalizing et Detachment. Refl\u00e8te une vuln\u00e9rabilit\u00e9 commune \u00e0 la d\u00e9r\u00e9gulation comportementale, la d\u00e9sinhibition et les perturbations de la pens\u00e9e. Contrepartie du supraspectre Emotional Dysfunction (Krueger et al., 2021).',
-      dsm: 'Troubles du spectre psychotique, Trouble bipolaire, TUS, TDAH, Troubles de personnalit\u00e9 antisociale/narcissique, Personnalit\u00e9 schizoide',
-      rdoc: 'Positive Valence Systems (reward), Cognitive Systems (control, perception), Social Processes',
-      circuits: 'D\u00e9ficits pr\u00e9frontaux (contr\u00f4le top-down), dysconnectivit\u00e9 thalamo-corticale, d\u00e9r\u00e9gulation dopaminergique (m\u00e9solimbique et m\u00e9socorticale)',
-      instruments: 'PID-5 (D\u00e9sinhibition + Antagonisme + Psychoticisme + D\u00e9tachement), ESI (Externalizing Spectrum Inventory)',
-      stability: '\u00c9lev\u00e9e au niveau superspectral \u2014 vuln\u00e9rabilit\u00e9 commune stable d\u00e8s l\u2019adolescence',
-      treatment: 'Approches diff\u00e9renci\u00e9es selon le spectre dominant : antipsychotiques (Thought Disorder), stabilisateurs (manie), stimulants (TDAH), interventions motivationnelles (TUS).',
-      ref: 'Krueger et al. (2021), World Psychiatry'
     },
     'internalizing': {
       title: 'Internalizing Spectrum',
@@ -972,49 +691,49 @@
     'somatoform': {
       title: 'Somatoform Spectrum',
       level: 'Spectrum',
-      def: 'Spectre caract\u00e9ris\u00e9 par la pr\u00e9occupation excessive pour les sympt\u00f4mes somatiques, la somatisation de la d\u00e9tresse et les syndromes fonctionnels. Partage le supraspectre Emotional Dysfunction avec l\u2019internalisation (Watson 2022). L\u2019affectivit\u00e9 n\u00e9gative est le facteur transversal.',
-      dsm: 'Trouble \u00e0 symptomatologie somatique, Trouble de conversion, Crainte excessive d\u2019avoir une maladie, Facteurs psychologiques affectant une condition m\u00e9dicale',
+      def: 'Spectre caract\u00e9ris\u00e9 par la pr\u00e9occupation excessive pour les sympt\u00f4mes somatiques, la somatisation de la d\u00e9tresse et les syndromes fonctionnels. Partage le supraspectre Emotional Dysfunction avec l\u2019internalisation. L\u2019affectivit\u00e9 n\u00e9gative est le facteur transversal.',
+      dsm: 'Trouble \u00e0 symptomatologie somatique, Trouble de conversion, Crainte excessive d\u2019avoir une maladie',
       rdoc: 'Interoception, Arousal/Regulatory Systems, Negative Valence (threat)',
-      circuits: 'Hyperactivation de l\u2019insula ant\u00e9rieure (int\u00e9roception exag\u00e9r\u00e9e), boucle insula\u2192ACC\u2192amygdale, d\u00e9ficit de filtrage pr\u00e9frontal des signaux somatiques',
-      instruments: 'PHQ-15, SSS-8 (Somatic Symptom Scale), WI (Whiteley Index pour hypocondrie), SDQ-20 (dissociation somatoforme)',
-      stability: 'Mod\u00e9r\u00e9e \u00e0 \u00e9lev\u00e9e \u2014 tendance \u00e0 la chronicit\u00e9 ; les sympt\u00f4mes sp\u00e9cifiques migrent mais la somatisation comme trait est stable',
-      treatment: 'ISRS (r\u00e9duction sensibilisation centrale), TCC focalis\u00e9e sur la r\u00e9attribution des sympt\u00f4mes, physioth\u00e9rapie gradu\u00e9e, \u00e9ducation au mod\u00e8le biopsychosocial. \u00c9viter investigations m\u00e9dicales excessives.',
+      circuits: 'Hyperactivation insula ant\u00e9rieure (int\u00e9roception exag\u00e9r\u00e9e), boucle insula\u2192ACC\u2192amygdale, d\u00e9ficit filtrage pr\u00e9frontal',
+      instruments: 'PHQ-15, SSS-8, WI (Whiteley Index), SDQ-20',
+      stability: 'Mod\u00e9r\u00e9e \u00e0 \u00e9lev\u00e9e \u2014 les sympt\u00f4mes migrent mais la somatisation comme trait est stable',
+      treatment: 'ISRS (r\u00e9duction sensibilisation centrale), TCC focalis\u00e9e r\u00e9attribution, physioth\u00e9rapie gradu\u00e9e, \u00e9ducation biopsychosociale',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
     'thought-disorder': {
       title: 'Thought Disorder Spectrum',
       level: 'Spectrum',
-      def: 'Spectre caract\u00e9ris\u00e9 par des perturbations de la pens\u00e9e, de la perception et de la r\u00e9gulation de l\u2019humeur. Regroupe le psychoticisme et la manie. Correspond au PID-5 Psychoticisme et partiellement \u00e0 l\u2019Ouverture (Big Five) dans ses formes maladaptatives.',
+      def: 'Spectre caract\u00e9ris\u00e9 par des perturbations de la pens\u00e9e, de la perception et de la r\u00e9gulation de l\u2019humeur. Regroupe le psychoticisme et la manie. Correspond au PID-5 Psychoticisme.',
       dsm: 'Schizophr\u00e9nie, Trouble schizoaffectif, Trouble bipolaire I, Trouble d\u00e9lirant, Personnalit\u00e9 schizotypique',
       rdoc: 'Perception, Cognitive Systems (d\u00e9sorganisation), Arousal/Regulatory Systems',
-      circuits: 'Dysconnectivit\u00e9 thalamo-corticale, exc\u00e8s dopaminergique m\u00e9solimbique (voie A10), d\u00e9ficit pr\u00e9frontal (DLPFC), d\u00e9ficit glutamatergique cortical (hypoth\u00e8se NMDA)',
+      circuits: 'Dysconnectivit\u00e9 thalamo-corticale, exc\u00e8s DA m\u00e9solimbique (voie A10), d\u00e9ficit DLPFC, d\u00e9ficit glutamatergique cortical (NMDA)',
       instruments: 'PID-5 (Psychoticisme), PRIME Screen, CAPE, BPRS, YMRS',
-      stability: '\u00c9lev\u00e9e au niveau spectral ; les \u00e9pisodes maniaques et psychotiques fluctuent mais la vuln\u00e9rabilit\u00e9 spectrale est stable',
-      treatment: 'Antipsychotiques (antagonisme D2 m\u00e9solimbique) pour psychoticisme ; stabilisateurs de l\u2019humeur (lithium, valproate) + AP pour manie. Rem\u00e9diation cognitive pour d\u00e9ficits n\u00e9gatifs.',
+      stability: '\u00c9lev\u00e9e au niveau spectral ; \u00e9pisodes maniaques et psychotiques fluctuent mais vuln\u00e9rabilit\u00e9 spectrale stable',
+      treatment: 'AP (antagonisme D2 m\u00e9solimbique) pour psychoticisme ; stabilisateurs (lithium, valproate) + AP pour manie. Rem\u00e9diation cognitive.',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
     'externalizing': {
       title: 'Externalizing Spectrum',
       level: 'Spectrum',
       def: 'Spectre caract\u00e9ris\u00e9 par la d\u00e9sinhibition, l\u2019impulsivit\u00e9 et les comportements antisociaux. Deux sous-facteurs : d\u00e9sinhib\u00e9 (impulsivit\u00e9, TUS, TDAH) et antagoniste (traits antisociaux, narcissiques). Correspond au PID-5 D\u00e9sinhibition + Antagonisme.',
-      dsm: 'TUS (alcool, substances), TDAH, Trouble des conduites, Personnalit\u00e9 antisociale, Personnalit\u00e9 narcissique',
-      rdoc: 'Positive Valence (reward), Cognitive Systems (cognitive control), Social Processes (affiliation)',
-      circuits: 'D\u00e9ficit de contr\u00f4le pr\u00e9frontal (DLPFC, vmPFC), hyperactivit\u00e9 striatale (reward seeking), d\u00e9ficit amygdalien (empathie r\u00e9duite pour antagonisme)',
-      instruments: 'PID-5 (D\u00e9sinhibition + Antagonisme), AUDIT, DAST, ASRS (TDAH), PCL-R',
-      stability: '\u00c9lev\u00e9e au niveau spectral ; les manifestations sp\u00e9cifiques \u00e9voluent avec l\u2019\u00e2ge (conduites \u2192 antisocial \u2192 TUS)',
-      treatment: 'D\u00e9sinhib\u00e9 : stimulants (TDAH), TCC + entretien motivationnel (TUS). Antagoniste : peu de pharmacoth\u00e9rapie sp\u00e9cifique ; TCC forensique, th\u00e9rapie des sch\u00e9mas.',
+      dsm: 'TUS, TDAH, Trouble des conduites, Personnalit\u00e9 antisociale, Personnalit\u00e9 narcissique',
+      rdoc: 'Positive Valence (reward), Cognitive Systems (cognitive control), Social Processes',
+      circuits: 'D\u00e9ficit contr\u00f4le pr\u00e9frontal (DLPFC, vmPFC), hyperactivit\u00e9 striatale (reward seeking), d\u00e9ficit amygdalien (empathie r\u00e9duite)',
+      instruments: 'PID-5 (D\u00e9sinhibition + Antagonisme), AUDIT, DAST, ASRS, PCL-R',
+      stability: '\u00c9lev\u00e9e au niveau spectral ; manifestations sp\u00e9cifiques \u00e9voluent avec l\u2019\u00e2ge',
+      treatment: 'D\u00e9sinhib\u00e9 : stimulants (TDAH), TCC + entretien motivationnel (TUS). Antagoniste : TCC forensique, th\u00e9rapie des sch\u00e9mas.',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
     'detachment': {
       title: 'Detachment Spectrum',
       level: 'Spectrum',
-      def: 'Spectre caract\u00e9ris\u00e9 par le retrait social, l\u2019anh\u00e9donie, l\u2019\u00e9vitement de l\u2019intimit\u00e9 et l\u2019affectivit\u00e9 restreinte. Correspond au PID-5 D\u00e9tachement et \u00e0 l\u2019Extraversion basse (Big Five). Pas de sous-facteurs standard dans HiTOP \u2014 mod\u00e9lis\u00e9 comme une liste de composantes.',
-      dsm: 'Personnalit\u00e9 schizoide, Personnalit\u00e9 \u00e9vitante, formes s\u00e9v\u00e8res de dysthymie (anh\u00e9donie dominante), sympt\u00f4mes n\u00e9gatifs de la schizophr\u00e9nie',
+      def: 'Spectre caract\u00e9ris\u00e9 par le retrait social, l\u2019anh\u00e9donie, l\u2019\u00e9vitement de l\u2019intimit\u00e9 et l\u2019affectivit\u00e9 restreinte. Correspond au PID-5 D\u00e9tachement et \u00e0 l\u2019Extraversion basse (Big Five).',
+      dsm: 'Personnalit\u00e9 schizoide, Personnalit\u00e9 \u00e9vitante, dysthymie (anh\u00e9donie dominante), sympt\u00f4mes n\u00e9gatifs schizophr\u00e9nie',
       rdoc: 'Positive Valence (reward, affiliation), Social Processes (affiliation, attachment)',
-      circuits: 'D\u00e9ficit du circuit de r\u00e9compense sociale (VTA\u2192NAcc\u2192mPFC), d\u00e9ficit oxytocinergique, hypoactivation du striatum ventral',
-      instruments: 'PID-5 D\u00e9tachement, SHAPS (anh\u00e9donie), LSAS (composante \u00e9vitement), SIS (Schizoid Introversion Scale)',
-      stability: '\u00c9lev\u00e9e \u2014 traits de d\u00e9tachement stables et r\u00e9sistants au changement',
-      treatment: 'Difficult\u00e9 th\u00e9rapeutique : faible motivation au traitement. Activation comportementale (cibler anh\u00e9donie), th\u00e9rapie d\u2019exposition sociale graduelle, parfois bupropion ou pramipexole pour anh\u00e9donie s\u00e9v\u00e8re.',
+      circuits: 'D\u00e9ficit circuit r\u00e9compense sociale (VTA\u2192NAcc\u2192mPFC), d\u00e9ficit oxytocinergique, hypoactivation striatum ventral',
+      instruments: 'PID-5 D\u00e9tachement, SHAPS (anh\u00e9donie), LSAS (\u00e9vitement), SIS',
+      stability: '\u00c9lev\u00e9e \u2014 traits d\u00e9tachement stables et r\u00e9sistants au changement',
+      treatment: 'Activation comportementale, exposition sociale graduelle, bupropion ou pramipexole pour anh\u00e9donie s\u00e9v\u00e8re.',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
     'distress': {
@@ -1023,7 +742,7 @@
       def: 'Sous-facteur combinant les \u00e9tats NA \u00e9lev\u00e9s (dysphorie, rumination) avec les \u00e9tats PA bas (anh\u00e9donie, lassitude). Noyau du chevauchement TDM\u2013TAG.',
       dsm: 'TDM, Trouble d\u00e9pressif persistant, TAG',
       rdoc: 'Neg Valence (Loss) + Pos Valence (Reward)',
-      circuits: 'Boucle SN\u2192DMN (rumination), VTA\u2192NAcc (d\u00e9ficit de r\u00e9compense si PA\u2193 dominant)',
+      circuits: 'Boucle SN\u2192DMN (rumination), VTA\u2192NAcc (d\u00e9ficit r\u00e9compense si PA\u2193)',
       instruments: 'PHQ-9 (NA), SHAPS/DARS (PA\u2193), IDAS-II Dysphorie + Lassitude',
       stability: '\u00c9lev\u00e9e (Eaton 2013)',
       treatment: 'ISRS d\u2019abord ; si PA\u2193 persiste \u2192 pivot DA/NE (bupropion, venlafaxine \u2265150mg, pramipexole, k\u00e9tamine)',
@@ -1037,50 +756,50 @@
       rdoc: 'Acute Threat + Potential Threat',
       circuits: 'Aigu = amygdale BLA\u2192CeA\u2192PAG ; Soutenu = BNST, insula ant\u00e9rieure, mPFC',
       instruments: 'GAD-7, LSAS, PDSS, ASI',
-      stability: 'Mod\u00e9r\u00e9e \u2014 les peurs sp\u00e9cifiques changent mais le facteur peur est stable',
-      treatment: 'ISRS + exposition (extinction = nouvelle m\u00e9moire via vmPFC\u2192ITC\u2192CeA, violation d\u2019attente Craske 2014). BZD = comportement de s\u00e9curit\u00e9 chimique.',
+      stability: 'Mod\u00e9r\u00e9e \u2014 peurs sp\u00e9cifiques changent mais le facteur peur est stable',
+      treatment: 'ISRS + exposition (extinction = nouvelle m\u00e9moire via vmPFC\u2192ITC\u2192CeA). BZD = comportement de s\u00e9curit\u00e9 chimique.',
       ref: 'Craske (2014), Annual Review of Clinical Psychology'
     },
     'ocd': {
       title: 'TOC (adjacent)',
       level: 'Sous-facteur adjacent',
-      def: 'Adjacent \u00e0 l\u2019internalisation, pas enti\u00e8rement dans Fear ou Distress. Port\u00e9 par un dysfonctionnement de la boucle cortico-striatale. Passage du comportement dirig\u00e9 vers un but au comportement habituel (Gillan & Robbins 2014).',
+      def: 'Adjacent \u00e0 l\u2019internalisation. Port\u00e9 par un dysfonctionnement de la boucle cortico-striatale. Passage du comportement dirig\u00e9 vers un but au comportement habituel.',
       dsm: 'TOC, Dysmorphie corporelle, Accumulation, Trichotillomanie',
       rdoc: 'Cognitive Systems + Habit',
       circuits: 'Boucle OFC\u2192caud\u00e9\u2192thalamus\u2192OFC (5 sous-circuits, Shephard 2021)',
       instruments: 'Y-BOCS, OCI-R, PID-5 (Perfectionnisme rigide)',
-      stability: '\u00c9lev\u00e9e pour le trait ; la dimension symptomatique peut changer (v\u00e9rification \u2192 contamination)',
-      treatment: 'ISRS haute dose (modulation boucle CSTC), augmentation AP atypique, m\u00e9mantine. ERP (exposition + pr\u00e9vention de la r\u00e9ponse).',
+      stability: '\u00c9lev\u00e9e pour le trait ; dimension symptomatique peut changer',
+      treatment: 'ISRS haute dose, augmentation AP atypique, m\u00e9mantine. ERP.',
       ref: 'Gillan & Robbins (2014), Neuron'
     },
     'eating': {
       title: 'Pathologie alimentaire',
       level: '\u00c9mergent',
-      def: 'Sous-facteur \u00e9mergent. Perfectionnisme, insatisfaction corporelle, contr\u00f4le excessif, int\u00e9roception pauvre. Chevauche l\u2019internalisation et parfois l\u2019externalisation (binge-purge).',
+      def: 'Sous-facteur \u00e9mergent. Perfectionnisme, insatisfaction corporelle, contr\u00f4le excessif, int\u00e9roception pauvre.',
       dsm: 'AN, BN, BED',
       rdoc: 'Reward (wanting alt\u00e9r\u00e9), int\u00e9roceptif (insula)',
       circuits: 'R\u00e9compense (wanting alt\u00e9r\u00e9), int\u00e9roceptif (insula)',
       instruments: 'EDE-Q, EDI',
       stability: 'Variable \u2014 crossover diagnostique fr\u00e9quent (AN \u2192 BN)',
-      treatment: 'D\u00e9pend du profil \u2014 restrictif (cibles r\u00e9compense + int\u00e9roception) vs binge-purge (contr\u00f4le des impulsions)',
+      treatment: 'D\u00e9pend du profil \u2014 restrictif (cibles r\u00e9compense + int\u00e9roception) vs binge-purge (contr\u00f4le impulsions)',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
     'sexual-problems': {
       title: 'Sexual Problems',
       level: 'Subfactor',
-      def: 'Sous-facteur de l\u2019internalisation refl\u00e9tant les dysfonctions sexuelles li\u00e9es \u00e0 la d\u00e9tresse \u00e9motionnelle. Inclut le d\u00e9sir hypoactif, les difficult\u00e9s d\u2019excitation et la dysfonction orgasmique. La covariance avec l\u2019affect n\u00e9gatif et la d\u00e9pression justifie le placement sous Internalizing (Kotov et al., 2017).',
-      dsm: 'Trouble du d\u00e9sir sexuel hypoactif, Trouble de l\u2019excitation sexuelle, Trouble de l\u2019orgasme, Dyspareunie',
+      def: 'Sous-facteur de l\u2019internalisation refl\u00e9tant les dysfonctions sexuelles li\u00e9es \u00e0 la d\u00e9tresse \u00e9motionnelle.',
+      dsm: 'Trouble du d\u00e9sir sexuel hypoactif, Trouble de l\u2019excitation, Trouble de l\u2019orgasme, Dyspareunie',
       rdoc: 'Positive Valence (reward, wanting), Arousal/Regulatory Systems',
-      circuits: 'D\u00e9ficit du circuit de r\u00e9compense (VTA\u2192NAcc), d\u00e9r\u00e9gulation hypothalamique, interaction s\u00e9rotoninergique (effet lat\u00e9ral ISRS)',
-      instruments: 'FSFI (Female Sexual Function Index), IIEF (International Index of Erectile Function), ASEX',
-      stability: 'Mod\u00e9r\u00e9e \u2014 sensible aux \u00e9pisodes d\u00e9pressifs et aux traitements psychotropes',
-      treatment: 'Traiter la d\u00e9pression/anxi\u00e9t\u00e9 sous-jacente, ajuster les ISRS si iatrog\u00e8ne (switch bupropion, ajout buspirone), th\u00e9rapie sexuelle (Masters & Johnson), PDE5i si composante vasculaire.',
+      circuits: 'D\u00e9ficit circuit r\u00e9compense (VTA\u2192NAcc), d\u00e9r\u00e9gulation hypothalamique',
+      instruments: 'FSFI, IIEF, ASEX',
+      stability: 'Mod\u00e9r\u00e9e \u2014 sensible aux \u00e9pisodes d\u00e9pressifs et traitements psychotropes',
+      treatment: 'Traiter d\u00e9pression/anxi\u00e9t\u00e9, ajuster ISRS si iatrog\u00e8ne, th\u00e9rapie sexuelle',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
     'somatic-disorders': {
       title: 'Troubles somatoformes',
       level: 'Subfactor',
-      def: 'Sous-facteur regroupant le trouble \u00e0 symptomatologie somatique (TSS), le trouble de conversion et la crainte excessive d\u2019avoir une maladie. Caract\u00e9ris\u00e9 par une pr\u00e9occupation disproportionn\u00e9e pour les sympt\u00f4mes physiques.',
+      def: 'Sous-facteur regroupant le TSS, le trouble de conversion et la crainte excessive de maladie.',
       dsm: 'TSS, Trouble de conversion, Crainte excessive de maladie',
       rdoc: 'Interoception, Negative Valence (threat)',
       circuits: 'Insula ant\u00e9rieure hyperactive, boucle insula\u2192ACC\u2192amygdale',
@@ -1092,343 +811,142 @@
     'functional-syndromes': {
       title: 'Syndromes somatiques fonctionnels',
       level: 'Subfactor',
-      def: 'Sous-facteur regroupant les syndromes fonctionnels chroniques : fibromyalgie, syndrome du c\u00f4lon irritable et syndrome de fatigue chronique. Caract\u00e9ris\u00e9 par une sensibilisation centrale et une amplification somatosensorielle.',
+      def: 'Sous-facteur regroupant les syndromes fonctionnels chroniques : fibromyalgie, SCI, fatigue chronique.',
       dsm: 'Fibromyalgie, SCI, Syndrome de fatigue chronique',
       rdoc: 'Interoception, Arousal/Regulatory Systems',
       circuits: 'Sensibilisation centrale, d\u00e9r\u00e9gulation axe HPA, amplification somatosensorielle',
       instruments: 'FIQ, Rome IV, Chalder Fatigue Scale',
       stability: '\u00c9lev\u00e9e \u2014 tendance \u00e0 la chronicit\u00e9',
-      treatment: 'Approche multimodale : ISRS/IRSN, physioth\u00e9rapie gradu\u00e9e, TCC, \u00e9ducation th\u00e9rapeutique',
+      treatment: 'ISRS/IRSN, physioth\u00e9rapie gradu\u00e9e, TCC, \u00e9ducation th\u00e9rapeutique',
       ref: 'Watson et al. (2022), J Abnormal Psychology'
     },
     'psychoticism': {
       title: 'Psychoticisme',
       level: 'Subfactor',
-      def: 'Sous-facteur refl\u00e9tant les exp\u00e9riences psychotiques : hallucinations, id\u00e9es d\u00e9lirantes, d\u00e9sorganisation de la pens\u00e9e. S\u2019\u00e9tend des exp\u00e9riences schizotypiques sous-cliniques (continuum psychotique) jusqu\u2019aux \u00e9pisodes psychotiques francs.',
-      dsm: 'Schizophr\u00e9nie, Trouble schizoaffectif, Trouble d\u00e9lirant, Personnalit\u00e9 schizotypique, Trouble psychotique bref',
-      rdoc: 'Perception (aberrations perceptuelles), Cognitive Systems (d\u00e9sorganisation)',
-      circuits: 'Exc\u00e8s DA m\u00e9solimbique (salience aberrante, Kapur 2003), d\u00e9ficit DLPFC, dysconnectivit\u00e9 thalamo-corticale, d\u00e9ficit glutamatergique cortical',
+      def: 'Sous-facteur refl\u00e9tant les exp\u00e9riences psychotiques : hallucinations, id\u00e9es d\u00e9lirantes, d\u00e9sorganisation.',
+      dsm: 'Schizophr\u00e9nie, Trouble schizoaffectif, Trouble d\u00e9lirant, Personnalit\u00e9 schizotypique',
+      rdoc: 'Perception, Cognitive Systems (d\u00e9sorganisation)',
+      circuits: 'Exc\u00e8s DA m\u00e9solimbique (salience aberrante, Kapur 2003), d\u00e9ficit DLPFC, dysconnectivit\u00e9 thalamo-corticale',
       instruments: 'BPRS, PANSS, PRIME Screen, PQ-16, CAPE, PID-5 Psychoticisme',
-      stability: '\u00c9lev\u00e9e \u2014 le trait psychoticisme est stable ; les \u00e9pisodes fluctuent',
-      treatment: 'AP de 2e g\u00e9n\u00e9ration (antagonisme D2 + 5-HT2A), clozapine pour r\u00e9sistance. TCC pour hallucinations persistantes. Rem\u00e9diation cognitive.',
+      stability: '\u00c9lev\u00e9e \u2014 trait psychoticisme stable ; \u00e9pisodes fluctuent',
+      treatment: 'AP 2e g\u00e9n (D2 + 5-HT2A), clozapine pour r\u00e9sistance. TCC hallucinations. Rem\u00e9diation cognitive.',
       ref: 'Kapur (2003), American Journal of Psychiatry'
     },
     'mania': {
       title: 'Manie',
       level: 'Subfactor',
-      def: 'Sous-facteur caract\u00e9ris\u00e9 par l\u2019humeur \u00e9lev\u00e9e, la grandiosit\u00e9, la r\u00e9duction du besoin de sommeil et la pens\u00e9e acc\u00e9l\u00e9r\u00e9e. Charge sur le spectre Thought Disorder dans HiTOP (et non Internalizing). Partage des composantes avec le psychoticisme (id\u00e9es d\u00e9lirantes de grandeur, d\u00e9sorganisation).',
-      dsm: 'Trouble bipolaire I (manie), Trouble bipolaire II (hypomanie), Trouble cyclothymique',
+      def: 'Sous-facteur caract\u00e9ris\u00e9 par l\u2019humeur \u00e9lev\u00e9e, la grandiosit\u00e9, la r\u00e9duction du sommeil et la pens\u00e9e acc\u00e9l\u00e9r\u00e9e.',
+      dsm: 'Trouble bipolaire I, II, Trouble cyclothymique',
       rdoc: 'Positive Valence (reward hypersensitivity), Arousal/Regulatory Systems',
-      circuits: 'Hypersensibilit\u00e9 du circuit de r\u00e9compense (VTA\u2192NAcc\u2192OFC), d\u00e9ficit de contr\u00f4le top-down (DLPFC\u2192striatum), d\u00e9r\u00e9gulation circadienne',
-      instruments: 'YMRS, MDQ, BSDS, Altman Self-Rating Mania Scale, HCL-32',
-      stability: 'Mod\u00e9r\u00e9e \u2014 \u00e9pisodes r\u00e9currents mais intervalles variables ; le trait cyclothymique est stable',
-      treatment: 'Lithium (gold standard stabilisateur), valproate, AP atypiques (qu\u00e9tiapine, olanzapine, aripiprazole). \u00c9viter antid\u00e9presseurs en monoth\u00e9rapie (risque switch).',
+      circuits: 'Hypersensibilit\u00e9 circuit r\u00e9compense (VTA\u2192NAcc\u2192OFC), d\u00e9ficit contr\u00f4le top-down',
+      instruments: 'YMRS, MDQ, BSDS, HCL-32',
+      stability: 'Mod\u00e9r\u00e9e \u2014 \u00e9pisodes r\u00e9currents ; le trait cyclothymique est stable',
+      treatment: 'Lithium, valproate, AP atypiques. \u00c9viter AD en monoth\u00e9rapie (risque switch).',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
     'dissociation': {
       title: 'Dissociation',
       level: 'Subfactor (provisoire)',
-      def: 'Placement provisoire sous Thought Disorder dans HiTOP. Refl\u00e8te les perturbations de l\u2019int\u00e9gration de la conscience, de la m\u00e9moire, de l\u2019identit\u00e9 et de la perception. Partage des composantes avec le psychoticisme (exp\u00e9riences perceptuelles inhabituelles) et l\u2019internalisation (d\u00e9tresse).',
-      dsm: 'Trouble dissociatif de l\u2019identit\u00e9, D\u00e9personnalisation/D\u00e9r\u00e9alisation, Amn\u00e9sie dissociative, Trouble de conversion (composante dissociative)',
+      def: 'Placement provisoire sous Thought Disorder. Perturbations de l\u2019int\u00e9gration de la conscience, m\u00e9moire, identit\u00e9 et perception.',
+      dsm: 'Trouble dissociatif de l\u2019identit\u00e9, D\u00e9personnalisation/D\u00e9r\u00e9alisation, Amn\u00e9sie dissociative',
       rdoc: 'Self-representation, Perception, Cognitive Systems',
-      circuits: 'D\u00e9connexion cortico-limbique (mPFC hyperactif \u2192 suppression amygdalienne), alt\u00e9ration de l\u2019insula (int\u00e9roception perturb\u00e9e), dysconnectivit\u00e9 temporale m\u00e9diane',
-      instruments: 'DES (Dissociative Experiences Scale), SDQ-20, MID (Multidimensional Inventory of Dissociation)',
-      stability: 'Variable \u2014 les \u00e9pisodes dissociatifs fluctuent mais le trait dissociatif est mod\u00e9r\u00e9ment stable, surtout post-trauma',
-      treatment: 'Stabilisation d\u2019abord (ancrage, r\u00e9gulation \u00e9motionnelle), puis traitement du trauma (EMDR, exposition prolong\u00e9e adapt\u00e9e). \u00c9viter la d\u00e9stabilisation iatrog\u00e8ne.',
+      circuits: 'D\u00e9connexion cortico-limbique (mPFC hyperactif \u2192 suppression amygdalienne), alt\u00e9ration insula',
+      instruments: 'DES, SDQ-20, MID',
+      stability: 'Variable \u2014 \u00e9pisodes fluctuent mais trait dissociatif mod\u00e9r\u00e9ment stable',
+      treatment: 'Stabilisation (ancrage, r\u00e9gulation \u00e9motionnelle), puis traitement trauma (EMDR, exposition adapt\u00e9e).',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
     'disinhibited': {
       title: 'Externalizing d\u00e9sinhib\u00e9',
       level: 'Subfactor',
-      def: 'Sous-facteur caract\u00e9ris\u00e9 par l\u2019impulsivit\u00e9, la recherche de sensations, l\u2019irresponsabilit\u00e9 et les d\u00e9ficits de contr\u00f4le. Noyau commun aux TUS, au TDAH et aux troubles des conduites. Correspond au PID-5 D\u00e9sinhibition et \u00e0 la Conscienciosit\u00e9 basse (Big Five).',
-      dsm: 'TUS (alcool, cannabis, opio\u00efdes, stimulants), TDAH, Trouble des conduites, Trouble oppositionnel',
-      rdoc: 'Positive Valence (reward learning), Cognitive Systems (response inhibition, cognitive control)',
-      circuits: 'D\u00e9ficit pr\u00e9frontal (IFG/DLPFC \u2192 inhibition de la r\u00e9ponse), hyperactivit\u00e9 striatale ventrale (reward seeking), d\u00e9ficit DA pr\u00e9frontal avec exc\u00e8s DA m\u00e9solimbique',
-      instruments: 'PID-5 D\u00e9sinhibition, AUDIT, DAST, ASRS, BIS-11 (Barratt Impulsiveness Scale), UPPS-P',
-      stability: '\u00c9lev\u00e9e \u2014 le trait impulsivit\u00e9 est stable ; les substances d\u2019abus changent',
-      treatment: 'TDAH : stimulants (m\u00e9thylph\u00e9nidate, amph\u00e9tamines), atomox\u00e9tine. TUS : naltrexone, acamprosate, bupropion. TCC + entretien motivationnel.',
+      def: 'Sous-facteur caract\u00e9ris\u00e9 par l\u2019impulsivit\u00e9, la recherche de sensations, l\u2019irresponsabilit\u00e9. Noyau commun TUS, TDAH, troubles des conduites.',
+      dsm: 'TUS, TDAH, Trouble des conduites, Trouble oppositionnel',
+      rdoc: 'Positive Valence (reward learning), Cognitive Systems (response inhibition)',
+      circuits: 'D\u00e9ficit pr\u00e9frontal (IFG/DLPFC), hyperactivit\u00e9 striatale ventrale, d\u00e9ficit DA pr\u00e9frontal + exc\u00e8s DA m\u00e9solimbique',
+      instruments: 'PID-5 D\u00e9sinhibition, AUDIT, DAST, ASRS, BIS-11, UPPS-P',
+      stability: '\u00c9lev\u00e9e \u2014 trait impulsivit\u00e9 stable ; substances d\u2019abus changent',
+      treatment: 'TDAH : stimulants, atomox\u00e9tine. TUS : naltrexone, acamprosate, bupropion. TCC + entretien motivationnel.',
       ref: 'Krueger et al. (2007), Annual Review of Clinical Psychology'
     },
     'antagonistic': {
       title: 'Externalizing antagoniste',
       level: 'Subfactor',
-      def: 'Sous-facteur caract\u00e9ris\u00e9 par la manipulation, l\u2019hostilit\u00e9, la grandiosit\u00e9, l\u2019insensibilit\u00e9 et l\u2019exploitation interpersonnelle. Correspond au PID-5 Antagonisme et \u00e0 l\u2019Agr\u00e9abilit\u00e9 basse (Big Five). Centre des troubles de personnalit\u00e9 du Cluster B.',
+      def: 'Sous-facteur caract\u00e9ris\u00e9 par la manipulation, hostilit\u00e9, grandiosit\u00e9, insensibilit\u00e9. Centre des troubles de personnalit\u00e9 Cluster B.',
       dsm: 'Personnalit\u00e9 antisociale, Personnalit\u00e9 narcissique, traits psychopathiques',
       rdoc: 'Social Processes (affiliation, dominance), Negative Valence (frustrative non-reward)',
-      circuits: 'D\u00e9ficit amygdalien (empathie r\u00e9duite, peur att\u00e9nu\u00e9e), vmPFC d\u00e9ficitaire (d\u00e9cision morale), r\u00e9compense sociale alt\u00e9r\u00e9e',
-      instruments: 'PID-5 Antagonisme, PCL-R (Hare Psychopathy Checklist), NPI (Narcissistic Personality Inventory)',
-      stability: '\u00c9lev\u00e9e \u2014 traits psychopathiques stables d\u00e8s l\u2019adolescence ; pronostic r\u00e9serv\u00e9',
-      treatment: 'Peu de pharmacoth\u00e9rapie sp\u00e9cifique. TCC forensique, th\u00e9rapie des sch\u00e9mas (Young), mentalisation. La grandiosit\u00e9 narcissique r\u00e9pond partiellement \u00e0 la th\u00e9rapie psychodynamique.',
+      circuits: 'D\u00e9ficit amygdalien (empathie r\u00e9duite), vmPFC d\u00e9ficitaire, r\u00e9compense sociale alt\u00e9r\u00e9e',
+      instruments: 'PID-5 Antagonisme, PCL-R, NPI',
+      stability: '\u00c9lev\u00e9e \u2014 traits psychopathiques stables d\u00e8s l\u2019adolescence',
+      treatment: 'Peu de pharmacoth\u00e9rapie sp\u00e9cifique. TCC forensique, th\u00e9rapie sch\u00e9mas, mentalisation.',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     },
     'detachment-components': {
       title: 'Composantes du Detachment',
-      level: 'Subfactor',
-      def: 'Spectre caract\u00e9ris\u00e9 par le retrait social, l\u2019anh\u00e9donie, l\u2019\u00e9vitement de l\u2019intimit\u00e9 et l\u2019affectivit\u00e9 restreinte. Correspond au PID-5 D\u00e9tachement et \u00e0 l\u2019Extraversion basse (Big Five).',
-      dsm: 'Personnalit\u00e9 schizoide, Personnalit\u00e9 \u00e9vitante, formes s\u00e9v\u00e8res de dysthymie (anh\u00e9donie dominante), sympt\u00f4mes n\u00e9gatifs de la schizophr\u00e9nie',
-      rdoc: 'Positive Valence (reward, affiliation), Social Processes (affiliation, attachment)',
-      circuits: 'D\u00e9ficit du circuit de r\u00e9compense sociale (VTA\u2192NAcc\u2192mPFC), d\u00e9ficit oxytocinergique, hypoactivation du striatum ventral',
-      instruments: 'PID-5 D\u00e9tachement, SHAPS (anh\u00e9donie), LSAS (composante \u00e9vitement), SIS (Schizoid Introversion Scale)',
-      stability: '\u00c9lev\u00e9e \u2014 traits de d\u00e9tachement stables et r\u00e9sistants au changement',
-      treatment: 'Difficult\u00e9 th\u00e9rapeutique : faible motivation au traitement. Activation comportementale (cibler anh\u00e9donie), th\u00e9rapie d\u2019exposition sociale graduelle, parfois bupropion ou pramipexole pour anh\u00e9donie s\u00e9v\u00e8re.',
+      level: 'Composantes',
+      def: 'Le spectre Detachment n\u2019a pas de sous-facteurs standard dans HiTOP \u2014 mod\u00e9lis\u00e9 directement comme composantes : retrait social, anh\u00e9donie, \u00e9vitement de l\u2019intimit\u00e9, affectivit\u00e9 restreinte, suspicion.',
+      dsm: 'Personnalit\u00e9 schizoide, Personnalit\u00e9 \u00e9vitante, sympt\u00f4mes n\u00e9gatifs schizophr\u00e9nie',
+      rdoc: 'Positive Valence (reward, affiliation), Social Processes',
+      circuits: 'VTA\u2192NAcc\u2192mPFC (r\u00e9compense sociale), d\u00e9ficit oxytocinergique, hypoactivation striatum ventral',
+      instruments: 'PID-5 D\u00e9tachement, SHAPS, LSAS',
+      stability: '\u00c9lev\u00e9e',
+      treatment: 'Activation comportementale, exposition sociale graduelle, bupropion/pramipexole',
       ref: 'Kotov et al. (2017), J Abnormal Psychology'
     }
   };
 
   // ======= SPECTRA HIERARCHY =======
-  var spectra = [
-    {
-      id: 'internalizing', name: 'Internalizing', subtitle: 'NA\u2191', color: '#418FDE', group: 'emotional',
+  var spectra = {
+    'internalizing': {
+      color: 'int',
       subfactors: [
         { id: 'distress', name: 'Distress', components: ['Dysphorie','Rumination','Irritabilit\u00e9','Suicidalit\u00e9','Anh\u00e9donie','Lassitude','Insomnie','Dysfonction cognitive'] },
-        { id: 'fear', name: 'Fear', components: ['Anxi\u00e9t\u00e9 sociale','Panique','Agoraphobie','Phobie sp\u00e9cifique','Sensibilit\u00e9 \u00e0 la menace','\u00c9vitement','Inhibition comportementale'] },
-        { id: 'ocd', name: 'OCD', components: ['Obsessions','Compulsions','Perfectionnisme pathologique','Rigidit\u00e9 cognitive','Intol\u00e9rance \u00e0 l\'incompl\u00e9tude'] },
-        { id: 'eating', name: 'Eating Pathology', components: ['Restriction','Binge eating','Purging','Exercice excessif','Insatisfaction corporelle','Int\u00e9roception pauvre'] },
-        { id: 'sexual-problems', name: 'Sexual Problems', components: ['D\u00e9sir hypoactif','Difficult\u00e9s excitation','Dysfonction orgasmique','Dyspareunie'] }
+        { id: 'fear', name: 'Fear', components: ['Anxi\u00e9t\u00e9 sociale','Panique','Agoraphobie','Phobie sp\u00e9cifique','Sensibilit\u00e9 menace','\u00c9vitement','Inhibition comportementale'] },
+        { id: 'ocd', name: 'OCD', components: ['Obsessions','Compulsions','Perfectionnisme pathologique','Rigidit\u00e9 cognitive','Intol\u00e9rance incompl\u00e9tude'] },
+        { id: 'eating', name: 'Eating', components: ['Restriction','Binge eating','Purging','Exercice excessif','Insatisfaction corporelle'] },
+        { id: 'sexual-problems', name: 'Sexual', components: ['D\u00e9sir hypoactif','Difficult\u00e9s excitation','Dysfonction orgasmique','Dyspareunie'] }
       ]
     },
-    {
-      id: 'somatoform', name: 'Somatoform', subtitle: 'Int\u00e9roception', color: '#D4A556', group: 'emotional',
+    'somatoform': {
+      color: 'som',
       subfactors: [
-        { id: 'somatic-disorders', name: 'Troubles somatoformes', components: ['Symptomatologie somatique','Conversion','Crainte excessive de maladie','Conviction de maladie','Pr\u00e9occupation somatique'] },
-        { id: 'functional-syndromes', name: 'Syndromes fonctionnels', components: ['Fibromyalgie','Syndrome du c\u00f4lon irritable','Fatigue chronique'] }
+        { id: 'somatic-disorders', name: 'Somatoformes', components: ['Symptomatologie somatique','Conversion','Crainte maladie','Conviction maladie'] },
+        { id: 'functional-syndromes', name: 'Fonctionnels', components: ['Fibromyalgie','SCI','Fatigue chronique'] }
       ]
     },
-    {
-      id: 'thought-disorder', name: 'Thought Disorder', subtitle: 'DA m\u00e9solimbique', color: '#8E44AD', group: 'psychobehavioral',
+    'thought-disorder': {
+      color: 'td',
       subfactors: [
-        { id: 'psychoticism', name: 'Psychoticism', components: ['Hallucinations','Id\u00e9es d\u00e9lirantes','Pens\u00e9e d\u00e9sorganis\u00e9e','Exp\u00e9riences perceptuelles inhabituelles','Excentricit\u00e9','Croyances inhabituelles'] },
-        { id: 'mania', name: 'Mania', components: ['Humeur \u00e9lev\u00e9e','Grandiosit\u00e9','Sommeil r\u00e9duit','Fuite des id\u00e9es','Activit\u00e9 dirig\u00e9e vers un but','Impulsivit\u00e9','Labilit\u00e9 \u00e9motionnelle'] },
+        { id: 'psychoticism', name: 'Psychoticism', components: ['Hallucinations','Id\u00e9es d\u00e9lirantes','Pens\u00e9e d\u00e9sorganis\u00e9e','Exp\u00e9riences perceptuelles','Excentricit\u00e9'] },
+        { id: 'mania', name: 'Mania', components: ['Humeur \u00e9lev\u00e9e','Grandiosit\u00e9','Sommeil r\u00e9duit','Fuite des id\u00e9es','Impulsivit\u00e9','Labilit\u00e9'] },
         { id: 'dissociation', name: 'Dissociation', components: ['D\u00e9personnalisation','D\u00e9r\u00e9alisation','Amn\u00e9sie dissociative'] }
       ]
     },
-    {
-      id: 'externalizing', name: 'Externalizing', subtitle: 'Contr\u00f4le\u2193', color: '#C0392B', group: 'psychobehavioral',
+    'externalizing': {
+      color: 'ext',
       subfactors: [
-        { id: 'disinhibited', name: 'D\u00e9sinhib\u00e9', components: ['TUS','TDAH','Trouble des conduites','Impulsivit\u00e9','Irresponsabilit\u00e9','Distractibilit\u00e9','Prise de risque'] },
-        { id: 'antagonistic', name: 'Antagoniste', components: ['Personnalit\u00e9 antisociale','Narcissisme','Agression','Manipulation','Hostilit\u00e9','Grandiosit\u00e9','Insensibilit\u00e9'] }
+        { id: 'disinhibited', name: 'D\u00e9sinhib\u00e9', components: ['TUS','TDAH','Trouble conduites','Impulsivit\u00e9','Irresponsabilit\u00e9','Prise de risque'] },
+        { id: 'antagonistic', name: 'Antagoniste', components: ['Personnalit\u00e9 antisociale','Narcissisme','Agression','Manipulation','Insensibilit\u00e9'] }
       ]
     },
-    {
-      id: 'detachment', name: 'Detachment', subtitle: 'Reward\u2193', color: '#004071', group: 'psychobehavioral',
+    'detachment': {
+      color: 'det',
       subfactors: [
-        { id: 'detachment-components', name: 'Composantes', components: ['Retrait social','Anh\u00e9donie','\u00c9vitement de l\'intimit\u00e9','Affectivit\u00e9 restreinte','Suspicion','D\u00e9pressivit\u00e9','Inexpressivit\u00e9','Avolition','Non-assertivit\u00e9'] }
+        { id: 'detachment-components', name: 'Composantes', components: ['Retrait social','Anh\u00e9donie','\u00c9vitement intimit\u00e9','Affectivit\u00e9 restreinte','Suspicion','Inexpressivit\u00e9','Avolition'] }
       ]
     }
-  ];
-
-  // ======= STATE =======
-  var selectedSpectrumId = null;
-  var selectedSubfactorId = null;
-  var selectedNodeId = null; // for detail panel
-
-  // ======= DOM REFS =======
-  var emotionalGrid = document.getElementById('spectrum-grid-emotional');
-  var otherGrid = document.getElementById('spectrum-grid-other');
-  var emotionalSubRow = document.getElementById('subfactor-row-emotional');
-  var otherSubRow = document.getElementById('subfactor-row-other');
-  var detailPanel = document.getElementById('detail-panel');
-  var pfactorBanner = document.getElementById('pfactor-banner');
-
-  // ======= HELPER: lighter color for chips =======
-  function lightenColor(hex, alpha) {
-    var r = parseInt(hex.slice(1,3), 16);
-    var g = parseInt(hex.slice(3,5), 16);
-    var b = parseInt(hex.slice(5,7), 16);
-    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
-  }
-
-  // ======= BUILD SPECTRUM CARDS =======
-  function buildSpectrumCards() {
-    emotionalGrid.innerHTML = '';
-    otherGrid.innerHTML = '';
-
-    for (var i = 0; i < spectra.length; i++) {
-      var sp = spectra[i];
-      var card = document.createElement('div');
-      card.className = 'spectrum-card';
-      if (selectedSpectrumId === sp.id) card.className += ' selected';
-      card.style.backgroundColor = sp.color;
-      // Dark text for somatoform (gold bg)
-      if (sp.id === 'somatoform') card.style.color = '#2a1a00';
-      card.setAttribute('data-spectrum', sp.id);
-
-      var nameEl = document.createElement('span');
-      nameEl.className = 'sc-name';
-      nameEl.textContent = sp.name;
-      card.appendChild(nameEl);
-
-      var subEl = document.createElement('span');
-      subEl.className = 'sc-subtitle';
-      subEl.textContent = sp.subtitle;
-      card.appendChild(subEl);
-
-      var totalComponents = 0;
-      for (var j = 0; j < sp.subfactors.length; j++) {
-        totalComponents += sp.subfactors[j].components.length;
-      }
-      var countEl = document.createElement('span');
-      countEl.className = 'sc-count';
-      countEl.textContent = sp.subfactors.length + ' subfactors \u00b7 ' + totalComponents + ' composantes';
-      card.appendChild(countEl);
-
-      (function(spectrum) {
-        card.addEventListener('click', function() {
-          handleSpectrumClick(spectrum);
-        });
-      })(sp);
-
-      if (sp.group === 'emotional') {
-        emotionalGrid.appendChild(card);
-      } else {
-        otherGrid.appendChild(card);
-      }
-    }
-  }
-
-  // ======= BUILD SUBFACTOR ROW =======
-  function buildSubfactorRow(spectrum, container) {
-    container.innerHTML = '';
-
-    var label = document.createElement('div');
-    label.className = 'subfactor-row-label';
-    label.textContent = 'Sous-facteurs \u2014 ' + spectrum.name;
-    container.appendChild(label);
-
-    var cardsDiv = document.createElement('div');
-    cardsDiv.className = 'subfactor-cards';
-
-    for (var i = 0; i < spectrum.subfactors.length; i++) {
-      var sf = spectrum.subfactors[i];
-      var card = document.createElement('div');
-      card.className = 'subfactor-card';
-      if (selectedSubfactorId === sf.id) card.className += ' selected';
-      card.style.backgroundColor = lightenColor(spectrum.color, 0.82);
-      if (spectrum.id === 'somatoform') card.style.color = '#2a1a00';
-      card.style.animationDelay = (i * 80) + 'ms';
-      card.textContent = sf.name;
-      card.setAttribute('data-subfactor', sf.id);
-
-      (function(subfactor, spec) {
-        card.addEventListener('click', function(e) {
-          e.stopPropagation();
-          handleSubfactorClick(subfactor, spec);
-        });
-      })(sf, spectrum);
-
-      cardsDiv.appendChild(card);
-    }
-
-    container.appendChild(cardsDiv);
-
-    // If a subfactor is selected, show its components
-    if (selectedSubfactorId) {
-      var activeSf = null;
-      for (var j = 0; j < spectrum.subfactors.length; j++) {
-        if (spectrum.subfactors[j].id === selectedSubfactorId) {
-          activeSf = spectrum.subfactors[j];
-          break;
-        }
-      }
-      if (activeSf) {
-        var compRow = document.createElement('div');
-        compRow.className = 'component-row';
-        for (var k = 0; k < activeSf.components.length; k++) {
-          var pill = document.createElement('span');
-          pill.className = 'component-pill';
-          pill.style.backgroundColor = lightenColor(spectrum.color, 0.6);
-          if (spectrum.id === 'somatoform') pill.style.color = '#2a1a00';
-          pill.style.animationDelay = (k * 40) + 'ms';
-          pill.textContent = activeSf.components[k];
-          compRow.appendChild(pill);
-        }
-        container.appendChild(compRow);
-      }
-    }
-
-    container.classList.add('open');
-  }
-
-  // ======= CLICK HANDLERS =======
-  function handleSpectrumClick(spectrum) {
-    // If clicking already-selected spectrum, deselect
-    if (selectedSpectrumId === spectrum.id) {
-      selectedSpectrumId = null;
-      selectedSubfactorId = null;
-      selectedNodeId = null;
-      closeAllSubRows();
-      buildSpectrumCards();
-      updateDetailPanel();
-      return;
-    }
-
-    selectedSpectrumId = spectrum.id;
-    selectedSubfactorId = null;
-    selectedNodeId = spectrum.id;
-
-    // Close the other group's subfactor row
-    closeAllSubRows();
-    buildSpectrumCards();
-
-    // Open correct subfactor row
-    var targetRow = (spectrum.group === 'emotional') ? emotionalSubRow : otherSubRow;
-    buildSubfactorRow(spectrum, targetRow);
-
-    updateDetailPanel();
-  }
-
-  function handleSubfactorClick(subfactor, spectrum) {
-    // If clicking already-selected subfactor, deselect it
-    if (selectedSubfactorId === subfactor.id) {
-      selectedSubfactorId = null;
-      selectedNodeId = spectrum.id;
-    } else {
-      selectedSubfactorId = subfactor.id;
-      selectedNodeId = subfactor.id;
-    }
-
-    // Rebuild subfactor row to update selection + components
-    var targetRow = (spectrum.group === 'emotional') ? emotionalSubRow : otherSubRow;
-    buildSubfactorRow(spectrum, targetRow);
-
-    updateDetailPanel();
-  }
-
-  function closeAllSubRows() {
-    emotionalSubRow.classList.remove('open');
-    emotionalSubRow.innerHTML = '';
-    otherSubRow.classList.remove('open');
-    otherSubRow.innerHTML = '';
-  }
-
-  // ======= SELECT NODE (for p-factor banner) =======
-  window.selectNode = function(nodeId) {
-    if (selectedNodeId === nodeId) {
-      selectedNodeId = null;
-      pfactorBanner.classList.remove('selected');
-    } else {
-      selectedNodeId = nodeId;
-      pfactorBanner.classList.add('selected');
-      // Deselect spectrum/subfactor highlight
-      selectedSpectrumId = null;
-      selectedSubfactorId = null;
-      closeAllSubRows();
-      buildSpectrumCards();
-    }
-    updateDetailPanel();
   };
 
+  // ======= STATE =======
+  var expandedSpectrum = null;
+  var expandedSubfactor = null;
+  var selectedNodeId = null;
+
   // ======= DETAIL PANEL =======
+  var detailPanel = document.getElementById('detail-panel');
+
   function updateDetailPanel() {
     var placeholder = document.getElementById('dp-placeholder');
     var content = document.getElementById('dp-content');
-
-    // Update pfactor banner selection visual
-    if (selectedNodeId === 'pfactor') {
-      pfactorBanner.classList.add('selected');
-    } else {
-      pfactorBanner.classList.remove('selected');
-    }
 
     if (!selectedNodeId || !data[selectedNodeId]) {
       placeholder.style.display = '';
@@ -1454,40 +972,168 @@
 
     var refEl = document.getElementById('dp-ref');
     if (d.ref) {
-      refEl.textContent = 'R\u00e9f\u00e9rence cl\u00e9 : ' + d.ref;
+      refEl.textContent = 'R\u00e9f\u00e9rence : ' + d.ref;
       refEl.style.display = '';
     } else {
       refEl.style.display = 'none';
     }
+  }
 
-    // Color the level tag based on node type
-    var levelTag = document.getElementById('dp-level');
-    levelTag.style.background = '';
-    levelTag.style.color = '';
-    if (selectedNodeId === 'pfactor') {
-      levelTag.style.background = 'rgba(185,151,91,0.15)';
-      levelTag.style.color = '#8a6d2b';
-    } else {
-      // Find the spectrum color
-      for (var i = 0; i < spectra.length; i++) {
-        if (spectra[i].id === selectedNodeId) {
-          levelTag.style.background = lightenColor(spectra[i].color, 0.12);
-          levelTag.style.color = spectra[i].color;
-          break;
-        }
-        for (var j = 0; j < spectra[i].subfactors.length; j++) {
-          if (spectra[i].subfactors[j].id === selectedNodeId) {
-            levelTag.style.background = lightenColor(spectra[i].color, 0.12);
-            levelTag.style.color = spectra[i].color;
-            break;
-          }
-        }
-      }
+  // ======= HIGHLIGHT SELECTED NODE =======
+  function highlightNode(nodeId) {
+    // Remove all selected
+    var all = document.querySelectorAll('.hnode.selected');
+    for (var i = 0; i < all.length; i++) all[i].classList.remove('selected');
+    // Add to target
+    if (nodeId) {
+      var el = document.querySelector('.hnode[data-id="' + nodeId + '"]');
+      if (el) el.classList.add('selected');
     }
   }
 
-  // ======= INITIAL RENDER =======
-  buildSpectrumCards();
+  // ======= COLLAPSE HELPERS =======
+  function collapseSubfactors(spectrumLi) {
+    var childUl = spectrumLi.querySelector(':scope > ul');
+    if (childUl) spectrumLi.removeChild(childUl);
+    var specNode = spectrumLi.querySelector('.hnode-spectrum');
+    if (specNode) specNode.classList.remove('expanded');
+  }
+
+  function collapseAll() {
+    var spectrumLis = document.querySelectorAll('li[data-spectrum]');
+    for (var i = 0; i < spectrumLis.length; i++) {
+      collapseSubfactors(spectrumLis[i]);
+    }
+    expandedSpectrum = null;
+    expandedSubfactor = null;
+  }
+
+  // ======= EXPAND SPECTRUM → SUBFACTORS =======
+  function expandSpectrum(spectrumId) {
+    var sp = spectra[spectrumId];
+    if (!sp) return;
+
+    var li = document.querySelector('li[data-spectrum="' + spectrumId + '"]');
+    if (!li) return;
+
+    var ul = document.createElement('ul');
+
+    for (var i = 0; i < sp.subfactors.length; i++) {
+      var sf = sp.subfactors[i];
+      var sfLi = document.createElement('li');
+      sfLi.setAttribute('data-subfactor', sf.id);
+      sfLi.setAttribute('data-parent-spectrum', spectrumId);
+
+      var node = document.createElement('div');
+      node.className = 'hnode hnode-sf hnode-enter bg-' + sp.color + '-light';
+      node.setAttribute('data-id', sf.id);
+      if (sf.components && sf.components.length > 0) {
+        node.setAttribute('data-expandable', '');
+      }
+      node.textContent = sf.name;
+      node.style.animationDelay = (i * 60) + 'ms';
+
+      (function(subfactorId, subfactorObj, parentSpectrumId) {
+        node.addEventListener('click', function(e) {
+          e.stopPropagation();
+          selectedNodeId = subfactorId;
+          highlightNode(subfactorId);
+          updateDetailPanel();
+          toggleSubfactorComponents(subfactorId, subfactorObj, parentSpectrumId);
+        });
+      })(sf.id, sf, spectrumId);
+
+      sfLi.appendChild(node);
+      ul.appendChild(sfLi);
+    }
+
+    li.appendChild(ul);
+
+    var specNode = li.querySelector('.hnode-spectrum');
+    if (specNode) specNode.classList.add('expanded');
+  }
+
+  // ======= EXPAND SUBFACTOR → COMPONENTS =======
+  function toggleSubfactorComponents(subfactorId, subfactorObj, parentSpectrumId) {
+    var sfLi = document.querySelector('li[data-subfactor="' + subfactorId + '"]');
+    if (!sfLi) return;
+
+    var sp = spectra[parentSpectrumId];
+    var existingUl = sfLi.querySelector(':scope > ul');
+
+    // Collapse other subfactors' components in the same spectrum
+    var siblings = sfLi.parentElement.querySelectorAll('li[data-subfactor]');
+    for (var s = 0; s < siblings.length; s++) {
+      if (siblings[s] !== sfLi) {
+        var childUl = siblings[s].querySelector(':scope > ul');
+        if (childUl) siblings[s].removeChild(childUl);
+        var sfNode = siblings[s].querySelector('.hnode-sf');
+        if (sfNode) sfNode.classList.remove('expanded');
+      }
+    }
+
+    if (existingUl) {
+      // Collapse
+      sfLi.removeChild(existingUl);
+      var node = sfLi.querySelector('.hnode-sf');
+      if (node) node.classList.remove('expanded');
+      expandedSubfactor = null;
+      return;
+    }
+
+    // Expand
+    var ul = document.createElement('ul');
+    for (var i = 0; i < subfactorObj.components.length; i++) {
+      var compLi = document.createElement('li');
+      var pill = document.createElement('div');
+      pill.className = 'hnode hnode-comp hnode-enter bg-' + sp.color + '-pill';
+      pill.textContent = subfactorObj.components[i];
+      pill.style.animationDelay = (i * 30) + 'ms';
+      compLi.appendChild(pill);
+      ul.appendChild(compLi);
+    }
+    sfLi.appendChild(ul);
+
+    var sfNode = sfLi.querySelector('.hnode-sf');
+    if (sfNode) sfNode.classList.add('expanded');
+    expandedSubfactor = subfactorId;
+  }
+
+  // ======= CLICK HANDLERS =======
+  // All clickable nodes
+  document.getElementById('hitop-tree').addEventListener('click', function(e) {
+    var node = e.target.closest('.hnode');
+    if (!node) return;
+
+    var nodeId = node.getAttribute('data-id');
+    if (!nodeId) return;
+
+    // Update selection
+    selectedNodeId = nodeId;
+    highlightNode(nodeId);
+    updateDetailPanel();
+
+    // If it's a spectrum node, toggle expansion
+    var spectrumLi = node.closest('li[data-spectrum]');
+    if (node.classList.contains('hnode-spectrum') && spectrumLi) {
+      var spectrumId = spectrumLi.getAttribute('data-spectrum');
+
+      if (expandedSpectrum === spectrumId) {
+        // Collapse
+        collapseSubfactors(spectrumLi);
+        expandedSpectrum = null;
+        expandedSubfactor = null;
+      } else {
+        // Collapse previous
+        collapseAll();
+        // Expand this one
+        expandSpectrum(spectrumId);
+        expandedSpectrum = spectrumId;
+      }
+    }
+  });
+
+  // Initial state
   updateDetailPanel();
 
 })();
