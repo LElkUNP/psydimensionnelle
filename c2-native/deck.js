@@ -296,7 +296,6 @@
 
   // ── Keyboard ─────────────────────────────────────────────────
   function handleKey(e) {
-    // Don't capture in contenteditable
     if (e.target.isContentEditable) return;
 
     switch (e.key) {
@@ -346,18 +345,8 @@
           }
         }
         break;
-      case 'e':
-      case 'E':
-        if (!e.ctrlKey && !e.metaKey) {
-          e.preventDefault();
-          toggleEdit();
-        }
-        break;
       case 'Escape':
-        if (editMode) {
-          e.preventDefault();
-          toggleEdit();
-        } else if (overviewActive) {
+        if (overviewActive) {
           e.preventDefault();
           toggleOverview();
         }
@@ -392,14 +381,6 @@
     }
   }, { passive: true });
 
-  // ── Edit mode ──────────────────────────────────────────────
-  // Press E to toggle edit mode. All text becomes contenteditable.
-  // Ctrl+S exports clean HTML. Auto-saves to localStorage.
-  let editMode = false;
-  const EDIT_SELECTORS = 'h1, h2, h3, p, li, .quote, .key-point, td, th';
-  const STORAGE_KEY = 'unp-deck-edits-' + (document.title || location.pathname).replace(/[^a-z0-9]/gi, '-').slice(0, 60);
-  let autoSaveTimer = null;
-
   // Home button — link back to companion site
   const homeBtn = document.createElement('a');
   homeBtn.className = 'deck-home-btn';
@@ -407,120 +388,6 @@
   homeBtn.title = 'Retour au site';
   homeBtn.href = '../c2/index.html';
   document.body.appendChild(homeBtn);
-
-  // Edit toggle button (clickable — works in iframes where keys don't)
-  const editBtn = document.createElement('button');
-  editBtn.className = 'deck-edit-btn';
-  editBtn.textContent = '✎';
-  editBtn.title = 'Toggle edit mode (E)';
-  editBtn.addEventListener('click', function (ev) {
-    ev.stopPropagation();
-    toggleEdit();
-  });
-  document.body.appendChild(editBtn);
-
-  // Edit indicator badge
-  const editBadge = document.createElement('div');
-  editBadge.className = 'deck-edit-badge';
-  editBadge.textContent = 'EDIT';
-  editBadge.style.display = 'none';
-  document.body.appendChild(editBadge);
-
-  function toggleEdit() {
-    editMode = !editMode;
-    document.body.classList.toggle('edit-mode', editMode);
-    editBadge.style.display = editMode ? 'block' : 'none';
-
-    const els = deck.querySelectorAll(EDIT_SELECTORS);
-    els.forEach(function (el) {
-      if (editMode) {
-        el.setAttribute('contenteditable', 'true');
-      } else {
-        el.removeAttribute('contenteditable');
-      }
-    });
-
-    if (editMode) {
-      autoSaveTimer = setInterval(saveEdits, 5000);
-    } else {
-      if (autoSaveTimer) clearInterval(autoSaveTimer);
-      autoSaveTimer = null;
-      saveEdits();
-    }
-  }
-
-  function saveEdits() {
-    var data = {};
-    slides.forEach(function (s, i) {
-      data['s' + (i + 1)] = s.innerHTML;
-    });
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch (e) { /* quota */ }
-  }
-
-  function loadEdits() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return false;
-      var data = JSON.parse(raw);
-      var loaded = false;
-      slides.forEach(function (s, i) {
-        var key = 's' + (i + 1);
-        if (data[key]) {
-          s.innerHTML = data[key];
-          loaded = true;
-        }
-      });
-      return loaded;
-    } catch (e) { return false; }
-  }
-
-  function clearEdits() {
-    localStorage.removeItem(STORAGE_KEY);
-    window.location.reload();
-  }
-
-  function exportClean() {
-    // Temporarily strip edit attributes
-    var els = deck.querySelectorAll('[contenteditable]');
-    els.forEach(function (el) { el.removeAttribute('contenteditable'); });
-    document.body.classList.remove('edit-mode');
-    editBadge.style.display = 'none';
-
-    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-
-    // Restore
-    if (editMode) {
-      document.body.classList.add('edit-mode');
-      editBadge.style.display = 'block';
-      els.forEach(function (el) { el.setAttribute('contenteditable', 'true'); });
-    }
-
-    var blob = new Blob([html], { type: 'text/html' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'c1-deck-edited.html';
-    a.click();
-    URL.revokeObjectURL(a.href);
-  }
-
-  // Load saved edits on startup
-  if (loadEdits()) {
-    console.log('[deck] Restored saved edits from localStorage');
-  }
-
-  // Hook Ctrl+S and Ctrl+Shift+X (need separate listener for modifier combos)
-  document.addEventListener('keydown', function (ev) {
-    if ((ev.ctrlKey || ev.metaKey) && ev.key === 's') {
-      ev.preventDefault();
-      if (editMode) exportClean();
-    }
-    if ((ev.ctrlKey || ev.metaKey) && ev.shiftKey && ev.key === 'X') {
-      ev.preventDefault();
-      if (confirm('Clear all saved edits and reload?')) clearEdits();
-    }
-  });
 
   // ── Go ───────────────────────────────────────────────────────
   init();
