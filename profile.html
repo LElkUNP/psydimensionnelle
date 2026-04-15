@@ -341,6 +341,11 @@
     <div style="margin-bottom:1rem;">
       <span style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--mid);margin-right:0.5rem;">Cas pr&eacute;d&eacute;finis :</span>
       <button class="filter-btn" onclick="loadPreset('maya')">Maya (OCD&gt;Distress&gt;Fear)</button>
+      <button class="filter-btn" onclick="loadPreset('alex')">Alex (Ext d&eacute;sinhi.)</button>
+      <button class="filter-btn" onclick="loadPreset('stephane')">St&eacute;phane (Ext ambigu)</button>
+      <button class="filter-btn" onclick="loadPreset('sarah')">Sarah (Int+Ext+Eat)</button>
+      <button class="filter-btn" onclick="loadPreset('marco')">Marco (Antagoniste)</button>
+      <button class="filter-btn" onclick="loadPreset('nadia')">Nadia (Ext-attentionnel)</button>
       <button class="filter-btn" onclick="loadPreset('thomas')">Thomas (PA&darr; dominant)</button>
       <button class="filter-btn" onclick="loadPreset('ruggero')">Ruggero 2019 (Int+Ext)</button>
       <button class="filter-btn" onclick="loadPreset('reset')">R&eacute;initialiser</button>
@@ -968,10 +973,15 @@
 
   // Preset profiles
   var presets = {
-    maya:    { na: 68, pa: 58, fear: 62, ocd: 78, eat: 60, ext: 40, td: 42, det: 45 },
-    thomas:  { na: 62, pa: 82, fear: 48, ocd: 44, eat: 42, ext: 38, td: 40, det: 58 },
-    ruggero: { na: 85, pa: 70, fear: 78, ocd: 52, eat: 45, ext: 72, td: 48, det: 65 },
-    reset:   { na: 50, pa: 50, fear: 50, ocd: 50, eat: 50, ext: 50, td: 50, det: 50 }
+    maya:     { na: 68, pa: 58, fear: 62, ocd: 78, eat: 60, ext: 40, td: 42, det: 45 },
+    alex:     { na: 52, pa: 48, fear: 38, ocd: 38, eat: 40, ext: 82, td: 40, det: 42 },
+    stephane: { na: 42, pa: 48, fear: 40, ocd: 40, eat: 40, ext: 75, td: 40, det: 50 },
+    sarah:    { na: 68, pa: 52, fear: 58, ocd: 52, eat: 75, ext: 62, td: 40, det: 42 },
+    marco:    { na: 40, pa: 45, fear: 38, ocd: 40, eat: 40, ext: 75, td: 40, det: 65 },
+    nadia:    { na: 55, pa: 50, fear: 42, ocd: 40, eat: 40, ext: 72, td: 40, det: 42 },
+    thomas:   { na: 62, pa: 82, fear: 48, ocd: 44, eat: 42, ext: 38, td: 40, det: 58 },
+    ruggero:  { na: 85, pa: 70, fear: 78, ocd: 52, eat: 45, ext: 72, td: 48, det: 65 },
+    reset:    { na: 50, pa: 50, fear: 50, ocd: 50, eat: 50, ext: 50, td: 50, det: 50 }
   };
 
   // ================================================================
@@ -982,6 +992,118 @@
   var currentExercise = null;
 
   var caseExercises = {
+    alex: {
+      title: 'Cas Alex \u2014 Construisez le profil dimensionnel',
+      vignette: '<strong>Alex, 28 ans</strong> \u2014 Serveur / musicien temps partiel.'
+        + '<ul><li>Cannabis quotidien depuis 5 ans (\u00ab pour l\u2019anxi\u00e9t\u00e9 \u00bb)</li>'
+        + '<li>Binge drinking les weekends (4-6 consommations \u00d7 2-3 soirs)</li>'
+        + '<li>Impulsivit\u00e9 au travail : conflits, retards, deux emplois perdus en 18 mois</li>'
+        + '<li>Difficult\u00e9s de concentration de longue date \u2014 jamais \u00e9valu\u00e9 pour TDAH</li>'
+        + '<li>Relation amoureuse en crise : panique d\u2019abandon \u2192 lash out verbal + id\u00e9es suicidaires</li>'
+        + '<li>R\u00e9f\u00e9r\u00e9 par m\u00e9decin de famille pour \u00ab anxi\u00e9t\u00e9 et d\u00e9pression \u00bb</li></ul>'
+        + '<strong>DSM :</strong> TUS cannabis, TUS alcool, TDAH, trouble d\u2019adaptation \u2014 4 diagnostics. <strong>Votre t\u00e2che :</strong> pensez en <em>dimensions</em>.',
+      task: '\u2192 Ajustez les 8 curseurs pour construire le profil dimensionnel d\u2019Alex. Quel spectre domine vraiment? Le m\u00e9decin de famille voit \u00ab anxi\u00e9t\u00e9 et d\u00e9pression \u00bb \u2014 \u00eates-vous d\u2019accord?',
+      expert: { na: 52, pa: 48, fear: 38, ocd: 38, eat: 40, ext: 82, td: 40, det: 42 },
+      explanations: {
+        na: '<strong>NA = 52 (l\u00e9g\u00e8rement \u00e9lev\u00e9).</strong> Humeur basse r\u00e9elle mais SECONDAIRE. Sa vie s\u2019effondre \u2192 il est triste. Si on traite la d\u00e9sinhibition et que sa vie se stabilise, la \u00ab d\u00e9pression \u00bb va probablement se r\u00e9soudre sans intervention sp\u00e9cifique.',
+        pa: '<strong>PA\u2193 = 48 (normal).</strong> Alex a encore des int\u00e9r\u00eats (musique). L\u2019anh\u00e9donie n\u2019est pas le probl\u00e8me central.',
+        fear: '<strong>Fear = 38 (bas).</strong> Pas de panique, pas de phobie, pas d\u2019hypervigilance. L\u2019\u00ab anxi\u00e9t\u00e9 \u00bb rapport\u00e9e par le MdF est probablement de l\u2019inqui\u00e9tude situationnelle.',
+        ocd: '<strong>OCD = 38 (bas).</strong> Aucune compulsion ni pens\u00e9e intrusive de type OCD.',
+        eat: '<strong>Eating = 40 (normal).</strong> Pas de probl\u00e9matique alimentaire.',
+        ext: '<strong>Ext = 82 (s\u00e9v\u00e8re). C\u2019est LE PIC.</strong> Substance (cannabis + alcool) + d\u00e9scontr\u00f4le attentionnel (TDAH probable) + impulsivit\u00e9. Sans le profil, le MdF aurait prescrit un ISRS. Avec le profil : \u00e9valuer le TDAH, traiter les substances, monitorer l\u2019humeur.',
+        td: '<strong>TD = 40 (normal).</strong> Pas de d\u00e9sorganisation de la pens\u00e9e.',
+        det: '<strong>Det = 42 (normal).</strong> Alex est en relation, il a des liens sociaux. Ses conflits sont impulsifs (d\u00e9sinhibition), pas calcul\u00e9s (antagonisme).'
+      }
+    },
+    stephane: {
+      title: 'Cas St\u00e9phane \u2014 D\u00e9sinhibition, antagonisme, ou les deux?',
+      vignette: '<strong>St\u00e9phane, 35 ans</strong>'
+        + '<ul><li>Deux arrestations pour conduite avec facult\u00e9s affaiblies (DUI)</li>'
+        + '<li>Dette de jeu significative</li>'
+        + '<li>Infid\u00e9lit\u00e9s r\u00e9p\u00e9t\u00e9es</li>'
+        + '<li>En couple, se d\u00e9crit comme \u00ab impulsif mais pas m\u00e9chant \u00bb</li>'
+        + '<li>Score AUDIT = 24</li>'
+        + '<li>Se dit pr\u00eat \u00e0 changer pour ses enfants</li></ul>'
+        + '<strong>Question :</strong> O\u00f9 placez-vous St\u00e9phane? D\u00e9sinhibition pure, antagonisme, ou un m\u00e9lange?',
+      task: '\u2192 Ajustez les curseurs. Attention particuli\u00e8re \u00e0 Ext et Det \u2014 les infid\u00e9lit\u00e9s sont-elles impulsives ou calcul\u00e9es?',
+      expert: { na: 42, pa: 48, fear: 40, ocd: 40, eat: 40, ext: 75, td: 40, det: 50 },
+      explanations: {
+        na: '<strong>NA = 42 (normal).</strong> St\u00e9phane n\u2019est pas particuli\u00e8rement en d\u00e9tresse \u00e9motionnelle.',
+        pa: '<strong>PA\u2193 = 48 (normal).</strong> Pas d\u2019anh\u00e9donie rapport\u00e9e.',
+        fear: '<strong>Fear = 40 (normal).</strong> Aucun signe de peur pathologique.',
+        ocd: '<strong>OCD = 40 (normal).</strong> Aucun trait obsessionnel-compulsif.',
+        eat: '<strong>Eating = 40 (normal).</strong> Pas de probl\u00e9matique alimentaire.',
+        ext: '<strong>Ext = 75 (\u00e9lev\u00e9). LE PIC.</strong> DUI \u00d7 2 + jeu + AUDIT 24 = d\u00e9sinhibition substance claire. L\u2019\u00e9l\u00e9ment ambigu : les infid\u00e9lit\u00e9s. Si elles sont impulsives (opportunistes, regrett\u00e9es apr\u00e8s) = d\u00e9sinhibition. Si planifi\u00e9es, sans remords = antagonisme. \u00ab Pr\u00eat \u00e0 changer pour ses enfants \u00bb sugg\u00e8re un profil principalement D\u00c9SINHIBITION, pas antagoniste.',
+        td: '<strong>TD = 40 (normal).</strong> Pas de d\u00e9sorganisation.',
+        det: '<strong>Det = 50 (limite).</strong> L\u00e9g\u00e8rement \u00e9lev\u00e9 \u2014 les infid\u00e9lit\u00e9s r\u00e9p\u00e9t\u00e9es sugg\u00e8rent une certaine insensibilit\u00e9 interpersonnelle. Pas assez pour \u00ab antagoniste \u00bb, mais une ZONE GRISE \u00e0 explorer en entrevue. C\u2019est exactement le type d\u2019ambigu\u00eft\u00e9 que le profil dimensionnel aide \u00e0 r\u00e9soudre.'
+      }
+    },
+    sarah: {
+      title: 'Cas Sarah \u2014 La comorbidit\u00e9 mixte Int+Ext',
+      vignette: '<strong>Sarah, 32 ans</strong> \u2014 Infirmi\u00e8re.'
+        + '<ul><li>Binge eating + purging (IMC 26)</li>'
+        + '<li>Anxi\u00e9t\u00e9 de performance \u2191\u2191</li>'
+        + '<li>Alcool en soir\u00e9e (3-4 verres, 4\u00d7/sem)</li>'
+        + '<li>Perfectionnisme rigide</li></ul>'
+        + '<strong>Question cl\u00e9 :</strong> L\u2019alcool est-il externalisant (reward-seeking) ou internalisant (autom\u00e9dication de l\u2019anxi\u00e9t\u00e9)? Comment le profil guide la s\u00e9quence de traitement?',
+      task: '\u2192 Ajustez les 8 curseurs. Sarah cross-load entre Int et Ext \u2014 o\u00f9 sont les pics? Quel spectre domine?',
+      expert: { na: 68, pa: 52, fear: 58, ocd: 52, eat: 75, ext: 62, td: 40, det: 42 },
+      explanations: {
+        na: '<strong>NA = 68 (clinique).</strong> Anxi\u00e9t\u00e9 de performance \u2191\u2191 \u2014 c\u2019est le moteur internalisant. La d\u00e9tresse \u00e9motionnelle alimente le binge eating ET l\u2019alcool (autom\u00e9dication).',
+        pa: '<strong>PA\u2193 = 52 (l\u00e9g\u00e8rement \u00e9lev\u00e9).</strong> L\u00e9g\u00e8re r\u00e9duction du plaisir, mais ce n\u2019est pas le trait dominant.',
+        fear: '<strong>Fear = 58 (\u00e9lev\u00e9).</strong> L\u2019anxi\u00e9t\u00e9 de performance a une composante Fear (peur de l\u2019\u00e9valuation, anticipation catastrophique).',
+        ocd: '<strong>OCD = 52 (l\u00e9g\u00e8rement \u00e9lev\u00e9).</strong> Le perfectionnisme rigide est OCD-adjacent sans \u00eatre du TOC clinique. Sous-seuil mais dimensionnellement pr\u00e9sent.',
+        eat: '<strong>Eating = 75 (\u00e9lev\u00e9). CO-PIC avec NA.</strong> Binge eating + purging cross-load entre Int (d\u00e9tresse \u00e9motionnelle) et Ext (reward-seeking). Le profil dimensionnel capte cette complexit\u00e9.',
+        ext: '<strong>Ext = 62 (mod\u00e9r\u00e9-\u00e9lev\u00e9).</strong> Alcool 3-4 verres \u00d7 4/sem. MAIS c\u2019est de l\u2019autom\u00e9dication de l\u2019anxi\u00e9t\u00e9, pas du reward-seeking pur. On traite l\u2019alcool d\u2019abord (il brouille tout), puis l\u2019internalisant sous-jacent.',
+        td: '<strong>TD = 40 (normal).</strong> Pas de d\u00e9sorganisation.',
+        det: '<strong>Det = 42 (normal).</strong> Sarah est infirmi\u00e8re \u2014 empathie pr\u00e9serv\u00e9e, relations fonctionnelles.'
+      }
+    },
+    marco: {
+      title: 'Cas Marco \u2014 L\u2019antagoniste',
+      vignette: '<strong>Marco, 40 ans</strong> \u2014 Consulte pour \u00ab dysphorie \u00bb.'
+        + '<ul><li>Humeur instable, frustration chronique, conflits interpersonnels</li>'
+        + '<li>Violence conjugale (3 plaintes)</li>'
+        + '<li>Bl\u00e2me sa conjointe</li>'
+        + '<li>Col\u00e8re \u00ab froide \u00bb (pas explosive)</li>'
+        + '<li>Ant\u00e9c\u00e9dents de fraude</li></ul>'
+        + '<strong>Pi\u00e8ge :</strong> Il dit \u00ab dysphorie \u00bb. Le r\u00e9sident pense \u00ab d\u00e9pression \u2192 ISRS \u00bb. Le profil dit autre chose.',
+      task: '\u2192 Ajustez les curseurs. Attention : o\u00f9 est le vrai pic? Et quel est le plan de traitement \u2014 pharmacologique ou non?',
+      expert: { na: 40, pa: 45, fear: 38, ocd: 40, eat: 40, ext: 75, td: 40, det: 65 },
+      explanations: {
+        na: '<strong>NA = 40 (normal).</strong> La \u00ab dysphorie \u00bb de Marco n\u2019est PAS de la d\u00e9pression. C\u2019est de la frustration narcissique \u2014 quand le monde ne r\u00e9pond pas \u00e0 ses attentes.',
+        pa: '<strong>PA\u2193 = 45 (normal).</strong> Pas d\u2019anh\u00e9donie. Marco n\u2019a pas perdu le plaisir \u2014 il est frustr\u00e9.',
+        fear: '<strong>Fear = 38 (bas).</strong> Aucune peur pathologique.',
+        ocd: '<strong>OCD = 40 (normal).</strong> Aucun trait obsessionnel.',
+        eat: '<strong>Eating = 40 (normal).</strong> Pas de probl\u00e9matique alimentaire.',
+        ext: '<strong>Ext = 75 (\u00e9lev\u00e9). LE PIC.</strong> Violence conjugale (3 plaintes) + fraude + hostilit\u00e9. MAIS attention : sa violence est PROACTIVE (col\u00e8re froide, calcul\u00e9e), pas r\u00e9active. C\u2019est de l\u2019antagonisme, pas de la d\u00e9sinhibition.',
+        td: '<strong>TD = 40 (normal).</strong> Pas de d\u00e9sorganisation.',
+        det: '<strong>Det = 65 (\u00e9lev\u00e9). CO-PIC.</strong> Callousness (pas de remords), bl\u00e2me externalis\u00e9, col\u00e8re froide. Le Detachment ici capture l\u2019insensibilit\u00e9 interpersonnelle. Traitement : PAS de pharmacologie. Psychosocial / forensique. Le profil dit que les ISRS sont inutiles ici.'
+      }
+    },
+    nadia: {
+      title: 'Cas Nadia \u2014 Exercice de synth\u00e8se',
+      vignette: '<strong>Nadia, 22 ans</strong>'
+        + '<ul><li>Jeu en ligne excessif (perdu 8 000 $ en 6 mois)</li>'
+        + '<li>Cannabis quotidien</li>'
+        + '<li>Conflits explosifs avec sa m\u00e8re (mais regrette apr\u00e8s)</li>'
+        + '<li>D\u00e9crochage universitaire</li>'
+        + '<li>Se d\u00e9crit comme \u00ab tout le temps sous pression \u00bb</li></ul>'
+        + '<strong>Scores :</strong> PHQ-9 = 11, AUDIT = 6, ASRS = 4/6 positif.'
+        + '<br><br><strong>Indice :</strong> Les conflits sont explosifs MAIS elle regrette apr\u00e8s\u2026',
+      task: '\u2192 Profilez Nadia sur les deux axes (d\u00e9sinhibition vs antagonisme). Identifiez le sous-facteur dominant. Proposez un plan s\u00e9quentiel.',
+      expert: { na: 55, pa: 50, fear: 42, ocd: 40, eat: 40, ext: 72, td: 40, det: 42 },
+      explanations: {
+        na: '<strong>NA = 55 (mod\u00e9r\u00e9).</strong> PHQ-9 = 11 (mod\u00e9r\u00e9). Mais c\u2019est probablement SECONDAIRE \u00e0 la d\u00e9sorganisation de sa vie. Si on traite la d\u00e9sinhibition, l\u2019humeur devrait s\u2019am\u00e9liorer.',
+        pa: '<strong>PA\u2193 = 50 (normal).</strong> Pas d\u2019anh\u00e9donie sp\u00e9cifique.',
+        fear: '<strong>Fear = 42 (normal).</strong> \u00ab Sous pression \u00bb = overload cognitif, pas de peur pathologique.',
+        ocd: '<strong>OCD = 40 (normal).</strong> Aucun trait obsessionnel.',
+        eat: '<strong>Eating = 40 (normal).</strong> Pas de probl\u00e9matique alimentaire.',
+        ext: '<strong>Ext = 72 (\u00e9lev\u00e9). LE PIC.</strong> Jeu (reward-seeking) + cannabis + ASRS 4/6 positif (TDAH probable) + conflits explosifs. Le sous-facteur dominant = d\u00e9sinhibition ATTENTIONNELLE. Plan : (1) \u00e9valuer le TDAH formellement, (2) traiter le jeu (TCC), (3) monitorer le cannabis (peut diminuer si TDAH trait\u00e9), (4) r\u00e9\u00e9valuer l\u2019humeur.',
+        td: '<strong>TD = 40 (normal).</strong> Pas de d\u00e9sorganisation de la pens\u00e9e.',
+        det: '<strong>Det = 42 (normal).</strong> Elle REGRETTE ses conflits \u2014 c\u2019est la cl\u00e9. D\u00e9sinhibition (r\u00e9active, avec remords), PAS antagonisme (proactif, sans remords).'
+      }
+    },
     maya: {
       title: 'Cas Maya \u2014 Construisez le profil dimensionnel',
       vignette: '<strong>Maya, 28 ans</strong> \u2014 \u00c9tudiante aux cycles sup\u00e9rieurs. Anxiété croissante depuis 8 mois, humeur basse, pens\u00e9es intrusives de contamination \u2192 rituels de v\u00e9rification et lavage (2h/j). Perfectionnisme et rigidit\u00e9 de longue date. Restriction alimentaire + insatisfaction corporelle (sous-seuil DSM pour TCA).'
