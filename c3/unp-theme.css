@@ -63,7 +63,7 @@ body {
 }
 .slide--title h1 {
   font-family: var(--font-title);
-  font-size: clamp(2rem, 4.2vw, 3.8rem);
+  font-size: clamp(2rem, 4.2vw, 4.2vw);
   font-weight: 400;
   color: var(--white);
   line-height: 1.15;
@@ -76,12 +76,12 @@ body {
   margin-top: 3vh;
 }
 .slide--title .subtitle {
-  font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+  font-size: clamp(0.9rem, 1.5vw, 1.5vw);
   color: var(--sky);
   margin-top: 2vh;
 }
 .slide--title .author {
-  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  font-size: clamp(0.8rem, 1.2vw, 1.2vw);
   color: rgba(255,255,255,0.85);
   margin-top: 4vh;
   line-height: 1.7;
@@ -109,7 +109,7 @@ body {
 }
 .slide--section h1 {
   font-family: var(--font-title);
-  font-size: clamp(1.6rem, 3.2vw, 2.8rem);
+  font-size: clamp(1.6rem, 3.2vw, 3.2vw);
   font-weight: 400;
   color: var(--white);
   line-height: 1.25;
@@ -122,7 +122,7 @@ body {
 }
 .slide--section p {
   color: rgba(255,255,255,0.7);
-  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  font-size: clamp(0.85rem, 1.1vw, 1.1vw);
   margin-top: 2vh;
   line-height: 1.6;
   max-width: 65%;
@@ -143,7 +143,7 @@ body {
 }
 .slide__header h1 {
   font-family: var(--font-title);
-  font-size: clamp(1.2rem, 2.6vw, 2.1rem);
+  font-size: clamp(1.2rem, 2.6vw, 2.6vw);
   font-weight: 400;
   color: var(--white);
 }
@@ -161,7 +161,7 @@ body {
   padding: 1.5vh 5.3% 1vh;
   display: flex;
   flex-direction: column;
-  gap: 0.8vh;
+  gap: 1.2vh;
   overflow: hidden;
   min-height: 0;
 }
@@ -186,7 +186,7 @@ body {
 /* ── 4. CARDS ── white bg, colored left border */
 .card {
   background: var(--white);
-  padding: 1.2vh 2.5%;
+  padding: 1.8vh 2.5%;
   padding-left: calc(2.5% + 8px);
   position: relative;
   border-left: 5px solid transparent;
@@ -214,14 +214,14 @@ body {
 
 .card h2 {
   font-family: var(--font-body);
-  font-size: clamp(0.8rem, 1.1vw, 1rem);
+  font-size: clamp(0.8rem, 1.4vw, 1.4vw);
   font-weight: 600;
   color: var(--navy);
   margin-bottom: 0.3vh;
   letter-spacing: 0.01em;
 }
 .card p, .card li {
-  font-size: clamp(0.72rem, 0.95vw, 0.88rem);
+  font-size: clamp(0.72rem, 1.2vw, 1.2vw);
   color: var(--dark);
   line-height: 1.45;
 }
@@ -300,19 +300,19 @@ body {
 .row-card--gray { border-left-color: #787878; }
 .row-card__num {
   font-family: var(--font-mono);
-  font-size: clamp(1rem, 1.6vw, 1.5rem);
+  font-size: clamp(1rem, 2vw, 2vw);
   font-weight: 600;
   color: var(--navy);
   text-align: center;
 }
 .row-card__body {}
 .row-card__title {
-  font-size: clamp(0.8rem, 1.05vw, 0.95rem);
+  font-size: clamp(0.8rem, 1.3vw, 1.3vw);
   font-weight: 600;
   color: var(--navy);
 }
 .row-card__desc {
-  font-size: clamp(0.72rem, 0.95vw, 0.85rem);
+  font-size: clamp(0.72rem, 1.15vw, 1.15vw);
   color: var(--dark);
   line-height: 1.4;
 }
@@ -324,7 +324,7 @@ body {
   padding-left: calc(3% + 8px);
   border-left: 5px solid var(--gold);
   font-style: italic;
-  font-size: clamp(0.78rem, 1.05vw, 0.95rem);
+  font-size: clamp(0.78rem, 1.2vw, 1.2vw);
   color: var(--dark);
   line-height: 1.5;
   overflow: hidden;
@@ -389,12 +389,12 @@ body {
 }
 .timeline .pill .year {
   font-family: var(--font-mono);
-  font-size: clamp(0.65rem, 0.85vw, 0.8rem);
+  font-size: clamp(0.65rem, 0.95vw, 0.95vw);
   color: var(--gold);
   font-weight: 600;
 }
 .timeline .pill .name {
-  font-size: clamp(0.6rem, 0.8vw, 0.75rem);
+  font-size: clamp(0.6rem, 0.85vw, 0.85vw);
   color: var(--white);
   opacity: 0.85;
 }
@@ -412,7 +412,7 @@ body {
   border-left: 5px solid var(--green);
   font-weight: 500;
   color: #1b5e20;
-  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  font-size: clamp(0.75rem, 1.15vw, 1.15vw);
   flex-shrink: 0;
 }
 
@@ -426,7 +426,7 @@ body {
   align-items: center;
   justify-content: center;
   font-family: var(--font-body);
-  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-size: clamp(1.2rem, 2vw, 2vw);
   font-weight: 600;
   color: var(--navy);
   padding: 0 0.5%;
@@ -434,20 +434,20 @@ body {
 
 /* ── PILL DESC (timeline sub-text) ── */
 .timeline .pill .pill-desc {
-  font-size: clamp(0.55rem, 0.75vw, 0.7rem);
+  font-size: clamp(0.55rem, 0.8vw, 0.8vw);
   color: rgba(255,255,255,0.75);
   line-height: 1.3;
 }
 .timeline .pill strong {
   font-family: var(--font-mono);
-  font-size: clamp(0.65rem, 0.85vw, 0.8rem);
+  font-size: clamp(0.65rem, 0.95vw, 0.95vw);
   color: var(--gold);
 }
 
 /* ── SOURCE LINE ── */
 .source-line {
   font-family: var(--font-mono);
-  font-size: clamp(0.55rem, 0.7vw, 0.68rem);
+  font-size: clamp(0.55rem, 0.8vw, 0.8vw);
   color: var(--mid-gray);
   padding: 0.5vh 5.3%;
   flex-shrink: 0;
