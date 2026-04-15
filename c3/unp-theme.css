@@ -1,0 +1,498 @@
+/* UNP Lab — Faithful PPTX-to-HTML theme
+   Matches C1 build_c1_section1.py design system exactly.
+   Slide: 13.33 × 7.5 in → 16:9 viewport (100vw × 100vh)
+   Colors: Navy #004071, Sky #418FDE, Green #4A8C1C, Gold #B9975B, Cream #FAF8F5
+   Fonts PPTX: Rethink Sans (titles+body), Consolas (mono/labels)
+   Fonts Web: Instrument Serif (display), DM Sans (body), DM Mono (code)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+
+:root {
+  --navy: #004071;
+  --sky: #418FDE;
+  --green: #4A8C1C;
+  --gold: #B9975B;
+  --cream: #FAF8F5;
+  --white: #FFFFFF;
+  --dark: #222222;
+  --mid-gray: #787878;
+  --light-gray: #C8C8C8;
+
+  --font-title: 'Instrument Serif', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--dark);
+  margin: 0;
+  overflow: hidden;
+}
+
+/* ── BASE SLIDE ── */
+.slide {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ── 1. TITLE SLIDE ── navy bg, white title, gold bar */
+.slide--title {
+  background: var(--navy);
+}
+.slide--title .logos {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  display: flex;
+  gap: 1.5vw;
+  align-items: center;
+}
+.slide--title .logos img { height: 8vh; }
+.slide--title .content {
+  padding: 24vh 7.5% 0;
+}
+.slide--title h1 {
+  font-family: var(--font-title);
+  font-size: clamp(2rem, 4.2vw, 3.8rem);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.15;
+  max-width: 85%;
+}
+.slide--title .gold-bar {
+  width: 11%;
+  height: 4px;
+  background: var(--gold);
+  margin-top: 3vh;
+}
+.slide--title .subtitle {
+  font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+  color: var(--sky);
+  margin-top: 2vh;
+}
+.slide--title .author {
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  color: rgba(255,255,255,0.85);
+  margin-top: 4vh;
+  line-height: 1.7;
+}
+.slide--title .author .role {
+  color: var(--gold);
+  font-size: 0.88em;
+}
+
+/* ── 2. SECTION TRANSITION ── navy bg, centered */
+.slide--section {
+  background: var(--navy);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 12%;
+}
+.slide--section .section-label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5vh;
+}
+.slide--section h1 {
+  font-family: var(--font-title);
+  font-size: clamp(1.6rem, 3.2vw, 2.8rem);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.25;
+}
+.slide--section .gold-bar {
+  width: 60px;
+  height: 3px;
+  background: var(--gold);
+  margin-top: 2vh;
+}
+.slide--section p {
+  color: rgba(255,255,255,0.7);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  margin-top: 2vh;
+  line-height: 1.6;
+  max-width: 65%;
+}
+
+/* ── 3. CONTENT SLIDE ── cream bg, navy header, green accent */
+.slide--content {
+  background: var(--cream);
+}
+
+.slide__header {
+  background: var(--navy);
+  padding: 1.2vh 5.3%;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-height: 8%;
+}
+.slide__header h1 {
+  font-family: var(--font-title);
+  font-size: clamp(1.2rem, 2.6vw, 2.1rem);
+  font-weight: 400;
+  color: var(--white);
+}
+
+.slide__accent {
+  width: 9%;
+  height: 4px;
+  background: var(--green);
+  margin-left: 5.3%;
+  flex-shrink: 0;
+}
+
+.slide__body {
+  flex: 1;
+  padding: 1.5vh 5.3% 1vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8vh;
+  overflow: hidden;
+  min-height: 0;
+}
+/* All direct children of body should shrink to fit */
+.slide__body > * {
+  flex-shrink: 1;
+  min-height: 0;
+}
+
+/* ── Bottom navy strip ── */
+.slide__footer {
+  background: var(--navy);
+  padding: 1vh 5.3%;
+  flex-shrink: 0;
+}
+.slide__footer p {
+  color: var(--white);
+  font-size: clamp(0.8rem, 1.1vw, 1rem);
+  line-height: 1.5;
+}
+
+/* ── 4. CARDS ── white bg, colored left border */
+.card {
+  background: var(--white);
+  padding: 1.2vh 2.5%;
+  padding-left: calc(2.5% + 8px);
+  position: relative;
+  border-left: 5px solid transparent;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-radius: 2px;
+}
+.card--sky { border-left-color: var(--sky); }
+.card--gold { border-left-color: var(--gold); }
+.card--green { border-left-color: var(--green); }
+.card--navy { border-left-color: var(--navy); }
+/* Per-structure custom colors */
+.card--purple { border-left-color: #9B59B6; }
+.card--amber { border-left-color: #D4A017; }
+.card--hotpink { border-left-color: #D63384; }
+.card--red { border-left-color: #E74C3C; }
+.card--salmon { border-left-color: #F1948A; }
+.card--orange { border-left-color: #E67E22; }
+.card--teal { border-left-color: #16A085; }
+.card--midgreen { border-left-color: #27AE60; }
+.card--slate { border-left-color: #5A5A78; }
+.card--deeppurple { border-left-color: #8E44AD; }
+.card--crimson { border-left-color: #C0392B; }
+.card--gray { border-left-color: #787878; }
+
+.card h2 {
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 1.1vw, 1rem);
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 0.3vh;
+  letter-spacing: 0.01em;
+}
+.card p, .card li {
+  font-size: clamp(0.72rem, 0.95vw, 0.88rem);
+  color: var(--dark);
+  line-height: 1.45;
+}
+.card ul {
+  list-style: none;
+  padding-left: 1.2em;
+}
+.card li { position: relative; margin-bottom: 0.2vh; }
+.card li::before {
+  content: "•";
+  position: absolute;
+  left: -1.2em;
+  color: var(--sky);
+  font-weight: bold;
+}
+.card .label {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  color: var(--mid-gray);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.card .highlight {
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* ── 5. TWO-COLUMN ── */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5%;
+  min-height: 0;
+}
+.cols--3 { grid-template-columns: 1fr 1fr 1fr; }
+.cols--uneven { grid-template-columns: 1fr 2fr; align-items: stretch; }
+.cols--uneven .img-frame {
+  width: 100%;
+  height: 100%;
+  min-height: 20vh;
+}
+.cols--uneven .img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.cols--uneven .text-stack { display: flex; flex-direction: column; gap: 0.6vh; overflow: hidden; }
+
+/* ── 6. ROW CARDS (numbered list) ── */
+.row-card {
+  background: var(--white);
+  display: grid;
+  grid-template-columns: 3.5em 1fr;
+  align-items: center;
+  padding: 0.8vh 2%;
+  padding-left: calc(2% + 8px);
+  border-left: 5px solid transparent;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-radius: 2px;
+}
+.row-card--sky { border-left-color: var(--sky); }
+.row-card--gold { border-left-color: var(--gold); }
+.row-card--green { border-left-color: var(--green); }
+.row-card--purple { border-left-color: #9B59B6; }
+.row-card--amber { border-left-color: #D4A017; }
+.row-card--hotpink { border-left-color: #D63384; }
+.row-card--red { border-left-color: #E74C3C; }
+.row-card--salmon { border-left-color: #F1948A; }
+.row-card--orange { border-left-color: #E67E22; }
+.row-card--teal { border-left-color: #16A085; }
+.row-card--midgreen { border-left-color: #27AE60; }
+.row-card--slate { border-left-color: #5A5A78; }
+.row-card--deeppurple { border-left-color: #8E44AD; }
+.row-card--crimson { border-left-color: #C0392B; }
+.row-card--gray { border-left-color: #787878; }
+.row-card__num {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 1.6vw, 1.5rem);
+  font-weight: 600;
+  color: var(--navy);
+  text-align: center;
+}
+.row-card__body {}
+.row-card__title {
+  font-size: clamp(0.8rem, 1.05vw, 0.95rem);
+  font-weight: 600;
+  color: var(--navy);
+}
+.row-card__desc {
+  font-size: clamp(0.72rem, 0.95vw, 0.85rem);
+  color: var(--dark);
+  line-height: 1.4;
+}
+
+/* ── 7. QUOTE ── */
+.quote {
+  background: var(--white);
+  padding: 1.2vh 3%;
+  padding-left: calc(3% + 8px);
+  border-left: 5px solid var(--gold);
+  font-style: italic;
+  font-size: clamp(0.78rem, 1.05vw, 0.95rem);
+  color: var(--dark);
+  line-height: 1.5;
+  overflow: hidden;
+}
+.quote .attr {
+  font-style: normal;
+  font-size: 0.78em;
+  color: var(--mid-gray);
+  font-family: var(--font-mono);
+  margin-top: 0.8vh;
+}
+
+/* ── 8. IMAGE ── */
+.img-frame {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 0;
+}
+.img-frame img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.img-placeholder {
+  background: var(--cream);
+  border: 2px dashed var(--light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mid-gray);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 3vh;
+  border-radius: 4px;
+}
+/* Full-width image: constrain to ~45% viewport height */
+.img-frame--full {
+  flex: 0 1 45vh;
+  min-height: 15vh;
+}
+.img-frame--full img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ── 9. TIMELINE (horizontal pills) ── */
+.timeline {
+  display: flex;
+  align-items: center;
+  gap: 0.5%;
+  flex-shrink: 0;
+}
+.timeline .pill {
+  background: var(--navy);
+  padding: 0.8vh 1.2%;
+  flex: 1;
+}
+.timeline .pill .year {
+  font-family: var(--font-mono);
+  font-size: clamp(0.65rem, 0.85vw, 0.8rem);
+  color: var(--gold);
+  font-weight: 600;
+}
+.timeline .pill .name {
+  font-size: clamp(0.6rem, 0.8vw, 0.75rem);
+  color: var(--white);
+  opacity: 0.85;
+}
+.timeline .arrow {
+  color: var(--mid-gray);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* ── 10. KEY POINT ── green highlight */
+.key-point {
+  background: #e8f5e9;
+  padding: 0.8vh 2.5%;
+  padding-left: calc(2.5% + 8px);
+  border-left: 5px solid var(--green);
+  font-weight: 500;
+  color: #1b5e20;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  flex-shrink: 0;
+}
+
+/* ── CONNECTOR (+ = → between columns) ── */
+/* When connector is inside a .cols, switch to 3-col grid */
+.cols:has(.connector) {
+  grid-template-columns: 1fr auto 1fr;
+}
+.connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 600;
+  color: var(--navy);
+  padding: 0 0.5%;
+}
+
+/* ── PILL DESC (timeline sub-text) ── */
+.timeline .pill .pill-desc {
+  font-size: clamp(0.55rem, 0.75vw, 0.7rem);
+  color: rgba(255,255,255,0.75);
+  line-height: 1.3;
+}
+.timeline .pill strong {
+  font-family: var(--font-mono);
+  font-size: clamp(0.65rem, 0.85vw, 0.8rem);
+  color: var(--gold);
+}
+
+/* ── SOURCE LINE ── */
+.source-line {
+  font-family: var(--font-mono);
+  font-size: clamp(0.55rem, 0.7vw, 0.68rem);
+  color: var(--mid-gray);
+  padding: 0.5vh 5.3%;
+  flex-shrink: 0;
+}
+
+/* ── NAVIGATION ── */
+.slide-nav {
+  position: fixed;
+  bottom: 1vh;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2%;
+  pointer-events: none;
+  z-index: 50;
+}
+.slide-nav a {
+  pointer-events: auto;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--mid-gray);
+  text-decoration: none;
+  padding: 0.4vh 0.8%;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.15s;
+}
+.slide-nav a:hover { border-color: var(--sky); color: var(--navy); }
+.slide-nav .hidden { visibility: hidden; }
+
+.slide-counter {
+  position: fixed;
+  bottom: 1.2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--mid-gray);
+  z-index: 50;
+}
+
+.notes { display: none; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
